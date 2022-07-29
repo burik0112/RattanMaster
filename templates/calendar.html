@@ -1,179 +1,815 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% block content %}
-<div class="main-content">
-    <div class="page-content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="page-title-box">
-                        <h4>Calendar</h4>
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Lexa</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Calendar</a></li>
-                            <li class="breadcrumb-item active">Calendar</li>
-                        </ol>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="state-information d-none d-sm-block">
-                        <div class="state-graph">
-                            <div id="header-chart-1"></div>
-                            <div class="info">Balance $ 2,317</div>
-                        </div>
-                        <div class="state-graph">
-                            <div id="header-chart-2"></div>
-                            <div class="info">Item Sold 1230</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-4">
-                <div class="col-xl-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-grid">
-                                <button class="btn btn-primary" id="btn-new-event"><i
-                                        class="mdi mdi-plus-circle-outline"></i> Create New
-                                    Event
-                                </button>
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Latest Orders</h4>
+
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
+
+                                        <tbody>
+                                        <tr>
+                                            <td>#12354781</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-1.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Riverston Glass Chair
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $185
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>#52140300</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Shine Company Catalina
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $1,024
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#52140300</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Shine Company Catalina
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $1,024
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#52140300</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Shine Company Catalina
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $1,024
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#52140300</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Shine Company Catalina
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $1,024
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#52140300</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Shine Company Catalina
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $1,024
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#52140300</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Shine Company Catalina
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $1,024
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>#96254137</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-3.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Trex Outdoor Furniture Cape
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-danger">Cancel</span></td>
+                                            <td>
+                                                $657
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>#12365474</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-4.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Oasis Bathroom Teak Corner
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-warning">Shipped</span></td>
+                                            <td>
+                                                $8451
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>#85214796</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-5.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> BeoPlay Speaker
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $584
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#12354781</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-6.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Riverston Glass Chair
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $185
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-
-                            <div id="external-events">
-                                <br>
-                                <p class="text-muted">Drag and drop your event or click in the calendar</p>
-                                <div class="external-event fc-event bg-success" data-class="bg-success">
-                                    <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>New Event Planning
-                                </div>
-                                <div class="external-event fc-event bg-info" data-class="bg-info">
-                                    <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>Meeting
-                                </div>
-                                <div class="external-event fc-event bg-warning" data-class="bg-warning">
-                                    <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>Generating Reports
-                                </div>
-                                <div class="external-event fc-event bg-danger" data-class="bg-danger">
-                                    <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>Create New theme
-                                </div>
-                            </div>
-
-                            <div class="mt-5">
-                                <h5 class="font-size-14 mb-4">Recent activity :</h5>
-
-                                <ul class="list-unstyled activity-feed ms-1">
-                                    <li class="feed-item">
-                                        <div class="feed-item-list">
-                                            <div>
-                                                <div class="date">15 Jul</div>
-                                                <p class="activity-text mb-0">Responded to need “Volunteer
-                                                    Activities”</p>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="feed-item">
-                                        <div class="feed-item-list">
-                                            <div>
-                                                <div class="date">14 Jul</div>
-                                                <p class="activity-text mb-0">neque porro quisquam est <a
-                                                        href="javascript:void(0);" class="text-success">@Christi</a>
-                                                    dolorem ipsum quia dolor sit amet</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="feed-item">
-                                        <div class="feed-item-list">
-                                            <div>
-                                                <div class="date">14 Jul</div>
-                                                <p class="activity-text mb-0">Sed ut perspiciatis unde omnis iste natus
-                                                    error sit “Volunteer Activities”</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="feed-item">
-                                        <div class="feed-item-list">
-                                            <div>
-                                                <div class="date">13 Jul</div>
-                                                <p class="activity-text mb-0">Responded to need “Volunteer
-                                                    Activities”</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Latest Transactions</h4>
 
-                <div class="col-xl-9">
-                    <div class="card mt-4 mt-xl-0 mb-0">
-                        <div class="card-body">
-                            <div id="calendar"></div>
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-centered table-vertical table-nowrap">
 
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Herbert C. Patton
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
+                                            <td>
+                                                $14,584
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Herbert C. Patton
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
+                                            <td>
+                                                $14,584
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Herbert C. Patton
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
+                                            <td>
+                                                $14,584
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr><tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Herbert C. Patton
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
+                                            <td>
+                                                $14,584
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Herbert C. Patton
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
+                                            <td>
+                                                $14,584
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Herbert C. Patton
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
+                                            <td>
+                                                $14,584
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Herbert C. Patton
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
+                                            <td>
+                                                $14,584
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Herbert C. Patton
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
+                                            <td>
+                                                $14,584
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-3.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Mathias N. Klausen
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-warning"></i> Waiting
+                                                payment
+                                            </td>
+                                            <td>
+                                                $8,541
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                10/11/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-4.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Nikolaj S. Henriksen
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
+                                            <td>
+                                                $954
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                8/11/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-5.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Lasse C. Overgaard
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-danger"></i> Payment
+                                                expired
+                                            </td>
+                                            <td>
+                                                $44,584
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                7/11/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'images/users/user-6.jpg' %}" alt="user-image"
+                                                     class="avatar-xs rounded-circle me-2"/> Kasper S. Jessen
+                                            </td>
+                                            <td><i class="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
+                                            <td>
+                                                $8,844
+                                                <p class="m-0 text-muted font-size-14">Amount</p>
+                                            </td>
+                                            <td>
+                                                1/11/2016
+                                                <p class="m-0 text-muted font-size-14">Date</p>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Latest Orders</h4>
 
-            <div class="modal fade" id="event-modal" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header py-3 px-4 border-bottom-0">
-                            <h5 class="modal-title" id="modal-title">Event</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-hidden="true"></button>
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
 
-                        </div>
-                        <div class="modal-body p-4">
-                            <form class="needs-validation" name="event-form" id="form-event" novalidate>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Event Name</label>
-                                            <input class="form-control" placeholder="Insert Event Name"
-                                                   type="text" name="title" id="event-title" required value=""/>
-                                            <div class="invalid-feedback">Please provide a valid event name</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Category</label>
-                                            <select class="form-control custom-select" name="category"
-                                                    id="event-category">
-                                                <option selected> --Select--</option>
-                                                <option value="bg-danger">Danger</option>
-                                                <option value="bg-success">Success</option>
-                                                <option value="bg-primary">Primary</option>
-                                                <option value="bg-info">Info</option>
-                                                <option value="bg-dark">Dark</option>
-                                                <option value="bg-warning">Warning</option>
-                                            </select>
-                                            <div class="invalid-feedback">Please select a valid event category</div>
-                                        </div>
-                                    </div>
+                                        <tbody>
+                                        <tr>
+                                            <td>#12354781</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-1.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Riverston Glass Chair
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $185
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#12354781</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-1.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Riverston Glass Chair
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $185
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#12354781</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-1.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Riverston Glass Chair
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $185
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#12354781</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-1.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Riverston Glass Chair
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $185
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#12354781</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-1.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Riverston Glass Chair
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $185
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#12354781</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-1.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Riverston Glass Chair
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $185
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>#52140300</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Shine Company Catalina
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $1,024
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#52140300</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Shine Company Catalina
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $1,024
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#52140300</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Shine Company Catalina
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $1,024
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#52140300</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Shine Company Catalina
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $1,024
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#52140300</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-2.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Shine Company Catalina
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $1,024
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>#96254137</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-3.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Trex Outdoor Furniture Cape
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-danger">Cancel</span></td>
+                                            <td>
+                                                $657
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>#12365474</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-4.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Oasis Bathroom Teak Corner
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-warning">Shipped</span></td>
+                                            <td>
+                                                $8451
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>#85214796</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-5.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> BeoPlay Speaker
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $584
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#12354781</td>
+                                            <td>
+                                                <img src="{% static 'images/users/user-6.jpg' %}" alt="user-image"
+                                                     class="avatar-xs me-2 rounded-circle"/> Riverston Glass Chair
+                                            </td>
+                                            <td><span class="badge rounded-pill bg-success">Delivered</span></td>
+                                            <td>
+                                                $185
+                                            </td>
+                                            <td>
+                                                5/12/2016
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-secondary btn-sm waves-effect waves-light">Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="row mt-2">
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-danger" id="btn-delete-event">Delete
-                                        </button>
-                                    </div>
-                                    <div class="col-6 text-end">
-                                        <button type="button" class="btn btn-light me-1" data-bs-dismiss="modal">Close
-                                        </button>
-                                        <button type="submit" class="btn btn-success" id="btn-save-event">Save</button>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        {% include 'layouts/footer.html' %}
     </div>
-
-
-
-    {% include 'layouts/footer.html' %}
-</div>
 {% endblock %}

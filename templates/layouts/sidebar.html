@@ -11,7 +11,7 @@
                 <li class="menu-title">Main</li>
 
                 <li>
-                    <a href="index.html">
+                    <a href="{% url 'pages:main' %}">
                         <i class="mdi mdi-view-dashboard"></i>
                         <span>Dashboard</span>
                     </a>
@@ -24,38 +24,38 @@
                     </a>
                 </li>
                 <li class="menu-title">Components</li>
+{#                <li>#}
+{#                    <a href="javascript: void(0);" class="waves-effect">#}
+{#                        <i class="mdi mdi-clipboard-outline"></i>#}
+{#                        <span>Forms</span>#}
+{#                    </a>#}
+{#                </li>#}
                 <li>
-                    <a href="javascript: void(0);" class="waves-effect">
-                        <i class="mdi mdi-clipboard-outline"></i>
-                        <span>Forms</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'pages:category' %}">
+                    <a href="{% url 'pages:card' %}">
                         <i class="mdi mdi-view-dashboard"></i>
                         <span>Category</span>
                     </a>
                 </li>
 
+{#                <li>#}
+{#                    <a href="javascript: void(0);">#}
+{#                        <i class="mdi mdi-format-list-bulleted-type"></i>#}
+{#                        <span>Tables</span>#}
+{#                    </a>#}
+{#                </li>#}
                 <li>
-                    <a href="javascript: void(0);">
-                        <i class="mdi mdi-format-list-bulleted-type"></i>
-                        <span>Tables</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript: void(0);">
+                    <a href="{% url 'pages:login' %}">
                         <i class="mdi mdi-account-box"></i>
                         <span> Authentication </span>
                     </a>
                 </li>
 
-                <li>
-                    <a href="javascript: void(0);">
-                        <i class="mdi mdi-text-box-multiple-outline"></i>
-                        <span> Extra Pages </span>
-                    </a>
-                </li>
+{#                <li>#}
+{#                    <a href="javascript: void(0);">#}
+{#                        <i class="mdi mdi-text-box-multiple-outline"></i>#}
+{#                        <span> Extra Pages </span>#}
+{#                    </a>#}
+{#                </li>#}
             </ul>
         </div>
         <!-- Sidebar -->

@@ -13,6 +13,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -20,6 +21,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages',
+    'index',
+    'admiin',
 ]
 
 MIDDLEWARE = [
@@ -87,3 +90,17 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'burhonabdullaev727@gmail.com'
+EMAIL_HOST_PASSWORD = 'Burik0112'
+EMAIL_PORT = 587
+
+ACCOUNT_ACTIVATION_DAYS = 30
+REGISTRATION_AUTO_LOGIN = True
