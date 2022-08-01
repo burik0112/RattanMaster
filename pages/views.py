@@ -1,9 +1,20 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
+
+from index.models import Product
 
 
-class AboutView(TemplateView):
+class AboutView(ListView):
     template_name = 'index.html'
+
+    def get_queryset(self):
+        qs = Product.objects.order_by('-pk')
+
+        q = self.request.GET.get('q')
+
+        if q:
+            qs = qs.filter(title__icontains=q)
+        return qs
 
 
 class CategoryView(TemplateView):
