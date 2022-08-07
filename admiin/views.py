@@ -39,7 +39,7 @@ class ResponsibleCreateView(LoginRequiredMixin, CreateView):
 class ModelCreateView(LoginRequiredMixin, CreateView):
     model = Model
     form_class = ModelCreateForm
-    template_name = 'admin/model-create.html'
+    template_name = 'admin-add.html'
     login_url = 'login'
     success_url = reverse_lazy('admin-models')
 

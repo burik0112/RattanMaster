@@ -14,7 +14,7 @@ def Index(request):
 
 def IndexCustom(request):
     query = Category.objects.annotate(count=Count('category'))
-    return render(request, 'index-custom.html', {'query': query})
+    return render(request, 'pages-directory.html', {'query': query})
 
 
 def Base(request, pk):

@@ -107,7 +107,7 @@
                                             <tr>
                                                 <td>#{{ product.category_id }}</td>
                                                 <td>
-                                                    <img src="{% static 'images/users/user-1.jpg' %}" alt="user-image"
+                                                    <img src="{{ product.images.url }}" alt="user-image"
                                                          class="avatar-xs me-2 rounded-circle"/> {{ product.responsible_person }}
                                                 </td>
                                                 <td><span class="badge rounded-pill bg-success">{{ product.status }}</span></td>

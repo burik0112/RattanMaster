@@ -1,0 +1,43 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Latest Orders</h4>
+
+                <div class="table-responsive">
+                    <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
+
+                        <tbody>
+                        {% for product in object_list %}
+                            <tr>
+                                <td>#{{ product.category_id }}</td>
+                                <td>
+                                    <img src="{% static 'images/users/user-1.jpg' %}" alt="user-image"
+                                         class="avatar-xs me-2 rounded-circle"/> {{ product.responsible_person }}
+                                </td>
+                                <td><span class="badge rounded-pill bg-success">{{ product.status }}</span></td>
+                                <td>
+                                    {{ product.inventar_number }}
+                                </td>
+                                <td>
+                                    {{ product.created_at| date:'d F Y' }}
+                                </td>
+                                <td>
+                                    <button type="button"
+                                            class="btn btn-secondary btn-sm waves-effect waves-light">
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

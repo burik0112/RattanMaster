@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
-
+from django.views.generic import TemplateView, ListView, CreateView
 from index.models import Product
+from pages.models import Category
 
 
 class AboutView(ListView):
@@ -21,12 +21,16 @@ class CategoryView(TemplateView):
     template_name = 'pages-directory.html'
 
 
-class CalendarView(TemplateView):
+class CalendarView(ListView):
     template_name = 'ui-images.html'
+    queryset = Category.objects.order_by('-pk')
 
 
-class LoginView(TemplateView):
-    template_name = 'pages-login.html'
+# class LoginView(CreateView, LoginRequiredMixin):
+#     template_name = 'registration/login.html'
+
+    # def post(self, request, *args, **kwargs):
+
 
 
 class RegisterView(TemplateView):
@@ -41,5 +45,15 @@ class TableView(TemplateView):
     template_name = 'table.html'
 
 
-class CardView(TemplateView):
-    template_name = 'card.html'
+class CardView(ListView):
+    template_name = 'pages-directory.html'
+    queryset = Category.objects.order_by('-pk')
+
+
+class AdminView(TemplateView):
+    template_name = 'admin-add.html'
+
+
+class CatalogView(ListView):
+    template_name = 'pages-directory.html'
+    queryset = Category.objects.order_by('-pk')

@@ -41,6 +41,7 @@ class Product(models.Model):
     mac_address = models.CharField(max_length=50, blank=True)
     ip_address = models.CharField(max_length=50, blank=True)
     description = models.TextField()
+    images = models.ImageField(upload_to='person')
     status = models.CharField(max_length=40, null=True, default='Ishlatilmoqda')
     qr_code = models.ImageField(blank=True, upload_to='images/code')
     responsible_person = models.CharField(max_length=100, blank=True, null=True)

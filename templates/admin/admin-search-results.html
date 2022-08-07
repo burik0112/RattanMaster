@@ -1,0 +1,239 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'admin/vendors/feather/feather.css' %}">
+  <link rel="stylesheet" href="{% static 'admin/vendors/ti-icons/css/themify-icons.css' %}">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="{% static 'admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'admin/css/style.css' %}">
+  <!-- endinject -->
+</head>
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="/"><img src="{% static 'emblem.png' %}" class="mr-2" alt="ADMIN"/></a>
+        <!--<a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logo-mini.svg" alt="ADMIN"/></a>-->
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="icon-menu"></span>
+        </button>
+        <ul class="navbar-nav mr-lg-2">
+          <li class="nav-item nav-search d-none d-lg-block">
+            <form action="{% url 'admin-search' %}" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="navbar-search-input" name="search" placeholder="Inventar raqami bo'yicha izlash" aria-label="search" aria-describedby="search" required>
+                    <div class="input-group-prepend hover-cursor" id="navbar-search-icon">                   
+                        <button type="submit" class="search-btn btn-submit"><i class="fa fa-search"></i></button>
+                        <!-- <button type="submit" class="search-btn btn-submit"><i class="fa fa-qrcode"></i></button> -->
+                    </div>
+                </div>
+            </form>   
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+          {% if request.user.is_staff %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+              <i class="ti-settings mx-0"></i>
+              <span class="count"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+              <a class="dropdown-item preview-item" href="{% url 'category-create' %}">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-success">
+                    <i class="ti-plus mx-0"></i>                      
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-normal">Kategoriyalar</h6>
+                </div>
+              </a>
+              <a class="dropdown-item preview-item" href="{% url 'responsible-create' %}">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-warning">
+                    <i class="ti-plus mx-0"></i>
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-normal">Javobgar shaxslar</h6>
+                </div>
+              </a>
+              <a class="dropdown-item preview-item" href="{% url 'model-create' %}">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-info">
+                    <i class="ti-plus mx-0"></i>
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-normal">Jihoz modellari</h6>
+                </div>
+              </a>              
+            </div>
+          </li>
+          {% endif %}
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="{% static '/admin/images/faces/face28.jpg' %}" alt="profile"/>
+            </a>
+            
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+             
+              <a class="dropdown-item" href="{% url 'admin-index' %}">
+                <i class="ti-home text-primary"></i>
+                Bosh sahifa
+              </a>
+              <a class="dropdown-item" href="{% url 'logout' %}">
+                <i class="ti-power-off text-primary"></i>
+                Chiqish
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial -->
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'admin-index' %}">
+                  <i class="icon-arrow-left  menu-icon"></i>
+                  <span class="menu-title">Ortga</span>
+                </a>
+              </li>  
+          <li class="nav-item">
+            <a class="nav-link" href="/administration/admin-index">
+              <i class="icon-grid menu-icon"></i>
+              <span class="menu-title">Bosh Sahifa</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+       <!-- partial -->
+       <div class="main-panel">
+        <div class="content-wrapper">
+
+            <div class="row">
+                <div class="col-md-12 grid-margin">
+                  <div class="row">
+                    <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                    {% if object_list %}
+                    <!-- {% for y in object_list %}
+                    {% if forloop.first %} -->
+                      <div class="card card-light-success col-12">
+                        <div class="card-body">
+                          <!-- {% for y in object_list %}
+                          {% if forloop.first %}
+                          {% endif %}
+                          {% endfor %} -->
+                          <p class="fs-30 mb-2">{{ object_list|length }} TA NATIJA</p>
+                        </div>
+                      </div>
+                    <!-- {% endif %}
+                    {% endfor %} -->
+                    {% else %}
+                        <div class="card card-light-danger">
+                          <div class="card-body">
+                            <p class="fs-30 mb-2">Ma'lumot mavjud emas</p>
+                          </div>
+                        </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+                <div class="col-lg-12 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Natijalar</h4>
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>No</th>
+                              <th>Inventar Raqami</th>
+                              <th>Jihoz Modeli</th>
+                              <th>Joylashgan Xona</th>
+                              <th>Javobgar Shaxs</th>
+                              <th>Status</th>
+                              <th>Malumot</th>
+                              {% if request.user.is_staff %}
+                                <th>Tahrirlash</th>
+                                <th>O'chirish</th>
+                              {% endif %}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for m in object_list %}
+                            <tr>
+                                <td class="left-circle">{{ m.id }}</td>
+                                <td>{{ m.inventar_number }}</td>
+                                <td>{{ m.model_id }}</td>
+                                <td>{{ m.room_number }}</td>
+                                <td class="right-circle">{{ m.responsible_id }}</td>
+                                <td>
+                                  {% if m.status == 'Olib ketilgan' %}
+                                  <p class="text" style="font-size:17px;"><span class="badge bg-secondary" style="color: white;"> {{ m.status }}</span></p>
+                                  {% elif m.status == 'Yaroqsiz' %}
+                                    <p class="text" style="font-size:17px;"><span class="badge bg-danger" style="color: white;"> {{ m.status }}</span></p>
+                                  {% elif m.status == 'Ishlatilmoqda' %}
+                                    <p class="text" style="font-size:17px;"><span class="badge bg-success" style="color: white;"> {{ m.status }}</span></p>
+                                  {% elif m.status == 'Zahirada' %}
+                                    <p class="text" style="font-size:17px;"><span class="badge bg-warning" style="color: white;"> {{ m.status }}</span></p>
+                                  {% endif %}
+                                </td>
+                                <td class="more"><a href="{% url 'product-detail' pk=m.id %}">Batafsil</a></td>
+                                {% if request.user.is_staff %}
+                                  <td class="edit"><a href="{% url 'product-update' pk=m.id %}"><i class="fa fa-pencil"></i></a></td>
+                                  <td class="edit delete-btn"><a href="#" onclick="confirm_search_delete('{{m.pk}}');"><i class="fa fa-trash"></i></a></td>
+                                {% endif %}
+                             </tr>
+                             {% endfor %}
+                           
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+      
+
+          </div>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- plugins:js -->
+  <script src="{% static 'admin/vendors/js/vendor.bundle.base.js' %}"></script>
+  <!-- endinject -->
+  
+  <!-- inject:js -->
+  <script src="{% static 'admin/js/template.js' %}"></script>
+  <script src="{% static 'admin/js/settings.js' %}"></script>
+  <script src="{% static 'admin/js/alert.js' %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <!-- End custom js for this page-->
+</body>
+
+</html>
+
