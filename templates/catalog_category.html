@@ -34,22 +34,22 @@
             <!-- end page title -->
 
             <div class="row">
-                {% for category in object_list %}
-                <div class="col-xl-3 col-md-5">
+                {% for m in query%}
+                <div class="col-xl-3 col-md-6">
                     <div class="card directory-card">
                         <div>
 
                             <div class="directory-bg text-center">
                                 <div class="directory-overlay">
-                                    <a href="{% url 'pages:calendar' %}">
+                                    <a href="{% url 'pages:base' pk=m.pk %}">
                                         <img class="rounded-circle avatar-lg img-thumbnail"
-                                         src="{{ category.image.url }}" alt="Generic placeholder image">
+                                         src="{{ m.image.url }}" alt="Generic placeholder image">
                                     </a>
                                 </div>
                             </div>
 
                             <div class="directory-content text-center p-4">
-                                <h5 class="font-size-16">{{ category.name }}</h5>
+                                <h5 class="font-size-16">{{ m.name }}</h5>
                             </div>
 
                         </div>

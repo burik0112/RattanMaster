@@ -1,34 +1,36 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from index.models import Category, Model, Product, Responsible
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import CategoryCreateForm, EquipmentCreateForm, ProductUpdateForm, ResponsibleCreateForm, ModelCreateForm, ProductDetailUpdateForm, CategoryEditForm, ModelEditForm, ResponsibleEditForm
-import random
+from .forms import CategoryCreateForm, EquipmentCreateForm, ProductUpdateForm, ResponsibleCreateForm, ModelCreateForm, \
+    ProductDetailUpdateForm, CategoryEditForm, ModelEditForm, ResponsibleEditForm
 from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
-import qrcode
+
 
 @login_required
 def Admin_index(request):
     categories = Category.objects.annotate(count=Count('category'))
     return render(request, 'admin/admin-index.html', {'queryset': categories})
 
+
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     form_class = CategoryCreateForm
-    template_name = 'admin/category-create.html'
+    template_name = 'file/admin-add.html'
     login_url = 'login'
-    success_url = reverse_lazy('admin-categories')
+    success_url = reverse_lazy('admin-add.html')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+
 class ResponsibleCreateView(LoginRequiredMixin, CreateView):
     model = Responsible
     form_class = ResponsibleCreateForm
-    template_name = 'admin/responsible-create.html'
+    template_name = 'file/responsible_add.html'
     login_url = 'login'
     success_url = reverse_lazy('admin-responsibles')
 
@@ -36,10 +38,11 @@ class ResponsibleCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+
 class ModelCreateView(LoginRequiredMixin, CreateView):
     model = Model
     form_class = ModelCreateForm
-    template_name = 'admin-add.html'
+    template_name = 'file/model_add.html'
     login_url = 'login'
     success_url = reverse_lazy('admin-models')
 
@@ -47,11 +50,13 @@ class ModelCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+
 @login_required
 def baseview(request, pk):
     query = Product.objects.filter(category_id__id=pk).order_by('pk')
     get_cat = Category.objects.filter(id=pk)
     return render(request, 'admin/admin-base.html', {'query': query, 'get_cat': get_cat})
+
 
 @login_required
 def EquipmentCreateView(request, pk):
@@ -91,6 +96,7 @@ def EquipmentCreateView(request, pk):
             return redirect('base-view', pk=red)
     return render(request, 'admin/equipment-create.html', {'form': form})
 
+
 @login_required
 def ProductDetailView(request, pk):
     query = Product.objects.filter(id=pk)
@@ -101,17 +107,19 @@ def ProductDetailView(request, pk):
         return redirect('product-detail', pk=eq.pk)
     return render(request, 'admin/admin-detail.html', {'query': query, 'form': form})
 
+
 @login_required
 def ProductUpdateView(request, pk):
     equipment = get_object_or_404(Product, pk=pk)
     red = equipment.category_id.id
     form = ProductUpdateForm(request.POST or None, instance=equipment)
-    if request.method=='POST' and form.is_valid():
+    if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('base-view', pk=red)
     return render(request, 'admin/admin-product-update.html', {'form': form, 'red': red})
 
-@login_required    
+
+@login_required
 def ProductDeleteView(request, pk):
     query = Product.objects.get(pk=pk)
     red = query.category_id.id
@@ -119,6 +127,7 @@ def ProductDeleteView(request, pk):
         query.delete()
         return redirect('base-view', pk=red)
     return render(request, 'admin/admin-base.html')
+
 
 class SearchResultsView(LoginRequiredMixin, ListView):
     model = Product
@@ -131,10 +140,12 @@ class SearchResultsView(LoginRequiredMixin, ListView):
         ).order_by('pk')
         return object_list
 
+
 @login_required
 def AdminCategories(request):
     query = Category.objects.all().order_by('pk')
-    return render(request, 'admin/admin-categories.html', {'query': query})
+    return render(request, 'file/admin-add.html', {'query': query})
+
 
 @login_required
 def AdminCategoryEdit(request, pk):
@@ -143,7 +154,8 @@ def AdminCategoryEdit(request, pk):
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('admin-categories')
-    return render(request, 'admin/category-edit.html', {'form': form})
+    return render(request, 'file/admin-add.html', {'form': form})
+
 
 @login_required
 def AdminCategoryDelete(request, pk):
@@ -151,21 +163,24 @@ def AdminCategoryDelete(request, pk):
     if request:
         query.delete()
         return redirect('admin-categories')
-    return render(request, 'admin/admin-categories.html')
+    return render(request, 'file/admin-add.html')
+
 
 @login_required
 def AdminModels(request):
     query = Model.objects.all().order_by('pk')
-    return render(request, 'admin/admin-models.html', {'query': query})
+    return render(request, 'file/model_add.html', {'query': query})
+
 
 @login_required
 def AdminModelEdit(request, pk):
     query = get_object_or_404(Model, pk=pk)
     form = ModelEditForm(request.POST or None, request.FILES or None, instance=query)
-    if request.method=='POST' and form.is_valid():
+    if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('admin-models')
     return render(request, 'admin/model-edit.html', {'form': form})
+
 
 @login_required
 def AdminModelDelete(request, pk):
@@ -175,19 +190,22 @@ def AdminModelDelete(request, pk):
         return redirect('admin-models')
     return render(request, 'admin/admin-models.html')
 
+
 @login_required
 def AdminResponsibles(request):
-    query = Responsible.objects.all().order_by('pk')
-    return render(request, 'admin/responsibles.html', {'query': query})
+    query = Responsible.objects.order_by('pk')
+    return render(request, 'file/responsible_add.html', {'query': query})
+
 
 @login_required
 def AdminResponsibleEdit(request, pk):
     query = get_object_or_404(Responsible, pk=pk)
     form = ResponsibleEditForm(request.POST or None, instance=query)
-    if request.method=='POST' and form.is_valid():
+    if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('admin-responsibles')
     return render(request, 'admin/responsible-edit.html', {'form': form})
+
 
 @login_required
 def AdminResponsibleDelete(request, pk):
@@ -197,18 +215,21 @@ def AdminResponsibleDelete(request, pk):
         return redirect('admin-responsibles')
     return render(request, 'admin/responsibles.html')
 
+
 def AdminRooms(request):
     queryset = Product.objects.all().order_by('room_number')
     room_list = []
     for u in queryset:
         if u.room_number not in room_list:
             room_list.append(u.room_number)
-    return render(request, 'admin/room.html', {'queryset': queryset, 'room_list': room_list})
+    return render(request, 'file/rooms_add.html', {'queryset': queryset, 'room_list': room_list})
+
 
 def AdminRoomDetail(request, pk):
     query = Product.objects.filter(room_number=str(pk)).order_by('pk')
     qr_list = []
     for q in query:
-        Jihoz = { f"Jihoz id: {q.pk}, Inventar raqami: {q.inventar_number}, Modeli: {q.model_id.name}, Javobgar shaxs: {q.responsible_id.fullname}, Xona: {q.room_number}" }
+        Jihoz = {
+            f"Jihoz id: {q.pk}, Inventar raqami: {q.inventar_number}, Modeli: {q.model_id.name}, Javobgar shaxs: {q.responsible_id.fullname}, Xona: {q.room_number}"}
         qr_list.append(Jihoz)
-    return render(request, 'admin/room-detail.html', {'query': query, "qr_list": qr_list})
+    return render(request, 'file/rooms_add.html', {'query': query, "qr_list": qr_list})

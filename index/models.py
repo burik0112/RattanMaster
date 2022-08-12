@@ -12,7 +12,7 @@ class Category(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    
+
 class Model(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -21,12 +21,14 @@ class Model(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 class Responsible(models.Model):
     fullname = models.CharField(max_length=100)
     description = models.TextField()
 
     def __str__(self) -> str:
         return self.fullname
+
 
 class Product(models.Model):
     category_id = models.ForeignKey(Category, related_name='category', on_delete=models.CASCADE, blank=True)
@@ -52,7 +54,8 @@ class Product(models.Model):
         return str(self.inventar_number)
 
     def save(self, *args, **kwargs):
-        qr_image = qrcode.make(f'Inventar raqami: {self.inventar_number}\n Modeli: {self.model_id.name} \n Javobgar shaxs: {self.responsible_id.fullname}\n Seria raqami: {self.seria_number} \n Xona: {self.room_number} \n MAC Address: {self.mac_address}\n Masul Shaxs: {self.responsible_person}\n ')
+        qr_image = qrcode.make(
+            f'Inventar raqami: {self.inventar_number}\n Modeli: {self.model_id.name} \n Javobgar shaxs: {self.responsible_id.fullname}\n Seria raqami: {self.seria_number} \n Xona: {self.room_number} \n MAC Address: {self.mac_address}\n Masul Shaxs: {self.responsible_person}\n ')
         qr_offset = Image.new('RGB', (570, 570), 'white')
         qr_offset.paste(qr_image)
         files_name = f'{self.inventar_number}--{self.responsible_id.fullname}--qrcode.png'

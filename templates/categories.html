@@ -1,0 +1,40 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Latest Orders</h4>
+
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
+
+                                        <tbody>
+                                        {% for y in query %}
+                                            <tr>
+                                                <td># {{ y.name }}</td>
+                                                <td>
+                                                    <img src="{{ y.image.url }}" alt="user-image"
+                                                         class="avatar-xs me-2 rounded-circle"/>
+                                                </td>
+                                                <td>
+                                                    {{ y.created_at| date:'d F Y' }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'layouts/footer.html' %}
+    </div>
+{% endblock %}

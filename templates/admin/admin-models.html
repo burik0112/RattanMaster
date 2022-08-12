@@ -44,7 +44,7 @@
         </button>
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-search d-none d-lg-block">
-            <form action="{% url 'admin-search' %}" method="get">
+            <form action="" method="get">
                 <div class="input-group">
                     <input type="text" class="form-control" id="navbar-search-input" name="search" placeholder="Inventar raqami bo'yicha izlash" aria-label="search" aria-describedby="search" required>
                     <div class="input-group-prepend hover-cursor" id="navbar-search-icon">                   
@@ -64,7 +64,7 @@
 <!--              <span class="count"></span>-->
 <!--            </a>-->
 <!--            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">-->
-                <a class="dropdown-item preview-item" href="{% url 'model-create' %}" style="display: flex; align-items: center; padding: 10px; border-radius: 5px;">
+                <a class="dropdown-item preview-item" href="" style="display: flex; align-items: center; padding: 10px; border-radius: 5px;">
                     <div class="preview-thumbnail">
                     <div class="preview-icon">
                         <i class="ti-plus mx-0"></i>
@@ -85,11 +85,11 @@
             
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
              
-              <a class="dropdown-item" href="{% url 'admin-index' %}">
+              <a class="dropdown-item" href="">
                 <i class="ti-home text-primary"></i>
                 Bosh sahifa
               </a>
-              <a class="dropdown-item" href="{% url 'logout' %}">
+              <a class="dropdown-item" href="">
                 <i class="ti-power-off text-primary"></i>
                 Chiqish
               </a>
@@ -112,13 +112,13 @@
             {% endif %}
             {% endfor %}
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'admin-index' %}">
+                <a class="nav-link" href="">
                   <i class="icon-arrow-left  menu-icon"></i>
                   <span class="menu-title">Ortga</span>
                 </a>
               </li>  
           <li class="nav-item"> 
-            <a class="nav-link" href="{% url 'admin-index' %}">
+            <a class="nav-link" href="">
               <i class="icon-grid menu-icon"></i>
               <span class="menu-title">Bosh Sahifa</span>
             </a>
@@ -173,7 +173,7 @@
                                 <td>{{ m.name }}</td>
                                 <td><img src="{{ m.image.url }}" alt="{{ m.name }}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: contain; background-color: grey; "></td>
                                 {% if request.user.is_staff %}                                
-                                <td class="edit"><a href="{% url 'model-edit' pk=m.pk %}"><i class="fa fa-pencil"></i></a></td>
+                                <td class="edit"><a href=""><i class="fa fa-pencil"></i></a></td>
                                 <td class="edit delete-btn" id="delete-btn"><a href="#" onclick="confirm_model_delete('{{m.pk}}');"><i class="fa fa-trash"></i></a></td>
                                 {% endif %}
                             </tr>

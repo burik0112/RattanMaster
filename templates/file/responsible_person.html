@@ -1,0 +1,78 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="page-title-box">
+                            <h4>Responsive Table</h4>
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Lexa</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                                <li class="breadcrumb-item active">Responsive Table</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="state-information d-none d-sm-block">
+                            <div class="state-graph">
+                                <div id="header-chart-1"></div>
+                                <div class="info">Balance $ 2,317</div>
+                            </div>
+                            <div class="state-graph">
+                                <div id="header-chart-2"></div>
+                                <div class="info">Item Sold 1230</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title"></h4>
+                                <p class="card-title-desc"></p>
+                                <div class="table-rep-plugin">
+                                    <div class="table-responsive mb-0" data-pattern="priority-columns">
+                                        <table id="tech-companies-1" class="table  table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Fullname</th>
+
+                                                <th data-priority="1">Description</th>
+                                            </tr>
+                                            </thead>
+                                            {% for responsible in object_list %}
+                                                <tbody>
+                                                <tr>
+                                                    <th>{{ responsible.fullname }}</th>
+                                                    <td>{{ responsible.description }}</td>
+                                                </tr>
+                                                </tbody>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        ©
+                        <script>document.write(new Date().getFullYear())</script>
+                        Lexa <span class="d-none d-sm-inline-block"> - Crafted with <i
+                            class="mdi mdi-heart text-danger"></i> by Themesdesign.</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}

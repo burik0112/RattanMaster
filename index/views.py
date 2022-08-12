@@ -6,20 +6,14 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
 
-def Index(request):
-    # query = Category.objects.annotate(count=Count('category'))
-    # return render(request, 'registration/login.html')
-    return render(request, 'index.html')
-
-
 def IndexCustom(request):
     query = Category.objects.annotate(count=Count('category'))
-    return render(request, 'pages-directory.html', {'query': query})
+    return render(request, 'catalog_category.html', {'query': query})
 
 
 def Base(request, pk):
     query = Product.objects.filter(category_id__id=pk)
-    return render(request, 'base.html', {'query': query})
+    return render(request, 'index.html', {'query': query})
 
 
 def Detail(request, pk):
@@ -29,17 +23,17 @@ def Detail(request, pk):
 
 def Categories(request):
     query = Category.objects.all()
-    return render(request, 'categories.html', {'query': query})
+    return render(request, 'card.html', {'query': query})
 
 
 def DeviceModels(request):
     query = Model.objects.all()
-    return render(request, 'models.html', {'query': query})
+    return render(request, 'categories.html', {'query': query})
 
 
 def ResponsiblePeople(request):
     query = Responsible.objects.all()
-    return render(request, 'responsible.html', {'query': query})
+    return render(request, 'responsible_person.html', {'query': query})
 
 
 class SearchResultsView(ListView):
