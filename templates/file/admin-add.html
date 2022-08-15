@@ -10,25 +10,23 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Validation type</h4>
-                                    <form class="custom-validation" action="{% url 'pages:main' %}">
+                                    <form class="custom-validation" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <div class="mt-2">
-                                            <input type="text" class="form-control" required
+                                            <input name="name" type="text" class="form-control" required
                                                    data-parsley-equalto="#pass2"
                                                    placeholder="Re-Type Password"/>
                                         </div>
                                         <p style="margin-bottom: 8px" class="title-project">Proyekt Faylini Joylang</p>
 
-                                        <input style="width: 100%; padding: 6px 12px; margin-bottom: 16px;" class="form-control" type="file" id="user-file"
-                                               name="user-file" required>
+                                        <input style="width: 100%; padding: 6px 12px; margin-bottom: 16px;" accept="image/*" class="form-control" type="file" id="user-file"
+                                               name="image" required>
 
                                         <div class="mb-0">
                                             <div>
                                                 <button type="submit"
                                                         class="btn btn-primary waves-effect waves-light me-1">
                                                     Submit
-                                                </button>
-                                                <button type="reset" class="btn btn-secondary waves-effect">
-                                                    Cancel
                                                 </button>
                                             </div>
                                         </div>

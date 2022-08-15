@@ -5,9 +5,10 @@ from .views import Admin_index, CategoryCreateView, baseview, EquipmentCreateVie
     AdminModelDelete, AdminResponsibles, AdminResponsibleEdit, AdminResponsibleDelete, AdminRooms, AdminRoomDetail
 
 app_name = 'add'
+
 urlpatterns = [
     path('admin-index/', Admin_index, name='admin-index'),
-    path('admin-index/category-create', CategoryCreateView.as_view(), name='category-create'),
+    path('admin-index/category-create', CategoryCreateView.as_view(), name='cat'),
     path('admin-index/poka-base/<int:pk>', baseview, name='base-view'),
     path('admin-index/poka-base/<int:pk>/add-equipment', EquipmentCreateView, name='equipment-create'),
     path('admin-index/poka-base/<int:pk>/admin-detail-of-product', ProductDetailView, name='product-detail'),

@@ -10,16 +10,17 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Validation type</h4>
-                                    <form class="custom-validation" action="#">
+                                    <form class="custom-validation" action="#" method="post">
+                                        {% csrf_token %}
                                         <div class="mt-2">
-                                            <input type="text" class="form-control" required
+                                            <input type="text" class="form-control" name="fullname" required
                                                    data-parsley-equalto="#pass2"
                                                    placeholder="Re-Type Password"/>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Textarea</label>
                                             <div>
-                                            <textarea required class="form-control" placeholder="Type here"
+                                            <textarea required class="form-control" name="description" placeholder="Type here"
                                                       rows="5"></textarea>
                                             </div>
                                         </div>

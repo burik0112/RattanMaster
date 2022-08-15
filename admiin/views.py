@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def Admin_index(request):
     categories = Category.objects.annotate(count=Count('category'))
-    return render(request, 'admin/admin-index.html', {'queryset': categories})
+    return render(request, 'index.html', {'queryset': categories})
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
@@ -20,7 +20,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     form_class = CategoryCreateForm
     template_name = 'file/admin-add.html'
     login_url = 'login'
-    success_url = reverse_lazy('admin-add.html')
+    success_url = reverse_lazy('pages:category')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -32,7 +32,7 @@ class ResponsibleCreateView(LoginRequiredMixin, CreateView):
     form_class = ResponsibleCreateForm
     template_name = 'file/responsible_add.html'
     login_url = 'login'
-    success_url = reverse_lazy('admin-responsibles')
+    success_url = reverse_lazy('pages:responsible')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -44,7 +44,7 @@ class ModelCreateView(LoginRequiredMixin, CreateView):
     form_class = ModelCreateForm
     template_name = 'file/model_add.html'
     login_url = 'login'
-    success_url = reverse_lazy('admin-models')
+    success_url = reverse_lazy('pages:models')
 
     def form_valid(self, form):
         form.instance.author = self.request.user

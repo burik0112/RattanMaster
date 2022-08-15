@@ -9,40 +9,47 @@
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-body">
-{#                                <h4 class="card-title mb-4">Latest Orders</h4>#}
+                                {#                                <h4 class="card-title mb-4">Latest Orders</h4>#}
 
                                 <div class="table-responsive">
                                     <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
                                         <thead>
-                                            <th>Product name</th>
-                                            <th>Product image</th>
-                                            <th>Product Responsible person</th>
-                                            <th>Product Created at</th>
-                                            <th>Product status</th>
+                                        <th>Product name</th>
+                                        <th>Product image</th>
+                                        <th>Product Responsible person</th>
+                                        <th>Product Created at</th>
+                                        <th>Product status</th>
+                                        <th>Product Rooms</th>
                                         </thead>
                                         <tbody>
-                                            {% for m in query %}
+                                        {% for m in query %}
                                             <tr>
-                                                <td># {{ m.category_id }}</td>
+                                                <td>{{ m.category_id }}</td>
                                                 <td>
                                                     <img src="{{ m.images.url }}" alt="user-image"
-                                                         class="avatar-xs me-2 rounded-circle"/> {{ m.model_id }}
+                                                         class="avatar-xs me-2 rounded-circle"/> {{ m.inventar_number }}
                                                 </td>
-                                                <td><span class="badge rounded-pill bg-success">{{ m.room_number }}</span></td>
                                                 <td>
                                                     {{ m.responsible_id }}
+
                                                 </td>
                                                 <td>
                                                     {{ m.created_at| date:'d F Y' }}
+
                                                 </td>
-{#                                                <td>#}
-{#                                                    <button type="button"#}
-{#                                                            class="btn btn-secondary btn-sm waves-effect waves-light">#}
-{#                                                        Edit#}
-{#                                                    </button>#}
-{#                                                </td>#}
+                                                 <td><span
+                                                        class="badge rounded-pill bg-success">{{ m.status }}</span>
+                                                <td>
+                                                    {{ m.room_number }}
+                                                </td>
+                                                {#                                                <td>#}
+                                                {#                                                    <button type="button"#}
+                                                {#                                                            class="btn btn-secondary btn-sm waves-effect waves-light">#}
+                                                {#                                                        Edit#}
+                                                {#                                                    </button>#}
+                                                {#                                                </td>#}
                                             </tr>
-                                            {% endfor %}
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>

@@ -1,194 +1,40 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% block content %}
-    <main class="main">
-        <section class="breadcrumb">
-            <div class="container">
-                <div class="breadcrumb-container">
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Latest Orders</h4>
 
-                    <h2 class="visually-hidden">in this section, you can enter pages, what ever you want</h2>
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
 
-                    <a href="#" class="breadcrumb-pointer-left"><img class="icon-pointer-right"
-                                                                     src="{% static 'img/arrow-left.svg' %}"
-                                                                     alt="pointer to left"></a>
-
-                    <p class="breadcrumb-text">Back to previous page | Listed in category: <a href="#"
-                                                                                              class="breadcrumb-text-link">Cell
-                        Phones & Accessories</a></p>
-
-                    <a href="#" class="breadcrumb-text-link">Cell Phones & Smartphones</a>
-                </div>
-            </div>
-
-            <hr class="line breadcrumb-line">
-        </section>
-
-        <section class="hero">
-            <div class="container">
-                <div class="hero-container">
-
-                    <div class="hero-main">
-                        <div class="hero-main-left">
-                            <div class="hero-main-left-top">
+                                        <tbody>
+                                        {% for y in query %}
+                                            <tr>
+                                                <td>{{ y.name }}</td>
+                                                <td>
+                                                    <img src="{{ y.image.url }}" alt="user-image"
+                                                         class="avatar-xs me-2 rounded-circle"/>
+                                                </td>
+                                                <td>
+                                                    {{ y.created_at| date:'d F Y' }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-
-                            <div class="hero-main-left-bottom">
-                                <ul class="hero-list">
-                                    <li class="hero-item"><a class="hero-item-pointer" href="#"><img
-                                            src="{% static 'img/arrow-left.svg' %}" alt="pointer to left side"></a></li>
-
-                                    <li class="hero-item hero-box-1"></li>
-
-                                    <li class="hero-item hero-box-2"></li>
-
-                                    <li class="hero-item hero-box-3"></li>
-
-                                    <li class="hero-item"><a class="hero-item-pointer" href="#"><img
-                                            src="{% static 'img/arrow-right.svg' %}" alt="pointer to left side"></a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div>
-
-                        <div class="hero-main-right">
-                            <div class="hero-right-heading-wrapper">
-                                <h2 class="hero-right-heading">Apple iPhone 13 (128GB)</h2>
-
-                                <p class="hero-right-heading-text">Starlight</p>
-                            </div>
-
-                            <p class="hero-right-warranty">Free 2 Days Shipping | 1 Year Warranty</p>
-
-                            <div class="hero-right-rating">
-                                <ul class="hero-right-rating-list">
-                                    <li class="hero-right-rating-item"><img src="{% static 'img/full-star.svg' %}"
-                                                                            alt="full star"
-                                                                            width="32" height="32"></li>
-                                    <li class="hero-right-rating-item"><img src="{% static 'img/full-star.svg' %}"
-                                                                            alt="full star"
-                                                                            width="32" height="32"></li>
-                                    <li class="hero-right-rating-item"><img src="{% static 'img/full-star.svg' %}"
-                                                                            alt="full star"
-                                                                            width="32" height="32"></li>
-                                    <li class="hero-right-rating-item"><img src="{% static 'img/full-star.svg' %}"
-                                                                            alt="full star"
-                                                                            width="32" height="32"></li>
-                                    <li class="hero-right-rating-item"><img src="{% static 'img/empty-star.svg' %}"
-                                                                            alt="full star"
-                                                                            width="32" height="32"></li>
-                                </ul>
-
-                                <p class="hero-right-rating-result">4.5</p>
-
-                                <p class="hero-right-rating-numbers">from 392 Reviews</p>
-                            </div>
-
-                            <p class="hero-right-cost">580</p>
-
-                            <ul class="hero-right-list">
-                                <li class="hero-right-item">
-                                    <span class="hero-right-item-icon"></span>
-
-                                    <p class="hero-right-item-text">Free Return</p>
-                                </li>
-
-                                <li class="hero-right-item">
-                                    <span class="hero-right-item-icon"></span>
-
-                                    <p class="hero-right-item-text">Chat with us 24 hours</p>
-                                </li>
-
-                                <li class="hero-right-item">
-                                    <span class="hero-right-item-icon"></span>
-
-                                    <p class="hero-right-item-text">Comes with a Package</p>
-                                </li>
-
-                                <li class="hero-right-item">
-                                    <span class="hero-right-item-icon"></span>
-
-                                    <p class="hero-right-item-text">Comes with a Package</p>
-                                </li>
-                            </ul>
-
-                            <div class="hero-right-buyer">
-                                <ul class="hero-right-buyers-list">
-                                    <li class="hero-right-buyers-item"><img src="{% static 'img/buyer-1.png' %}"
-                                                                            alt="the image of the first person"
-                                                                            width="40"
-                                                                            height="40"></li>
-                                    <li class="hero-right-buyers-item"><img src="{% static 'img/buyer-2.png' %}"
-                                                                            alt="the image of the second person"
-                                                                            width="40"
-                                                                            height="40"></li>
-                                    <li class="hero-right-buyers-item"><img src="{% static 'img/buyer-3.png' %}"
-                                                                            alt="the image of the third person"
-                                                                            width="40"
-                                                                            height="40"></li>
-                                </ul>
-
-                                <p class="hero-right-buyer-text">1,241 Sold in the last 24 hours</p>
-                            </div>
-
-
-                            <button class="hero-right-button-dark">Buy it now</button>
-                            <button class="hero-right-button-light">Add to Cart</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
-    <div class="row">
-        <div class="col-xl-6">
-            <div class="card">
-                <div class="card-body">
-
-                    <h4 class="card-title">Image thumbnails</h4>
-                    <p class="card-title-desc">In addition to our border-radius utilities, you can use
-                        <code class="highlighter-rouge">.img-thumbnail</code> to give an image a rounded 1px border
-                        appearance.</p>
-
-                    <div>
-                        <img class="img-thumbnail" alt="200x200" width="200" src="assets/images/small/img-3.jpg"
-                             data-holder-rendered="true">
-                    </div>
-                </div><!-- end card-body -->
-            </div><!-- end card -->
-
-            <div class="card">
-                <div class="card-body">
-
-                    <h4 class="card-title">Image Rounded & Circle</h4>
-                    <p class="card-title-desc">Use classes
-                        <code>.rounded</code> and <code>.rounded-circle</code>.</p>
-
-                    <div>
-                        <img class="rounded me-4" alt="200x200" width="200" src="assets/images/small/img-4.jpg"
-                             data-holder-rendered="true">
-                        <img class="rounded-circle mt-4 mt-sm-0" alt="200x200" src="assets/images/users/user-4.jpg"
-                             data-holder-rendered="true">
-                    </div>
-                </div><!-- end cardbody -->
-            </div><!-- end card -->
-        </div><!-- end col -->
-
-        <div class="col-xl-6">
-            <div class="card">
-                <div class="card-body">
-
-                    <h4 class="card-title">Responsive images</h4>
-                    <p class="card-title-desc">Images in Bootstrap are made responsive with <code
-                            class="highlighter-rouge">.img-fluid</code>. <code class="highlighter-rouge">max-width:
-                        100%;</code> and <code class="highlighter-rouge">height: auto;</code> are applied to the image
-                        so that it scales with the parent element.</p>
-
-                    <div>
-                        <img src="assets/images/small/img-2.jpg" class="img-fluid" alt="Responsive image">
-                    </div>
-                </div><!-- end cardbody -->
-            </div><!-- end card -->
-        </div><!-- end col -->
-    </div><!-- end row -->
+        </div>
+        {% include 'layouts/footer.html' %}
+    </div>
 {% endblock %}
