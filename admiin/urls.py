@@ -1,8 +1,9 @@
 from django.urls import path
 from .views import Admin_index, CategoryCreateView, baseview, EquipmentCreateView, ProductDetailView, ProductUpdateView, \
-    ProductDeleteView, ResponsibleCreateView, ModelCreateView, SearchResultsView, AdminCategories, AdminCategoryEdit, \
+    ProductDeleteView, ResponsibleCreateView, SearchResultsView, AdminCategories, AdminCategoryEdit, \
     AdminCategoryDelete, AdminModels, AdminModelEdit, \
-    AdminModelDelete, AdminResponsibles, AdminResponsibleEdit, AdminResponsibleDelete, AdminRooms, AdminRoomDetail
+    AdminModelDelete, AdminResponsibles, AdminResponsibleEdit, AdminResponsibleDelete, AdminRooms, AdminRoomDetail, \
+    ModelCreateView, RoomsCreateView
 
 app_name = 'add'
 
@@ -15,6 +16,7 @@ urlpatterns = [
     path('admin-index/poka-base/<int:pk>/product-update', ProductUpdateView, name='product-update'),
     path('admin-index/poka-base/<int:pk>/product-delete', ProductDeleteView, name='product-delete'),
     path('admin-index/responsible-create', ResponsibleCreateView.as_view(), name='responsible-create'),
+    path('admin-index/rooms-add', RoomsCreateView.as_view(), name='rooms-add'),
     path('admin-index/model-create', ModelCreateView.as_view(), name='model-create'),
     path('admin/search', SearchResultsView.as_view(), name='admin-search'),
     path('admin/categories', AdminCategories, name='admin-categories'),

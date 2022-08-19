@@ -1,6 +1,12 @@
 from django import forms
-from index.models import Category, Model, Product, Responsible
+from index.models import Category, Model, Product, Responsible, RoomsModel
 from django.core.exceptions import ValidationError
+
+
+class RoomsForm(forms.ModelForm):
+    class Meta:
+        model = RoomsModel
+        fields = '__all__'
 
 
 class CategoryCreateForm(forms.ModelForm):
@@ -32,6 +38,7 @@ class ModelCreateForm(forms.ModelForm):
             'image': 'Jihoz modeli rasmi ',
             'description': 'Izoh ',
         }
+        print(labels)
 
 
 mouse_choices = (

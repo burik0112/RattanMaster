@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
     <div class="main-content">
         <div class="page-content">
@@ -7,12 +8,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="page-title-box">
-                            <h4>Responsive Table</h4>
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Lexa</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                                <li class="breadcrumb-item active">Responsive Table</li>
-                            </ol>
+                            <h4>{% trans 'Responsible Person' %}</h4>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -40,9 +36,9 @@
                                         <table id="tech-companies-1" class="table  table-striped">
                                             <thead>
                                             <tr>
-                                                <th>Fullname</th>
+                                                <th>{% trans 'Fullname' %}</th>
 
-                                                <th data-priority="1">Description</th>
+                                                <th data-priority="1">{% trans 'Description' %}</th>
                                             </tr>
                                             </thead>
                                             {% for y in query %}

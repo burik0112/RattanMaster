@@ -1,10 +1,10 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
-from index.models import Category, Model, Product, Responsible
+from index.models import Category, Model, Product, Responsible, RoomsModel
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CategoryCreateForm, EquipmentCreateForm, ProductUpdateForm, ResponsibleCreateForm, ModelCreateForm, \
-    ProductDetailUpdateForm, CategoryEditForm, ModelEditForm, ResponsibleEditForm
+    ProductDetailUpdateForm, CategoryEditForm, ModelEditForm, ResponsibleEditForm, RoomsForm
 from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
 
@@ -20,7 +20,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     form_class = CategoryCreateForm
     template_name = 'file/admin-add.html'
     login_url = 'login'
-    success_url = reverse_lazy('pages:category')
+    success_url = reverse_lazy('pages:cards')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -33,6 +33,18 @@ class ResponsibleCreateView(LoginRequiredMixin, CreateView):
     template_name = 'file/responsible_add.html'
     login_url = 'login'
     success_url = reverse_lazy('pages:responsible')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class RoomsCreateView(LoginRequiredMixin, CreateView):
+    model = RoomsModel
+    form_class = RoomsForm
+    template_name = 'file/rooms_add.html'
+    login_url = 'login'
+    success_url = reverse_lazy('pages:rooms')
 
     def form_valid(self, form):
         form.instance.author = self.request.user

@@ -5,24 +5,37 @@
     <div class="main-content">
         <div class="page-content">
             <div class="container-fluid">
+
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title mb-4">{% trans 'Models' %}</h4>
+                                {#                                <h4 class="card-title mb-4">Latest Orders</h4>#}
+
                                 <div class="table-responsive">
                                     <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
+                                        <thead>
+                                            <th>
+                                                {% trans 'Rooms Number' %}
+                                            </th>
+                                            <th>
+                                                {% trans 'Floors Number' %}
+                                            </th>
+                                        </thead>
                                         <tbody>
-                                        {% for m in query %}
+                                        {% for n in query%}
                                             <tr>
-                                                <td>{{ m.name }}</td>
+                                                <td>{{ n.rooms }}</td>
                                                 <td>
-                                                    <img src="{{ m.image.url }}" alt="user-image"
-                                                         class="avatar-xs me-2 rounded-circle"/>
+                                                    {{ n.floor }}
+
                                                 </td>
-                                                <td>
-                                                    {{ m.created_at| date:'d F Y' }}
-                                                </td>
+{#                                                <td>#}
+{#                                                    <button type="button"#}
+{#                                                            class="btn btn-secondary btn-sm waves-effect waves-light">#}
+{#                                                        Edit#}
+{#                                                    </button>#}
+{#                                                </td>#}
                                             </tr>
                                         {% endfor %}
                                         </tbody>

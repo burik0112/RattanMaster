@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n%}
 <!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
 
@@ -9,43 +10,28 @@
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Main</li>
-
-                <li>
-                    <a href="">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-
                 <li>
                     <a href="{% url 'pages:responsible' %}">
                         <i class="mdi mdi-calendar-check"></i>
-                        <span>Responsible Person</span>
+                        <span>{% trans 'Responsible Person' %}</span>
                     </a>
                 </li>
-{#                <li>#}
-{#                    <a href="javascript: void(0);" class="waves-effect">#}
-{#                        <i class="mdi mdi-clipboard-outline"></i>#}
-{#                        <span>Forms</span>#}
-{#                    </a>#}
-{#                </li>#}
                 <li>
                     <a href="{% url 'pages:cards' %}">
                         <i class="mdi mdi-view-dashboard"></i>
-                        <span>Equipments</span>
+                        <span>{% trans 'Equipments' %}</span>
                     </a>
                 </li>
-
                 <li>
-                    <a href="">
+                    <a href="{% url 'pages:rooms' %}">
                         <i class="mdi mdi-view-dashboard"></i>
-                        <span>Rooms</span>
+                        <span>{% trans 'Rooms' %}</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'pages:category' %}">
+                    <a href="{% url 'pages:models' %}">
                         <i class="mdi mdi-calendar-check"></i>
-                        <span>Category</span>
+                        <span>{% trans 'Category' %}</span>
                     </a>
                 </li>
 {#                <li>#}

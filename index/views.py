@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView
-from .models import Category, Product, Model, Responsible
+from .models import Category, Product, Model, Responsible, RoomsModel
 from django.db.models import Count
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -29,6 +29,11 @@ def Categories(request):
 def DeviceModels(request):
     query = Model.objects.all()
     return render(request, 'categories.html', {'query': query})
+
+
+def Room(request):
+    query = RoomsModel.objects.all()
+    return render(request, 'rooms_catalog.html', {'query': query})
 
 
 def ResponsiblePeople(request):

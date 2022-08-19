@@ -10,9 +10,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Rooms Numbers</h4>
-                                    <form action="#">
+                                    <form method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <div class="mt-2">
-                                            <input type="text" class="form-control" required data-parsley-equalto="#pass2" placeholder="Re-Type Password"/>
+                                            <input type="text" name="rooms" class="form-control" required placeholder="Room Number"/>
+                                        </div>
+                                        <div class="mt-2">
+                                            <input type="text" name="floor" class="form-control" required placeholder="Floor Number"/>
                                         </div>
                                         <div class="mb-0 mt-2">
                                             <div>
