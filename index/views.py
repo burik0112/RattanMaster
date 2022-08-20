@@ -28,7 +28,7 @@ def Categories(request):
 
 def DeviceModels(request):
     query = Model.objects.all()
-    return render(request, 'categories.html', {'query': query})
+    return render(request, 'models.html', {'query': query})
 
 
 def Room(request):

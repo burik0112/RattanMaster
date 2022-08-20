@@ -22,8 +22,8 @@ class CategoryModelAdmin(MyTranslationAdmin):
 
 
 @admin.register(Model)
-class ModelModelAdmin(MyTranslationAdmin):
-    list_display = ['id', 'name', 'description', 'image']
+class ModelModelAdmin(admin.ModelAdmin):
+    list_display = ['name', 'description', 'image']
 
 
 @admin.register(Responsible)
@@ -39,6 +39,6 @@ class ProductModelAdmin(MyTranslationAdmin):
 
 
 @admin.register(RoomsModel)
-class RoomsModelAdmin(MyTranslationAdmin):
+class RoomsModelAdmin(admin.ModelAdmin):
     list_display = ['rooms', 'floor']
 

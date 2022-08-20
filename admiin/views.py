@@ -165,8 +165,8 @@ def AdminCategoryEdit(request, pk):
     form = CategoryEditForm(request.POST or None, request.FILES or None, instance=query)
     if request.method == 'POST' and form.is_valid():
         form.save()
-        return redirect('admin-categories')
-    return render(request, 'file/admin-add.html', {'form': form})
+        return redirect('pages:category')
+    return render(request, 'file/category_edit.html', {'form': form})
 
 
 @login_required
@@ -174,8 +174,8 @@ def AdminCategoryDelete(request, pk):
     query = Category.objects.get(pk=pk)
     if request:
         query.delete()
-        return redirect('admin-categories')
-    return render(request, 'file/admin-add.html')
+        return redirect('pages:category')
+    return render(request, 'card.html')
 
 
 @login_required
@@ -191,7 +191,7 @@ def AdminModelEdit(request, pk):
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('admin-models')
-    return render(request, 'admin/model-edit.html', {'form': form})
+    return render(request, 'file/models_edit.html', {'form': form})
 
 
 @login_required
@@ -215,8 +215,8 @@ def AdminResponsibleEdit(request, pk):
     form = ResponsibleEditForm(request.POST or None, instance=query)
     if request.method == 'POST' and form.is_valid():
         form.save()
-        return redirect('admin-responsibles')
-    return render(request, 'admin/responsible-edit.html', {'form': form})
+        return redirect('pages:responsible')
+    return render(request, 'file/responsible-edit.html', {'form': form})
 
 
 @login_required

@@ -24,6 +24,14 @@
                                                 <td>
                                                     {{ y.created_at| date:'d F Y' }}
                                                 </td>
+                                                <td class="edit"><a href="{% url 'add:category-edit' pk=y.pk %}"><i
+                                                        class="fa fa-pencil"></i></a></td>
+                                                <td class="edit delete-btn" id="delete-btn"><a href="{% url 'add:category-delete' pk=y.pk %}"
+                                                                                               onclick="function confirm_category_delete(s) {
+
+                                                                                                       }
+                                                                                                       confirm_category_delete('{{ y.pk }}');"><i
+                                                        class="fa fa-trash"></i></a></td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>

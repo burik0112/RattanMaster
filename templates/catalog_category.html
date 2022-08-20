@@ -2,60 +2,65 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-<div class="main-content">
+    <div class="main-content">
 
-    <div class="page-content">
-        <div class="container-fluid">
+        <div class="page-content">
+            <div class="container-fluid">
 
-            <!-- start page title -->
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="page-title-box">
-                        <h4>{% trans 'Equipments' %}</h4>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="state-information d-none d-sm-block">
-                        <div class="state-graph">
-                            <div id="header-chart-1"></div>
-                            <div class="info">Balance $ 2,317</div>
-                        </div>
-                        <div class="state-graph">
-                            <div id="header-chart-2"></div>
-                            <div class="info">Item Sold 1230</div>
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="page-title-box">
+                            <h4>{% trans 'Equipments' %}</h4>
                         </div>
                     </div>
+                    <div class="col-sm-6">
+                        <div class="state-information d-none d-sm-block">
+                            <div class="state-graph">
+                                <div id="header-chart-1"></div>
+                                <div class="info">Balance $ 2,317</div>
+                            </div>
+                            <div class="state-graph">
+                                <div id="header-chart-2"></div>
+                                <div class="info">Item Sold 1230</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <!-- end page title -->
+                <!-- end page title -->
 
-            <div class="row">
-                {% for m in query%}
-                <div class="col-xl-3 col-md-6">
-                    <div class="card directory-card">
-                        <div>
+                <div class="row">
+                    {% for m in query %}
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card directory-card">
+                                <div>
 
-                            <div class="directory-bg text-center">
-                                <div class="directory-overlay">
-                                    <a href="{% url 'pages:base' pk=m.pk %}">
-                                        <img class="rounded-circle avatar-lg img-thumbnail"
-                                         src="{{ m.image.url }}" alt="Generic placeholder image">
-                                    </a>
+                                    <div class="directory-bg text-center">
+                                        <div class="directory-overlay">
+                                            <a href="{% url 'pages:base' pk=m.pk %}">
+                                                <img class="rounded-circle avatar-lg img-thumbnail"
+                                                     src="{{ m.image.url }}" alt="Generic placeholder image">
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="directory-content text-center p-4">
+                                        <h5 class="font-size-16">{{ m.name }}</h5>
+                                    </div>
+{#                                    <td class="edit"><a href="{% url 'category-edit' pk=m.pk %}"><i#}
+{#                                            class="fa fa-pencil"></i></a></td>#}
+{#                                    <td class="edit delete-btn" id="delete-btn"><a href="#"#}
+{#                                                                                   onclick="confirm_category_delete('{{ m.pk }}');"><i#}
+{#                                            class="fa fa-trash"></i></a></td>#}
+
                                 </div>
                             </div>
-
-                            <div class="directory-content text-center p-4">
-                                <h5 class="font-size-16">{{ m.name }}</h5>
-                            </div>
-
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
+        {% include 'layouts/footer.html' %}
     </div>
-    {% include 'layouts/footer.html' %}
-</div>
 {% endblock %}
 <!-- end main content-->

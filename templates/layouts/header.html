@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load mytags %}
 <div id="layout-wrapper">
 
     <header id="page-topbar">
@@ -32,14 +33,15 @@
 
                 <div class="d-none d-sm-block">
                     <div class="dropdown dropdown-topbar pt-3 mt-1 d-inline-block">
-                        <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        <a class="btn btn-light dropdown-toggle" href="" role="button" id="dropdownMenuLink"
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {% trans 'Add' %} <i class="mdi mdi-chevron-down"></i>
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="{% url 'add:cat' %}">{% trans 'Category' %}</a>
-                            <a class="dropdown-item" href="{% url 'add:responsible-create' %}">{% trans 'Responsible Person' %}</a>
+                            <a class="dropdown-item"
+                               href="{% url 'add:responsible-create' %}">{% trans 'Responsible Person' %}</a>
                             <a class="dropdown-item" href="{% url 'add:rooms-add' %}">{% trans 'Rooms' %}</a>
                             <a class="dropdown-item" href="{% url 'add:model-create' %}">{% trans 'Models' %}</a>
                         </div>
@@ -52,7 +54,8 @@
                 <!-- App Search-->
                 <form class="app-search d-none d-lg-block">
                     <div class="position-relative">
-                        <input  name="q" value="{{ request.GET.q }}" type="text" class="form-control" placeholder="{% trans 'Search' %}...">
+                        <input name="q" value="{{ request.GET.q }}" type="text" class="form-control"
+                               placeholder="{% trans 'Search' %}...">
                         <span class="fa fa-search"></span>
                     </div>
                 </form>
@@ -83,17 +86,21 @@
 
 
                 <div class="dropdown d-none d-md-block ms-2">
+                    {% get_current_language as lang %}
+                    {% get_available_languages as langs %}
                     <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                        <img class="me-2" src="{% static 'images/flags/us_flag.jpg' %}" alt="Header Language"
-                             height="16"> English <span class="mdi mdi-chevron-down"></span>
+                        {{ lang|upper }} <span class="mdi mdi-chevron-down"></span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="{% static 'images/flags/russia_flag.jpg' %}" alt="user-image" class="me-1"
-                                 height="12"> <span class="align-middle"> Russian </span>
-                        </a>
-                    </div>
+                    {% for l in langs %}
+                        {% if l.0 != lang %}
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="{% get_url_lang request l.0 %}" class="dropdown-item notify-item">
+                                    <span class="align-middle"> {{ l.0|upper }} </span>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
 
                 <div class="dropdown d-none d-lg-inline-block">
