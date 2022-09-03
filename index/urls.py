@@ -2,7 +2,8 @@ import imp
 
 from django.contrib.auth.decorators import login_required
 from django.urls import path
-from .views import Base, Detail, SearchResultsView, IndexCustom, DeviceModels, ResponsiblePeople, Categories, Room
+from .views import Base, Detail, SearchResultsView, IndexCustom, DeviceModels, ResponsiblePeople, Categories, Room, \
+    ProductListView
 
 app_name = 'pages'
 
@@ -15,4 +16,5 @@ urlpatterns = [
     path('rooms/', login_required(Room), name='rooms'),
     path('responsible-people/', login_required(ResponsiblePeople), name='responsible'),
     path('search', login_required(SearchResultsView.as_view()), name='search'),
+    path('add/', ProductListView.as_view(), name='search'),
 ]

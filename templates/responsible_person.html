@@ -1,6 +1,24 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% load i18n %}
+{% block button %}
+    <div class="d-none d-sm-block">
+        <div class="dropdown dropdown-topbar pt-3 mt-1 d-inline-block">
+{#            <a class="btn btn-light dropdown-toggle" href="" role="button" id="dropdownMenuLink"#}
+{#               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                {% trans 'Add' %} <i class="mdi mdi-chevron-down"></i>#}
+{#            </a>#}
+            <a class="dropdown-item" href="{% url 'add:responsible-create' %}">{% trans 'Responsible Person' %}</a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+{#                <a class="dropdown-item"#}
+{#                   #}
+{#                <a class="dropdown-item" href="{% url 'add:rooms-add' %}">{% trans 'Rooms' %}</a>#}
+{#
+            </div>
+        </div>
+    </div>
+{% endblock %}
 {% block content %}
     <div class="main-content">
         <div class="page-content">
@@ -49,7 +67,7 @@
                                                     <td class="edit"><a href="{% url 'add:responsible-edit' pk=y.pk %}"><i
                                                             class="fa fa-pencil"></i></a></td>
                                                     <td class="edit delete-btn" id="delete-btn"><a
-                                                            href="{% url 'add:category-delete' pk=y.pk %}"
+                                                            href="{% url 'add:responsible-delete' pk=y.pk %}"
                                                             onclick="function confirm_category_delete(s) {
 
                                                                     }

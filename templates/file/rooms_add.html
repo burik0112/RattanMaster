@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
     <div id="layout-wrapper">
         <div class="main-content">
@@ -9,19 +10,19 @@
                         <div class="col-6 col-xl-6" style="margin-left: 250px">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Rooms Numbers</h4>
+                                    <h4 class="card-title">{% trans 'Rooms Numbers' %}</h4>
                                     <form method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
                                         <div class="mt-2">
-                                            <input type="text" name="rooms" class="form-control" required placeholder="Room Number"/>
+                                            <input type="text" name="rooms" class="form-control" required placeholder="{% trans 'Room Number' %}"/>
                                         </div>
                                         <div class="mt-2">
-                                            <input type="text" name="floor" class="form-control" required placeholder="Floor Number"/>
+                                            <input type="text" name="floor" class="form-control" required placeholder="{% trans 'Floor Number' %}"/>
                                         </div>
                                         <div class="mb-0 mt-2">
                                             <div>
                                                 <button type="submit" class="btn btn-primary waves-effect waves-light me-1">
-                                                    Submit
+                                                    {% trans 'Submit' %}
                                                 </button>
                                             </div>
                                         </div>

@@ -1,4 +1,5 @@
 {% extends 'layouts/base.html' %}
+{% load i18n %}
 {% load static %}
 {% block content %}
     <div id="layout-wrapper">
@@ -9,27 +10,27 @@
                         <div class="col-6 col-xl-6" style="margin-left: 250px">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Validation type</h4>
+                                    <h4 class="card-title">{% trans 'Model Name' %}</h4>
                                     <form class="custom-validation" action="" method="POST" enctype="multipart/form-data">
                                         {% csrf_token %}
                                         <div class="mt-2">
-                                            <input type="text" class="form-control" name="name" placeholder="Re-Type Password"/>
+                                            <input type="text" class="form-control" name="name" placeholder="{% trans 'Model Name' %}"/>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Textarea</label>
+                                            <label class="form-label">{% trans 'Description' %}</label>
                                             <div>
-                                                <textarea required class="form-control" placeholder="Type here"
+                                                <textarea required class="form-control" placeholder="{% trans 'Description' %}"
                                                       rows="5" name="description"></textarea>
                                             </div>
                                         </div>
-                                        <p style="margin-bottom: 8px" class="title-project">Proyekt Faylini Joylang</p>
+                                        <p style="margin-bottom: 8px" class="title-project">{% trans 'Deploy the Project File' %}</p>
                                         <input style="width: 100%; padding: 6px 12px; margin-bottom: 16px;" class="form-control" type="file" accept="image/*" id="user-file"
                                                name="image" required>
                                         <div class="mb-0">
                                             <div>
                                                 <button type="submit"
                                                         class="btn btn-primary waves-effect waves-light me-1">
-                                                    Submit
+                                                    {% trans 'Submit' %}
                                                 </button>
                                             </div>
                                         </div>

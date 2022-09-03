@@ -12,7 +12,7 @@ class RoomsForm(forms.ModelForm):
 class CategoryCreateForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['name', 'image']
+        fields = ['name_en', 'name_ru', 'name_uz', 'image']
         labels = {
             'name': 'Kategoriya nomi ',
             'image': 'Kategoriya rasmi ',
@@ -22,7 +22,7 @@ class CategoryCreateForm(forms.ModelForm):
 class ResponsibleCreateForm(forms.ModelForm):
     class Meta:
         model = Responsible
-        fields = ['fullname', 'description']
+        fields = ['fullname_en', 'fullname_ru', 'fullname_uz', 'description_en', 'description_ru', 'description_uz' ]
         labels = {
             'fullname': 'Javobgar shaxs ism-familiyasi ',
             'description': 'Shaxs haqida izoh ',

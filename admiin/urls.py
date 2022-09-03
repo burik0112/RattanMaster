@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Admin_index, CategoryCreateView, baseview, EquipmentCreateView, ProductDetailView, ProductUpdateView, \
+from .views import Admin_index, CategoryCreateView, baseview, EquipmentCreateView, ProductDetailView, ProductUpdateView,\
     ProductDeleteView, ResponsibleCreateView, SearchResultsView, AdminCategories, AdminCategoryEdit, \
     AdminCategoryDelete, AdminModels, AdminModelEdit, \
     AdminModelDelete, AdminResponsibles, AdminResponsibleEdit, AdminResponsibleDelete, AdminRooms, AdminRoomDetail, \

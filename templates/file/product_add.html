@@ -1,0 +1,151 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-8 col-md-10 col-6 offset-5">
+                        <div class="page-title-box">
+                            <h4>Form Validation</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-8 col-md-10 col-6 offset-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <form class="needs-validation" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="validationCustom03">Rooms Number</label>
+{#                                                <input type="text" class="form-control" id="validationCustom03"#}
+{#                                                       placeholder="Rooms Number" required>#}
+                                                <select  class="form-control" id="validationCustom03">
+                                                    <option selected disabled>Rooms Number</option>
+                                                    <option value="">Number1</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid city.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="validationCustom04">Inventar Number</label>
+                                                <input type="text" class="form-control" id="validationCustom04"
+                                                       placeholder="Inventar Number" required>
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid state.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="validationCustom05">Model</label>
+{#                                                <input type="text" class="form-control" id="validationCustom05"#}
+{#                                                       placeholder="Model" required>#}
+                                                <select  class="form-control" id="validationCustom05">
+                                                    <option selected disabled>Model</option>
+                                                    <option value="">Number1</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid zip.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="validationCustom01">Responsible Person</label>
+{#                                                <input type="text" class="form-control" id="validationCustom01"#}
+{#                                                       placeholder="Responsible Person" value="Mark" required>#}
+                                                <select  class="form-control" id="validationCustom01">
+                                                    <option selected disabled>Responsible Person</option>
+                                                    <option value="">Number1</option>
+                                                </select>
+                                                <div class="valid-feedback">
+                                                    Looks good!
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="validationCustom03">Protsessor</label>
+                                                <input type="text" class="form-control" id="validationCustom03"
+                                                       placeholder="Protsessor" required>
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid city.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="validationCustom04">Memory size</label>
+                                                <input type="text" class="form-control" id="validationCustom04"
+                                                       placeholder="Memory size" required>
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid state.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="validationCustom05">Keyboard and Mouse Type </label>
+{#                                                <input type="text" class="form-control" id="validationCustom05"#}
+{#                                                       placeholder="Keyboard and Mouse Type" required>#}
+                                                <select  class="form-control" id="validationCustom01">
+                                                    <option selected disabled>Keyboard and Mouse Type</option>
+                                                    <option value="">Number1</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid zip.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="validationCustom01">MAC Address</label>
+                                                <input type="text" class="form-control" id="validationCustom01"
+                                                       placeholder="MAC Address" required>
+                                                <div class="valid-feedback">
+                                                    Looks good!
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="validationCustom02">IP Address</label>
+                                                <input type="text" class="form-control" id="validationCustom02"
+                                                       placeholder="IP Address" value="IP Address" required>
+                                                <div class="valid-feedback">
+                                                    Looks good!
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Conclusion</label>
+                                            <div>
+                                                <textarea required class="form-control" placeholder="Conclusion"
+                                                          rows="5"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Submit form</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'layouts/footer.html' %}
+{% endblock %}

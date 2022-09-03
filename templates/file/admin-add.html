@@ -1,4 +1,5 @@
 {% extends 'layouts/base.html' %}
+{% load i18n %}
 {% load static %}
 {% block content %}
     <div id="layout-wrapper">
@@ -9,33 +10,27 @@
                         <div class="col-6 col-xl-6" style="margin-left: 250px">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Validation type</h4>
+                                    <h4 class="card-title">EN</h4>
                                     <form class="custom-validation" method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
-                                        <div class="mt-2">
-                                            <input name="name" type="text" class="form-control" required
+                                        <div class="mb-1">
+                                            <input name="name_en" type="text" class="form-control" required
                                                    data-parsley-equalto="#pass2"
-                                                   placeholder="name"/>
+                                                   placeholder="category"/>
                                         </div>
-                                        <p style="margin-bottom: 8px" class="title-project">Deploy the Project File</p>
-                                        <input style="width: 100%; padding: 6px 12px; margin-bottom: 16px;" accept="image/*" class="form-control" type="file" id="user-file"
-                                               name="image" required>
                                         <h4 class="card-title">RU</h4>
-                                        <div class="mt-2">
-                                            <input name="name" type="text" class="form-control" required
+                                        <div class="">
+                                            <input name="name_ru" type="text" class="form-control" required
                                                    data-parsley-equalto="#pass2"
-                                                   placeholder="name"/>
+                                                   placeholder="категория"/>
                                         </div>
-                                        <p style="margin-bottom: 8px" class="title-project">Загрузите файл проекта</p>
-                                        <input style="width: 100%; padding: 6px 12px; margin-bottom: 16px;" accept="image/*" class="form-control" type="file" id="user-file"
-                                               name="image" required>
-                                        <h4 class="card-title">UZ</h4>
-                                        <div class="mt-2">
-                                            <input name="name" type="text" class="form-control" required
+                                        <h4 class="card-title mt-2">UZ</h4>
+                                        <div class="mt-0">
+                                            <input name="name_uz" type="text" class="form-control" required
                                                    data-parsley-equalto="#pass2"
-                                                   placeholder="name"/>
+                                                   placeholder="qategoriya"/>
                                         </div>
-                                        <p style="margin-bottom: 8px" class="title-project">Proyekt Faylini Joylang</p>
+                                        <p style="margin-bottom: 8px" class="title-project">{% trans 'Deploy the Project File' %}</p>
 
                                         <input style="width: 100%; padding: 6px 12px; margin-bottom: 16px;" accept="image/*" class="form-control" type="file" id="user-file"
                                                name="image" required>
@@ -44,7 +39,7 @@
                                             <div>
                                                 <button type="submit"
                                                         class="btn btn-primary waves-effect waves-light me-1">
-                                                    Submit
+                                                    {% trans 'Submit' %}
                                                 </button>
                                             </div>
                                         </div>

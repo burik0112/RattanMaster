@@ -1,6 +1,15 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% load i18n %}
+{% block button %}
+    <div class="d-none d-sm-block">
+        <div class="dropdown dropdown-topbar pt-3 mt-1 d-inline-block">
+            <a class="dropdown-item" href="{% url 'add:rooms-add' %}">{% trans 'Rooms' %}</a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            </div>
+        </div>
+    </div>
+{% endblock %}
 {% block content %}
     <div class="main-content">
         <div class="page-content">

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-18 10:51+0500\n"
+"POT-Creation-Date: 2022-08-26 11:21+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,15 +20,15 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\Inventar\settings.py:84
+#: .\Inventar\settings.py:85
 msgid "English"
 msgstr ""
 
-#: .\Inventar\settings.py:85
+#: .\Inventar\settings.py:86
 msgid "Russian"
 msgstr ""
 
-#: .\Inventar\settings.py:86
+#: .\Inventar\settings.py:87
 msgid "Uzbek"
 msgstr ""
 
@@ -128,34 +128,66 @@ msgstr "создано на"
 msgid "updated_at"
 msgstr "обновлен на"
 
-#: .\templates\catalog_category.html:14 .\templates\layouts\sidebar.html:22
-msgid "Equipments"
-msgstr "Оборудование"
-
-#: .\templates\categories.html:12 .\templates\layouts\header.html:44
-msgid "Models"
-msgstr "Модели"
-
-#: .\templates\layouts\header.html:37
-msgid "Add"
-msgstr "Добавить"
-
-#: .\templates\layouts\header.html:41 .\templates\layouts\sidebar.html:34
+#: .\templates\card.html:11 .\templates\card.html:31
+#: .\templates\layouts\sidebar.html:34
 msgid "Category"
 msgstr "Категория"
 
-#: .\templates\layouts\header.html:42 .\templates\layouts\sidebar.html:16
-#: .\templates\responsible_person.html:11
+#: .\templates\catalog_category.html:14
+msgid "Equipments"
+msgstr "Оборудование"
+
+#: .\templates\file\admin-add.html:33 .\templates\file\model_add.html:26
+msgid "Deploy the Project File"
+msgstr "Разверните файл проекта"
+
+#: .\templates\file\admin-add.html:42 .\templates\file\model_add.html:33
+#: .\templates\file\rooms_add.html:25
+#: .\templates\registration\resend_activation_form.html:10
+msgid "Submit"
+msgstr "Отправить"
+
+#: .\templates\file\model_add.html:13 .\templates\file\model_add.html:17
+msgid "Model Name"
+msgstr "Название Модели"
+
+#: .\templates\file\model_add.html:20 .\templates\file\model_add.html:22
+#: .\templates\responsible_person.html:59
+msgid "Description"
+msgstr "Подробно"
+
+#: .\templates\file\rooms_add.html:13
+#| msgid "Rooms Number"
+msgid "Rooms Numbers"
+msgstr "Номер Комнаты"
+
+#: .\templates\file\rooms_add.html:17
+#| msgid "Rooms Number"
+msgid "Room Number"
+msgstr "Номер Комнаты"
+
+#: .\templates\file\rooms_add.html:20
+#| msgid "Floors Number"
+msgid "Floor Number"
+msgstr "Номера этажей"
+
+#: .\templates\layouts\base.html:72
+msgid "Search"
+msgstr "Поиск"
+
+#: .\templates\layouts\sidebar.html:16 .\templates\responsible_person.html:15
+#: .\templates\responsible_person.html:29
 msgid "Responsible Person"
 msgstr "Ответственный человек"
 
-#: .\templates\layouts\header.html:43 .\templates\layouts\sidebar.html:28
+#: .\templates\layouts\sidebar.html:22 .\templates\rooms_catalog.html:7
 msgid "Rooms"
 msgstr "Комнаты"
 
-#: .\templates\layouts\header.html:55
-msgid "Search"
-msgstr "Поиск"
+#: .\templates\layouts\sidebar.html:28 .\templates\models.html:11
+#: .\templates\models.html:30
+msgid "Models"
+msgstr "Модели"
 
 #: .\templates\registration\activate.html:4
 msgid "Activation Failure"
@@ -461,23 +493,19 @@ msgstr ""
 msgid "Resend Activation Email"
 msgstr ""
 
-#: .\templates\registration\resend_activation_form.html:10
-msgid "Submit"
-msgstr "Отправить"
+#: .\templates\responsible_person.html:9
+msgid "Add"
+msgstr "Добавить"
 
-#: .\templates\responsible_person.html:39
+#: .\templates\responsible_person.html:57
 msgid "Fullname"
 msgstr "Ф.И.О"
 
-#: .\templates\responsible_person.html:41
-msgid "Description"
-msgstr "Подробно"
-
-#: .\templates\rooms_catalog.html:19
+#: .\templates\rooms_catalog.html:28
 msgid "Rooms Number"
 msgstr "Номер Комнаты"
 
-#: .\templates\rooms_catalog.html:22
+#: .\templates\rooms_catalog.html:31
 msgid "Floors Number"
 msgstr "Номера этажей"
 

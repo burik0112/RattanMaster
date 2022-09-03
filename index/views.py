@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from .models import Category, Product, Model, Responsible, RoomsModel
 from django.db.models import Count
 from django.db.models import Q
@@ -51,3 +51,8 @@ class SearchResultsView(ListView):
             Q(inventar_number__icontains=query)
         )
         return object_list
+
+
+class ProductListView(TemplateView):
+    template_name = 'file/product_add.html'
+

@@ -67,7 +67,7 @@ class ModelCreateView(LoginRequiredMixin, CreateView):
 def baseview(request, pk):
     query = Product.objects.filter(category_id__id=pk).order_by('pk')
     get_cat = Category.objects.filter(id=pk)
-    return render(request, 'admin/admin-base.html', {'query': query, 'get_cat': get_cat})
+    return render(request, 'index.html', {'query': query, 'get_cat': get_cat})
 
 
 @login_required
@@ -106,7 +106,7 @@ def EquipmentCreateView(request, pk):
             equipment.save()
             red = equipment.category_id.id
             return redirect('base-view', pk=red)
-    return render(request, 'admin/equipment-create.html', {'form': form})
+    return render(request, 'file/product_add.html', {'form': form})
 
 
 @login_required
@@ -199,8 +199,8 @@ def AdminModelDelete(request, pk):
     query = Model.objects.get(pk=pk)
     if request:
         query.delete()
-        return redirect('admin-models')
-    return render(request, 'admin/admin-models.html')
+        return redirect('pages:models')
+    return render(request, 'models.html')
 
 
 @login_required
@@ -224,8 +224,8 @@ def AdminResponsibleDelete(request, pk):
     query = Responsible.objects.get(pk=pk)
     if request:
         query.delete()
-        return redirect('admin-responsibles')
-    return render(request, 'admin/responsibles.html')
+        return redirect('pages:responsible')
+    return render(request, 'responsible_person.html')
 
 
 def AdminRooms(request):

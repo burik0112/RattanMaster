@@ -9,42 +9,44 @@
                         <div class="col-6 col-xl-6" style="margin-left: 250px">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Validation type</h4>
+                                    <h4 class="card-title">Fill in English</h4>
                                     <form class="custom-validation" action="#" method="post">
                                         {% csrf_token %}
                                         <div class="mt-2">
-                                            <input type="text" class="form-control" name="fullname" required
+                                            <input type="text" class="form-control" name="fullname_en" required
                                                    data-parsley-equalto="#pass2"
-                                                   placeholder="Re-Type Password"/>
+                                                   placeholder="FULL NAME"/>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Textarea</label>
                                             <div>
-                                            <textarea required class="form-control" name="description" placeholder="Type here"
+                                            <textarea required class="form-control" name="description_en" placeholder=""
                                                       rows="5"></textarea>
                                             </div>
                                         </div>
-                                        <div class="mt-2">
-                                            <input type="text" class="form-control" name="fullname" required
+                                        <h4 class="card-title">Заполните на русском языке</h4>
+                                        <div class="mt-3">
+                                            <input type="text" class="form-control" name="fullname_ru" required
                                                    data-parsley-equalto="#pass2"
-                                                   placeholder="Re-Type Password"/>
+                                                   placeholder="Ф.И.О"/>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Textarea</label>
                                             <div>
-                                            <textarea required class="form-control" name="description" placeholder="Type here"
+                                            <textarea required class="form-control" name="description_ru" placeholder=""
                                                       rows="5"></textarea>
                                             </div>
                                         </div>
-                                        <div class="mt-2">
-                                            <input type="text" class="form-control" name="fullname" required
+                                        <h4 class="card-title">O‘zbekcha to‘ldiring</h4>
+                                        <div class="mt-3">
+                                            <input type="text" class="form-control" name="fullname_uz" required
                                                    data-parsley-equalto="#pass2"
-                                                   placeholder="Re-Type Password"/>
+                                                   placeholder="TO'LIQ ISMI SHARIF"/>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Textarea</label>
                                             <div>
-                                            <textarea required class="form-control" name="description" placeholder="Type here"
+                                            <textarea required class="form-control" name="description_uz" placeholder=""
                                                       rows="5"></textarea>
                                             </div>
                                         </div>
