@@ -3,7 +3,7 @@
 {% block button %}
     <div class="d-none d-sm-block">
         <div class="dropdown dropdown-topbar pt-3 mt-1 d-inline-block">
-            <a class="dropdown-item" href="">Rooms</a>
+            <a class="dropdown-item" href="{% url 'add:color-create'%}">Adding</a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             </div>
         </div>
@@ -13,32 +13,21 @@
     <div class="main-content">
         <div class="page-content">
             <div class="container-fluid">
-
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-body">
-                                {#                                <h4 class="card-title mb-4">Latest Orders</h4>#}
-
                                 <div class="table-responsive">
                                     <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
                                         <thead>
                                             <th>
-                                                Rooms Number
+                                                Color Number
                                             </th>
-
                                         </thead>
                                         <tbody>
                                         {% for n in query%}
                                             <tr>
-                                                <td>{{ n.rooms }}</td>
-
-{#                                                <td>#}
-{#                                                    <button type="button"#}
-{#                                                            class="btn btn-secondary btn-sm waves-effect waves-light">#}
-{#                                                        Edit#}
-{#                                                    </button>#}
-{#                                                </td>#}
+                                                <td>{{ n.title }}</td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
@@ -50,6 +39,5 @@
                 </div>
             </div>
         </div>
-        {% include 'layouts/footer.html' %}
     </div>
 {% endblock %}

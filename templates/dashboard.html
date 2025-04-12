@@ -1,0 +1,65 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
+                                    <thead>
+                                    <th>
+                                        Product name
+                                    </th>
+                                    <th>
+                                        Product Size
+                                    </th>
+                                    <th>
+                                        TransferToInventory
+                                    </th>
+                                    <th>
+                                        Product Quantity
+                                    </th>
+                                    <th>
+                                        Product Code
+                                    </th>
+                                    <th>
+                                        Product Created at
+                                    </th>
+
+                                    </thead>
+                                    <tbody>
+                                    {% for m in query %}
+                                        <tr>
+                                            <td>{{ m.name}}</td>
+                                            <td>
+                                                {{ m.size}}
+                                            </td>
+                                            <td>
+                                                {{ m.product_to }}
+
+                                            </td>
+                                            <td>
+                                                {{ m.quantity }}
+                                            </td>
+                                            <td><span>{{ m.name.id }}</span>
+                                            <td>
+                                                {{ m.created_at| date:'d F Y' }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

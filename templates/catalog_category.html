@@ -1,54 +1,130 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% load i18n %}
 {% block content %}
-    <div class="main-content">
 
-        <div class="page-content">
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
             <div class="container-fluid">
+                <div class="row col-12">
+                    <div class="col-xl-4 col-sm-4">
+                        <a href="{% url 'pages:invoice-list' %}">
+                            <div class="card mini-stat bg-primary">
+                                <div class="card-body mini-stat-img">
+                                    <div class="mini-stat-icon">
+                                        <i class="mdi mdi-cube-outline float-end"></i>
+                                    </div>
+                                    <div class="text-white">
+                                        <h6 class="text-uppercase mb-3 font-size-16 text-white">Invoice List</h6>
+                                        <h2 class="mb-4 text-white">{{ total_quantity|default:"0" }}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-4 col-sm-4">
+                        <div class="card mini-stat bg-primary">
+                            <a href="{% url 'pages:product_in-list' %}">
+                                <div class="card-body mini-stat-img">
+                                    <div class="mini-stat-icon">
+                                        <i class="mdi mdi-buffer float-end"></i>
+                                    </div>
+                                    <div class="text-white">
+                                        <h6 class="text-uppercase mb-3 font-size-16 text-white">Product Entry List</h6>
+                                        <h2 class="mb-4 text-white">{{ total_product_in|default:"0" }}</h2>
 
-                <!-- start page title -->
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="page-title-box">
-                            <h4>{% trans 'Equipments' %}</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-sm-4">
+                        <div class="card mini-stat bg-primary">
+                            <a href="{% url 'pages:remaing_list' %}">
+                                <div class="card-body mini-stat-img">
+                                    <div class="mini-stat-icon">
+                                        <i class="mdi mdi-tag-text-outline float-end"></i>
+                                    </div>
+                                    <div class="text-white">
+                                        <h6 class="text-uppercase mb-3 font-size-16 text-white">Remaing List</h6>
+                                        <h2 class="mb-4 text-white">{{ total_remaing|default:"0" }}</h2>
+
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <!-- end page title -->
-
-                <div class="row">
-                    {% for m in query %}
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card directory-card">
-                                <div>
-
-                                    <div class="directory-bg text-center">
-                                        <div class="directory-overlay">
-                                            <a href="{% url 'pages:base' pk=m.pk %}">
-                                                <img class="rounded-circle avatar-lg img-thumbnail"
-                                                     src="{{ m.image.url }}" alt="Generic placeholder image">
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="directory-content text-center p-4">
-                                        <h5 class="font-size-16">{{ m.name }}</h5>
-                                    </div>
-{#                                    <td class="edit"><a href="{% url 'category-edit' pk=m.pk %}"><i#}
-{#                                            class="fa fa-pencil"></i></a></td>#}
-{#                                    <td class="edit delete-btn" id="delete-btn"><a href="#"#}
-{#                                                                                   onclick="confirm_category_delete('{{ m.pk }}');"><i#}
-{#                                            class="fa fa-trash"></i></a></td>#}
-
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
+            </div>
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-title-box">
+                        <h4>Categories</h4>
+                    </div>
                 </div>
             </div>
+            <!-- end page title -->
+
+            <div class="row">
+                {% for m in query %}
+                <div class="col-xl-3 col-md-6 col-sm-4">
+                    <a href="{% url 'pages:base' pk=m.pk %}">
+                        <div class="card directory-card">
+                            <div>
+
+                                <div class="directory-bg text-center">
+                                    <div class="directory-overlay">
+                                    </div>
+                                </div>
+
+                                <div class="directory-content text-center p-4">
+                                    <h5 class="font-size-16">{{ m.title }}</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-title-box">
+                        <h4>Company</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                {% for m in transfer_to %}
+                <div class="col-xl-3 col-md-6 col-">
+                    <a href="{% url 'pages:dashboard' pk=m.pk %}">
+                        <div class="card directory-card">
+                            <div>
+
+                                <div class="directory-bg text-center">
+                                    <div class="directory-overlay">
+                                    </div>
+                                </div>
+
+                                <div class="directory-content text-center p-4">
+                                    <h5 class="font-size-16">{{ m.title }}</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+                {% endfor %}
+            </div>
+
         </div>
-        {% include 'layouts/footer.html' %}
     </div>
+</div>
 {% endblock %}
 <!-- end main content-->

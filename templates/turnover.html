@@ -1,0 +1,67 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
+                                    <thead>
+                                    <th>
+                                        Product Id
+                                    </th>
+                                    <th>
+                                        Product name
+                                    </th>
+                                    <th>
+                                        Product Code
+                                    </th>
+                                    <th>
+                                        Product Size
+                                    </th>
+                                    <th>
+                                        First Remaing
+                                    </th>
+                                    <th>
+                                        TransferFromInventory
+                                    </th>
+                                    <th>
+                                        TransferToInventory
+                                    </th>
+                                    <th>
+                                        Second Remaing
+                                    </th>
+
+
+                                    </thead>
+                                    <tbody>
+                                    {% for data in inventory_data %}
+                                    <tr>
+                                        <td>{{ data.category_id }}</td>
+                                        <td>{{ data.category_title }}</td>
+                                        <td>{{ data.size_title }}</td>
+                                        <td>{{ data.color_title }}</td>
+                                        <td>{{ data.total_remaining }}</td>
+                                        <td>{{ data.total_in }}</td>
+                                        <td>{{ data.total_invoice }}</td>
+                                        <td>{{ data.remaining_stock }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

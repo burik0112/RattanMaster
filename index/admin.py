@@ -1,44 +1,46 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 
-from .models import Category, Model, Responsible, Product, RoomsModel
+from .models import TransferToInventory, SizeModel, \
+    CategoryModel, TransferFromInventory, ColorModel, InvoiceCreateModel, ProductEntry ,\
+    RemaingInventoryModel
 
 
-class MyTranslationAdmin(TranslationAdmin):
-    class Media:
-        js = (
-            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
-            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
-            'modeltranslation/js/tabbed_translation_fields.js',
-        )
-        css = {
-            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
-        }
+@admin.register(CategoryModel)
+class CategoryModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title']
 
 
-@admin.register(Category)
-class CategoryModelAdmin(MyTranslationAdmin):
-    list_display = ['id', 'name', 'image']
+@admin.register(SizeModel)
+class SizeModelAdmin(admin.ModelAdmin):
+    list_display = ['title']
 
 
-@admin.register(Model)
-class ModelModelAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description', 'image']
+@admin.register(TransferFromInventory)
+class TransferFromInventoryAdmin(admin.ModelAdmin):
+    list_display = ['title']
 
 
-@admin.register(Responsible)
-class ResponsibleModelAdmin(MyTranslationAdmin):
-    list_display = ['id', 'fullname', 'description']
+@admin.register(TransferToInventory)
+class TransferToInventoryAdmin(admin.ModelAdmin):
+    list_display = ['title']
 
 
-@admin.register(Product)
-class ProductModelAdmin(MyTranslationAdmin):
-    list_display = ['id', 'category_id', 'room_number', 'inventar_number', 'model_id', 'responsible_id', 'seria_number',
-                    'processor', 'memory', 'keyword_mouse', 'mac_address', 'ip_address', 'description', 'images',
-                    'status', 'qr_code', 'responsible_person', 'created_at', 'updated_at']
+@admin.register(ColorModel)
+class ColorModelAdmin(admin.ModelAdmin):
+    list_display = ['title']
 
 
-@admin.register(RoomsModel)
-class RoomsModelAdmin(admin.ModelAdmin):
-    list_display = ['rooms', 'floor']
+@admin.register(InvoiceCreateModel)
+class InvoiceCreateModelAdmin(admin.ModelAdmin):
+    list_display = ['name', 'size', 'color', 'product_to', 'quantity', 'created_at']
 
+
+@admin.register(ProductEntry)
+class ProductEntryInventoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'size', 'color', 'product_in', 'quantity', 'created_at']
+
+
+@admin.register(RemaingInventoryModel)
+class RemaingModelInventoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'size', 'color', 'quantity']

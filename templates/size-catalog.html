@@ -2,14 +2,18 @@
 {% load static %}
 
 {% block button %}
-    
+    <div class="d-none d-sm-block">
+        <div class="dropdown dropdown-topbar pt-3 mt-1 d-inline-block">
+            <a class="dropdown-item" href="{% url 'add:size-create'%}">Adding Size</a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block content %}
     <div class="main-content">
         <div class="page-content">
             <div class="container-fluid">
-                </div>
-
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -27,15 +31,9 @@
                                                 <tr>
                                                     <th>{{ y.title }}</th>
 
-                                                    <td class="edit"><a href="{% url 'add:size-edit' pk=y.pk %}"><i
+                                                    <td class="edit"><a href="{% url 'add:size-edit' y.pk %}"><i
                                                             class="fa fa-pencil"></i></a></td>
-                                                    <td class="edit delete-btn" id="delete-btn"><a
-                                                            href="{% url 'add:size-delete' pk=y.pk %}"
-                                                            onclick="function confirm_category_delete(s) {
 
-                                                                    }
-                                                                    confirm_category_delete('{{ y.pk }}');"><i
-                                                            class="fa fa-trash"></i></a></td>s
                                                 </tr>
 
                                                 </tbody>

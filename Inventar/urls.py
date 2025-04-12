@@ -19,14 +19,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-urlpatterns = []
-
-urlpatterns += i18n_patterns(
+urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('administration/', include('admiin.urls')),
-    path('', include('index.urls')),
-)
+    path('add/', include('admiin.urls')),
+    path('', include('index.urls'))
+]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

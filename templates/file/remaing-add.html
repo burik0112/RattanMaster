@@ -1,0 +1,70 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-title-box">
+                        <h4>Add Remaing</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+
+                                <div class="mb-3">
+                                    <label>Name (Category)</label>
+                                    <select name="name" class="form-control" required>
+                                        <option value="">Select category</option>
+                                        {% for cat in categories %}
+                                        <option value="{{ cat.id }}">{{ cat.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Size</label>
+                                    <select name="size" class="form-control" required>
+                                        <option value="">Select size</option>
+                                        {% for s in sizes %}
+                                        <option value="{{ s.id }}">{{ s.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Color</label>
+                                    <select name="color" class="form-control" required>
+                                        <option value="">Select color</option>
+                                        {% for c in colors %}
+                                        <option value="{{ c.id }}">{{ c.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Quantity</label>
+                                    <input type="number" name="quantity" class="form-control" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

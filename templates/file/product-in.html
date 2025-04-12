@@ -1,0 +1,96 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-title-box">
+                        <h4>ProductIn</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="needs-validation" novalidate method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="validationCustom01">Product Name</label>
+                                            <select name="name" class="form-control" required>
+                                                <option value="">Select category</option>
+                                                {% for cat in categories %}
+                                                <option value="{{ cat.id }}">{{ cat.title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="valid-feedback">Looks good!</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="validationCustom02">Size</label>
+                                            <select name="size" class="form-control" required>
+                                                <option value="">Select size</option>
+                                                {% for s in sizes %}
+                                                <option value="{{ s.id }}">{{ s.title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="valid-feedback">Looks good!</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="validationCustom03">Color</label>
+                                            <select name="color" class="form-control" required>
+                                                <option value="">Select color</option>
+                                                {% for c in colors %}
+                                                <option value="{{ c.id }}">{{ c.title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="invalid-feedback">Please provide a valid color.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="validationCustom04">Transfer From
+                                                Inventory</label>
+                                            <select name="product_in" class="form-control" required>
+                                                <option value="">Select source</option>
+                                                {% for product in product_in %}
+                                                <option value="{{ product.id }}">{{ product.title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="invalid-feedback">Please provide a valid transfer option.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="validationCustom05">Quantity</label>
+                                            <input type="text" name="quantity" class="form-control"
+                                                   id="validationCustom05" placeholder="Quantity" required>
+                                            <div class="invalid-feedback">Please provide a valid quantity.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'layouts/footer.html' %}
+</div>
+
+{% endblock %}

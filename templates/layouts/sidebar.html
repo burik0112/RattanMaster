@@ -1,5 +1,5 @@
 {% load static %}
-{% load i18n%}
+
 <!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
 
@@ -11,51 +11,43 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Main</li>
                 <li>
-                    <a href="{% url 'pages:responsible' %}">
-                        <i class="mdi mdi-account-box"></i>
-                        <span>{% trans 'Responsible Person' %}</span>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-email-outline"></i>
+                        <span>Category</span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{% url 'pages:category'%}">Name</a></li>
+                        <li><a href="{% url 'pages:size'%}">Size</a></li>
+                        <li><a href="{% url 'pages:color'%}">Color</a></li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="{% url 'pages:rooms' %}">
+                    <a href="{% url 'pages:turnover_list' %}">
                         <i class="mdi mdi-view-dashboard"></i>
-                        <span>{% trans 'Rooms' %}</span>
+                        <span>TurnoverSheet</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'pages:models' %}">
+                    <a href="{% url 'pages:invoice-list' %}">
                         <i class="mdi mdi-calendar-check"></i>
-                        <span>{% trans 'Models' %}</span>
+                        <span>TransferToInventory</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'pages:category' %}">
-                        <i class="mdi mdi-clipboard-outline"></i>
-                        <span>{% trans 'Category' %}</span>
+                    <a href="{% url 'pages:product_in-list' %}">
+                        <i class="mdi mdi-calendar-check"></i>
+                        <span>TransferFromInventory</span>
                     </a>
                 </li>
-{#                <li>#}
-{#                    <a href="javascript: void(0);">#}
-{#                        <i class="mdi mdi-format-list-bulleted-type"></i>#}
-{#                        <span>Tables</span>#}
-{#                    </a>#}
-{#                </li>#}
-{#                <li>#}
-{#                    <a href="{% url 'login' %}">#}
-{#                        <i class="mdi mdi-account-box"></i>#}
-{#                        <span> Authentication </span>#}
-{#                    </a>#}
-{#                </li>#}
-
-{#                <li>#}
-{#                    <a href="javascript: void(0);">#}
-{#                        <i class="mdi mdi-text-box-multiple-outline"></i>#}
-{#                        <span> Extra Pages </span>#}
-{#                    </a>#}
-{#                </li>#}
+                <li>
+                    <a href="{% url 'pages:remaing_list' %}">
+                        <i class="mdi mdi-calendar-check"></i>
+                        <span>Remaing</span>
+                    </a>
+                </li>
             </ul>
         </div>
-        <!-- Sidebar -->
+
     </div>
 </div>
 <!-- Left Sidebar End -->

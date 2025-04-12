@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div id="layout-wrapper">
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6 col-xl-6" style="margin-left: 250px">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Category Add</h4>
+                                    <form class="custom-validation" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+                                        <button type="submit"
+                                                class="btn btn-primary waves-effect waves-light me-1">
+                                            Submit
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
