@@ -1,10 +1,9 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% load i18n %}
 {% block button %}
     <div class="d-none d-sm-block">
         <div class="dropdown dropdown-topbar pt-3 mt-1 d-inline-block">
-            <a class="dropdown-item" href="{% url 'add:rooms-add' %}">{% trans 'Rooms' %}</a>
+            <a class="dropdown-item" href="">Rooms</a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             </div>
         </div>
@@ -25,20 +24,15 @@
                                     <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
                                         <thead>
                                             <th>
-                                                {% trans 'Rooms Number' %}
+                                                Rooms Number
                                             </th>
-                                            <th>
-                                                {% trans 'Floors Number' %}
-                                            </th>
+
                                         </thead>
                                         <tbody>
                                         {% for n in query%}
                                             <tr>
                                                 <td>{{ n.rooms }}</td>
-                                                <td>
-                                                    {{ n.floor }}
 
-                                                </td>
 {#                                                <td>#}
 {#                                                    <button type="button"#}
 {#                                                            class="btn btn-secondary btn-sm waves-effect waves-light">#}

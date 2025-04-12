@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% load i18n %}
+
 {% block button %}
     <div class="d-none d-sm-block">
         <div class="dropdown dropdown-topbar pt-3 mt-1 d-inline-block">
@@ -8,7 +8,7 @@
 {#               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
 {#                {% trans 'Add' %} <i class="mdi mdi-chevron-down"></i>#}
 {#            </a>#}
-            <a class="dropdown-item" href="{% url 'add:cat' %}">{% trans 'Category' %}</a>
+            <a class="dropdown-item" href="">Category</a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 
@@ -28,23 +28,20 @@
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title mb-4">{% trans 'Category' %}</h4>
+                                <h4 class="card-title mb-4">Category</h4>
                                 <div class="table-responsive">
                                     <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
                                         <tbody>
                                         {% for y in query %}
                                             <tr>
-                                                <td>{{ y.name }}</td>
-                                                <td>
-                                                    <img src="{{ y.image.url }}" alt="user-image"
-                                                         class="avatar-xs me-2 rounded-circle"/>
-                                                </td>
+                                                <td>{{ y.title }}</td>
+
                                                 <td>
                                                     {{ y.created_at| date:'d F Y' }}
                                                 </td>
-                                                <td class="edit"><a href="{% url 'add:category-edit' pk=y.pk %}"><i
+                                                <td class="edit"><a href="{% url 'add:category-edit' y.pk %}"><i
                                                         class="fa fa-pencil"></i></a></td>
-                                                <td class="edit delete-btn" id="delete-btn"><a href="{% url 'add:category-delete' pk=y.pk %}"
+                                                <td class="edit delete-btn" id="delete-btn"><a href=""
                                                                                                onclick="function confirm_category_delete(s) {
 
                                                                                                        }
