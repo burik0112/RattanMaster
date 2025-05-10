@@ -14650,5 +14650,18 @@ a, button {
     -webkit-box-shadow: 0 0 0 3px #6f42c1;
     box-shadow: 0 0 0 3px #6f42c1
 }
+input.form-control-lg {
+    font-size: 18px;  /* Larger text */
+    padding: 10px;    /* More padding */
+    height: 50px;     /* Increase the height */
+}
+
+button.btn-lg {
+    font-size: 18px;  /* Larger text */
+    padding: 10px 20px; /* Larger button */
+}
+input.form-control-lg {
+    width: 200px;  /* Set width of input */
+}
 
 /*# sourceMappingURL=bootstrap-dark.min.css.map */

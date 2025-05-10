@@ -22,6 +22,9 @@
                                 <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
                                     <thead>
                                     <th>
+                                        Product Id
+                                    </th>
+                                    <th>
                                         Product name
                                     </th>
                                     <th>
@@ -33,9 +36,7 @@
                                     <th>
                                         Product Quantity
                                     </th>
-                                    <th>
-                                        Product Code
-                                    </th>
+
 
                                     <th>
 
@@ -44,19 +45,19 @@
                                     <tbody>
                                     {% for m in remaing %}
                                     <tr>
-                                        <td>{{ m.name}}</td>
+                                        <td>{{ m.name.id }}</td>
                                         <td>
-                                            {{ m.size}}
+                                            {{ m.name}}
                                         </td>
                                         <td>
-                                            {{ m.color }}
+                                            {{ m.size}}
 
                                         </td>
                                         <td>
-                                            {{ m.quantity }}
+                                            {{ m.color }}
                                         </td>
                                         <td>
-                                            {{ m.name.id }}
+                                            {{ m.quantity }}
                                         </td>
                                         <td>
                                             <span
@@ -66,7 +67,7 @@
                                             <!-- Edit button -->
                                             <a href="{% url 'add:remaing-edit' m.pk %}" class="text-primary me-2"
                                                title="Edit">
-                                                <i class="bi bi-pencil-square"></i>
+                                                <i class="typcn typcn-pencil"></i>
                                             </a>
 
                                             <!-- Delete button -->

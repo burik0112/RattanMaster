@@ -1,0 +1,81 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-12">
+                    <a href="?download_excel=true" class="btn btn-outline-success mb-2">Download as Excel</a>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <form method="get">
+                                    <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <input type="text" name="search_id" class="form-control form-btn-lg"
+                                                       placeholder="Search ID" value="{{ request.GET.search_id }}">
+                                            </th>
+                                            <th>
+                                                <input type="text" name="search_name"
+                                                       class="form-control form-btn-lg"
+                                                       placeholder="Search Name" value="{{ request.GET.search_name }}">
+                                            </th>
+                                            <th>
+                                                <input type="text" name="search_size"
+                                                       class="form-control form-btn-lg"
+                                                       placeholder="Search Size" value="{{ request.GET.search_size }}">
+                                            </th>
+                                            <th>
+                                                <input type="text" name="search_color"
+                                                       class="form-control form-btn-lg"
+                                                       placeholder="Search Color"
+                                                       value="{{ request.GET.search_color }}">
+                                            </th>
+
+                                            <th colspan="3">
+                                                <button type="submit" class="btn form-btn-lg btn-primary w-100">Search
+                                                </button>
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>Product ID</th>
+                                            <th>Product Name</th>
+                                            <th>Product Size</th>
+                                            <th>Product Color</th>
+                                            <th>Xasanboy</th>
+                                            <th>Keles</th>
+                                            <th>Total Remaining</th>
+                                        </tr>
+
+                                        </thead>
+                                        <tbody>
+                                        {% for data in inventory_data %}
+                                        <tr>
+                                            <td>{{ data.category_id }}</td>
+                                            <td>{{ data.category_title }}</td>
+                                            <td>{{ data.size_title }}</td>
+                                            <td>{{ data.color_title }}</td>
+                                            <td>{{ data.remaining_2 }}</td>
+                                            <td>{{ data.remaining_1 }}</td>
+                                            <td>{{ data.total_remaining }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

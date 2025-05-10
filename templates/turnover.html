@@ -7,37 +7,46 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-12">
+                    <a href="?download_excel=true" class="btn btn-outline-success mb-2">Download as Excel</a>
+
                     <div class="card">
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
+                            <!-- Search Form -->
+                            <form method="get">
+                                <table class="table table-bordered table-centered table-nowrap align-middle">
                                     <thead>
-                                    <th>
-                                        Product Id
-                                    </th>
-                                    <th>
-                                        Product name
-                                    </th>
-                                    <th>
-                                        Product Code
-                                    </th>
-                                    <th>
-                                        Product Size
-                                    </th>
-                                    <th>
-                                        First Remaing
-                                    </th>
-                                    <th>
-                                        TransferFromInventory
-                                    </th>
-                                    <th>
-                                        TransferToInventory
-                                    </th>
-                                    <th>
-                                        Second Remaing
-                                    </th>
+                                    <tr>
+                                        <th><input type="text" name="search_id" class="form-control form-btn-lg"
+                                                   placeholder="ID" value="{{ request.GET.search_id }}"></th>
+                                        <th><input type="text" name="search_name" class="form-control form-btn-lg"
+                                                   placeholder="Name" value="{{ request.GET.search_name }}"></th>
+                                        <th><input type="text" name="search_size" class="form-control form-btn-lg"
+                                                   placeholder="Size" value="{{ request.GET.search_size }}"></th>
+                                        <th><input type="text" name="search_color" class="form-control form-btn-lg"
+                                                   placeholder="Color" value="{{ request.GET.search_color }}"></th>
+                                        <th>
 
+                                        </th>
+                                        <th>
 
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                        <th>
+                                            <button type="submit" class="btn btn-sm btn-primary w-100">Search</button>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Product ID</th>
+                                        <th>Product Name</th>
+                                        <th>Product Size</th>
+                                        <th>Product Color</th>
+                                        <th>First Remaining</th>
+                                        <th>Transfer From Inventory</th>
+                                        <th>Transfer To Inventory</th>
+                                        <th>Second Remaining</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     {% for data in inventory_data %}
@@ -51,17 +60,23 @@
                                         <td>{{ data.total_invoice }}</td>
                                         <td>{{ data.remaining_stock }}</td>
                                     </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="8" class="text-center">No data found</td>
+                                    </tr>
                                     {% endfor %}
                                     </tbody>
                                 </table>
-                            </div>
+                            </form>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}
 
 

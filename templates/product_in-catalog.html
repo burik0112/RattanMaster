@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+
 {% block content %}
 {% block button %}
 <div class="d-none d-sm-block">
@@ -10,65 +11,85 @@
     </div>
 </div>
 {% endblock %}
+
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-12">
-                    <div class="card">
-                        <h2 class="">Product-In-Catalog</h2>
+                    <form method="get" action="{% url 'pages:product_in-list' %}" class="row g-2 mb-3">
+                        <div class="col">
+                            <input type="text" name="product_id" class="form-control form-control-lg" placeholder="ID"
+                                   value="{{ request.GET.product_id }}">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="product_name" class="form-control form-control-lg"
+                                   placeholder="Name" value="{{ request.GET.product_name }}">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="product_size" class="form-control form-control-lg"
+                                   placeholder="Size" value="{{ request.GET.product_size }}">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="product_color" class="form-control form-control-lg"
+                                   placeholder="Color" value="{{ request.GET.product_color }}">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="transfer" class="form-control form-control-lg"
+                                   placeholder="Transfer" value="{{ request.GET.transfer }}">
+                        </div>
+
+                        <div class="col">
+                            <input type="date" name="start_date" class="form-control form-control-lg"
+                                   value="{{ request.GET.start_date }}">
+                        </div>
+                        <div class="col">
+                            <input type="date" name="end_date" class="form-control form-control-lg"
+                                   value="{{ request.GET.end_date }}">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-lg btn-primary ">🔍 Search</button>
+                        </div>
+                        <div class="col-auto">
+                            <a href="?{{ request.GET.urlencode }}&export=excel" class="btn btn-lg btn-success">⬇️
+                                Download Excel</a>
+                        </div>
+                    </form>
+                    <div class="card mt-2">
+
+                        <h2 class="card-title">Product-In-Catalog</h2>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
+                            <!-- Search form -->
+                            <form method="get">
+                                <table class="table table-bordered align-middle table-centered table-vertical table-nowrap mb-1">
                                     <thead>
-                                    <th>
-                                        Product name
-                                    </th>
-                                    <th>
-                                        Product Size
-                                    </th>
-                                    <th>
-                                        TransferToInventory
-                                    </th>
-                                    <th>
-                                        Product Quantity
-                                    </th>
-                                    <th>
-                                        Product Code
-                                    </th>
-                                    <th>
-                                        Product Created at
-                                    </th>
-                                    <th>
-
-                                    </th>
-
+                                    <tr>
+                                        <th>Product ID</th>
+                                        <th>Product Name</th>
+                                        <th>Product Size</th>
+                                        <th>Product Color</th>
+                                        <th>Transfer To Inventory</th>
+                                        <th>Product Quantity</th>
+                                        <th>Created At</th>
+                                        <th>Actions</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     {% for m in product_in %}
                                     <tr>
-                                        <td>{{ m.name}}</td>
-                                        <td>
-                                            {{ m.size}}
-                                        </td>
-                                        <td>
-                                            {{ m.product_in }}
-
-                                        </td>
-                                        <td>
-                                            {{ m.quantity }}
-                                        </td>
-                                        <td><span>{{ m.name.id }}</span>
-                                        <td>
-                                            {{ m.created_at| date:'d F Y' }}
-                                        </td>
+                                        <td>{{ m.name.id }}</td>
+                                        <td>{{ m.name }}</td>
+                                        <td>{{ m.size }}</td>
+                                        <td>{{ m.color }}</td>
+                                        <td>{{ m.product_in }}</td>
+                                        <td>{{ m.quantity }}</td>
+                                        <td>{{ m.created_at|date:'d F Y' }}</td>
                                         <td>
                                             <!-- Edit button -->
                                             <a href="{% url 'add:product-in-edit' m.pk %}" class="text-primary me-2"
                                                title="Edit">
-                                                <i class="bi bi-pencil-square"></i>
+                                                <i class="typcn typcn-pencil"></i>
                                             </a>
-
                                             <!-- Delete button -->
                                             <a href="{% url 'add:product-in-delete' m.pk %}" class="text-danger"
                                                title="Delete"
@@ -80,7 +101,7 @@
                                     {% endfor %}
                                     </tbody>
                                 </table>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -89,5 +110,19 @@
     </div>
 </div>
 {% endblock %}
+
+input.form-control-lg {
+font-size: 18px;  /* Larger text */
+padding: 10px;    /* More padding */
+height: 50px;     /* Increase the height */
+}
+
+button.btn-lg {
+font-size: 18px;  /* Larger text */
+padding: 10px 20px; /* Larger button */
+}
+input.form-control-lg {
+width: 200px;  /* Set width of input */
+}
 
 

@@ -1,14 +1,16 @@
 import openpyxl
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
 from openpyxl.styles import Alignment, Font, Border, Side
 from openpyxl.utils import get_column_letter
-from reportlab.pdfgen import canvas
-from admiin.forms import CategoryForm, SizeForm, ColorForm, InvoiceCreateForm, ProductInCreateForm, RemaingCreateForm
+from admiin.forms import CategoryForm, SizeForm, ColorForm, InvoiceCreateForm, ProductInCreateForm, RemaingCreateForm, \
+    InvoiceCreateKelesForm, ProductInCreateKelesForm, RemaingCreateKelesForm
 from index.models import CategoryModel, SizeModel, ColorModel, RemaingInventoryModel, InvoiceCreateModel, \
     TransferToInventory, TransferFromInventory, ProductEntry
+from keles.models import RemaingInventoryKeles, InvoiceCreateKeles, ProductEntryKeles
 
 
 def AdminCategoryEdit(request, pk):
@@ -29,7 +31,7 @@ def CategoryDelete(request, pk):
     query = get_object_or_404(CategoryModel, pk=pk)
     if request:
         query.delete()
-        return redirect('pages:category')  # Change to your actual URL name
+        return redirect('pages:category')
     return render(request, 'category-cat.html')
 
 
@@ -51,24 +53,23 @@ def SizeDelete(request, pk):
     query = get_object_or_404(SizeModel, pk=pk)
     if request:
         query.delete()
-        return redirect('pages:size')  # Change to your actual URL name
+        return redirect('pages:size')
     return render(request, 'size-catalog.html')
 
 
 def Color_create_or_edit(request, pk=None):
-    if pk:  # If pk is passed, it's an edit operation
+    if pk:
         color = get_object_or_404(ColorModel, pk=pk)
-    else:  # No pk, create new category
+    else:
         color = None
 
-    # Initialize form with existing category data (for editing)
     if request.method == 'POST':
-        form = ColorForm(request.POST, instance=color)  # Bind form with POST data
+        form = ColorForm(request.POST, instance=color)
         if form.is_valid():
-            form.save()  # Save the form data to the database
-            return redirect('pages:color')  # Redirect to a list page after saving
+            form.save()
+            return redirect('pages:color')
     else:
-        form = ColorForm(instance=color)  # Bind form with category data (for editing or new)
+        form = ColorForm(instance=color)
 
     return render(request, 'file/color-add.html', {'form': form})
 
@@ -77,42 +78,40 @@ def ColorDelete(request, pk):
     query = get_object_or_404(ColorModel, pk=pk)
     if request:
         query.delete()
-        return redirect('pages:color')  # Change to your actual URL name
+        return redirect('pages:color')
     return render(request, 'size-catalog.html')
 
 
 def Category_create_or_edit(request, pk=None):
-    if pk:  # If pk is passed, it's an edit operation
+    if pk:
         cat = get_object_or_404(CategoryModel, pk=pk)
-    else:  # No pk, create new category
+    else:
         cat = None
 
-    # Initialize form with existing category data (for editing)
     if request.method == 'POST':
-        form = CategoryForm(request.POST, instance=cat)  # Bind form with POST data
+        form = CategoryForm(request.POST, instance=cat)
         if form.is_valid():
-            form.save()  # Save the form data to the database
-            return redirect('pages:category')  # Redirect to a list page after saving
+            form.save()
+            return redirect('pages:category')
     else:
-        form = CategoryForm(instance=cat)  # Bind form with category data (for editing or new)
+        form = CategoryForm(instance=cat)
 
     return render(request, 'file/category-add.html', {'form': form})
 
 
 def Size_create_or_edit(request, pk=None):
-    if pk:  # If pk is passed, it's an edit operation
+    if pk:
         size = get_object_or_404(SizeModel, pk=pk)
-    else:  # No pk, create new category
+    else:
         size = None
 
-    # Initialize form with existing category data (for editing)
     if request.method == 'POST':
-        form = SizeForm(request.POST, instance=size)  # Bind form with POST data
+        form = SizeForm(request.POST, instance=size)
         if form.is_valid():
-            form.save()  # Save the form data to the database
-            return redirect('pages:size')  # Redirect to a list page after saving
+            form.save()
+            return redirect('pages:size')
     else:
-        form = SizeForm(instance=size)  # Bind form with category data (for editing or new)
+        form = SizeForm(instance=size)
 
     return render(request, 'file/size-add.html', {'form': form})
 
@@ -124,12 +123,10 @@ def AddRemaing(request):
         color_id = request.POST.get('color')
         quantity = request.POST.get('quantity')
 
-        # Get actual related model instances
         name = CategoryModel.objects.get(id=name_id)
         size = SizeModel.objects.get(id=size_id)
         color = ColorModel.objects.get(id=color_id)
 
-        # Save to database
         RemaingInventoryModel.objects.create(
             name=name,
             size=size,
@@ -137,7 +134,7 @@ def AddRemaing(request):
             quantity=quantity
         )
 
-        return redirect('pages:remaing_list')  # change this to your actual url name
+        return redirect('pages:remaing_list')
 
     # For GET: show the form and pass dropdown data
     categories = CategoryModel.objects.all()
@@ -160,7 +157,7 @@ def InvoiceCreate(request):
         quantities = request.POST.getlist('quantity')
 
         created_at = timezone.now().date()
-        created_ids = []  # Список ID для экспорта
+        created_ids = []
 
         for name_id, size_id, color_id, product_to_id, quantity in zip(name_ids, size_ids, color_ids, product_to_ids,
                                                                        quantities):
@@ -177,13 +174,11 @@ def InvoiceCreate(request):
                 quantity=quantity,
                 created_at=created_at
             )
-            created_ids.append(invoice.id)  # Запоминаем ID созданной записи
+            created_ids.append(invoice.id)
 
-        # Сохраняем ID в сессию пользователя
         request.session['last_invoice_ids'] = created_ids
 
-        # Можно редиректить сразу на экспорт
-        return redirect('add:export_to_excel')  # Или на страницу, где кнопка "Скачать Excel"
+        return redirect('add:export_to_excel')
 
     context = {
         'categories': CategoryModel.objects.all(),
@@ -202,16 +197,13 @@ def EntryCreate(request):
         product_in_id = request.POST.get('product_in')
         quantity = request.POST.get('quantity')
 
-        # Get actual related model instances
         name = CategoryModel.objects.get(id=name_id)
         size = SizeModel.objects.get(id=size_id)
         color = ColorModel.objects.get(id=color_id)
         product_in = TransferFromInventory.objects.get(id=product_in_id)
 
-        # Manually set created_at to current date
         created_at = timezone.now().date()
 
-        # Save to database
         ProductEntry.objects.create(
             name=name,
             size=size,
@@ -246,15 +238,14 @@ def InvoiceEdit(request, pk):
             return redirect('pages:invoice-list')  # replace with your actual detail or success view
     else:
         form = InvoiceCreateForm(instance=obj)
-    return render(request, 'edit/invoice-edit.html', {'form': form})
+    return render(request, 'edit/product-in-edit.html', {'form': form})
 
 
 def InvoiceDelete(request, pk):
-    query = get_object_or_404(InvoiceCreateModel, pk=pk)
-    if request:
-        query.delete()
-        return redirect('pages:invoice-list')  # Change to your actual URL name
-    return render(request, 'invoice-catalog.html')
+    invoice = get_object_or_404(InvoiceCreateModel, pk=pk)
+    invoice.delete()
+    query_string = request.GET.urlencode()
+    return redirect(f"{reverse('pages:invoice-list')}?{query_string}")
 
 
 def ProductInEdit(request, pk):
@@ -308,7 +299,6 @@ def export_to_excel(request):
     ws = wb.active
     ws.title = "Накладная"
 
-    # Стили
     bold_font = Font(bold=True)
     center = Alignment(horizontal="center", vertical="center", wrap_text=True)
     border = Border(
@@ -316,7 +306,272 @@ def export_to_excel(request):
         top=Side(style='thin'), bottom=Side(style='thin')
     )
 
-    # Заголовок
+    invoice = items.first()
+    invoice_date = date_format(invoice.created_at, 'd.m.Y')
+
+    ws.merge_cells('A1:F1')
+    ws['A1'] = f"НАКЛАДНАЯ № {invoice.id}"
+    ws['A1'].font = Font(size=16, bold=True)
+    ws['A1'].alignment = center
+
+    ws.merge_cells('A2:F2')
+    ws['A2'] = f'от "{invoice_date}"'
+    ws['E2'].alignment = Alignment(horizontal="right")
+
+    ws['A4'] = "От кого:"
+    ws['A5'] = f"Кому:"
+    ws['B4'] = "OOO RATTAN MASTER"
+    ws['B5'] = f"{invoice.product_to or ''}"
+    ws['D5'] = "Через________________"
+
+    headers = ["№ п/п", "Наименование", "Размер", "Цвет", "Количество"]
+    ws.append([])
+    ws.append(headers)
+
+    for col_num, header in enumerate(headers, 1):
+        cell = ws.cell(row=7, column=col_num)
+        cell.value = header
+        cell.font = bold_font
+        cell.alignment = center
+        cell.border = border
+        ws.column_dimensions[get_column_letter(col_num)].width = 20 if col_num != 1 else 8
+
+    row = 8
+    total_quantity = 0
+
+    for index, item in enumerate(items, start=1):
+        quantity = item.quantity
+        values = [
+            index,
+            item.name.title,
+            item.size.title if item.size else '',
+            item.color.title if item.color else '',
+            f"{quantity} шт"
+        ]
+        ws.append(values)
+        total_quantity += quantity
+
+        for col, val in enumerate(values, 1):
+            cell = ws.cell(row=row, column=col, value=val)
+            cell.alignment = center
+            cell.border = border
+        row += 1
+
+    total_row = ["", "", "", "Итого:", f"{total_quantity} шт"]
+    ws.append(total_row)
+
+    for col, val in enumerate(total_row, 1):
+        cell = ws.cell(row=row, column=col, value=val)
+        cell.alignment = center
+        cell.border = border
+        cell.font = bold_font
+    row += 2
+
+    ws.merge_cells(f'A{row}:C{row}')
+    ws[f'A{row}'] = "Сдал: ________________   Ф. И. О."
+    ws.merge_cells(f'D{row}:F{row}')
+    ws[f'D{row}'] = "Принял: ________________   Ф. И. О."
+
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="InvoicePaper.xlsx"'
+    wb.save(response)
+    return response
+
+
+# All code starting for keles from this collumb
+
+def AddRemaingKeles(request):
+    if request.method == 'POST':
+        name_id = request.POST.get('name')
+        size_id = request.POST.get('size')
+        color_id = request.POST.get('color')
+        quantity = request.POST.get('quantity')
+
+        name = CategoryModel.objects.get(id=name_id)
+        size = SizeModel.objects.get(id=size_id)
+        color = ColorModel.objects.get(id=color_id)
+
+        RemaingInventoryKeles.objects.create(
+            name=name,
+            size=size,
+            color=color,
+            quantity=quantity
+        )
+
+        return redirect('keles:remaing_list')
+
+    categories = CategoryModel.objects.all()
+    sizes = SizeModel.objects.all()
+    colors = ColorModel.objects.all()
+
+    return render(request, 'keles-add/remaing-add.html', {
+        'categories': categories,
+        'sizes': sizes,
+        'colors': colors,
+    })
+
+
+def InvoiceCreate2Model(request):
+    if request.method == 'POST':
+        name_ids = request.POST.getlist('name')
+        size_ids = request.POST.getlist('size')
+        color_ids = request.POST.getlist('color')
+        product_to_ids = request.POST.getlist('product_to')
+        quantities = request.POST.getlist('quantity')
+
+        created_at = timezone.now().date()
+        created_ids = []
+
+        for name_id, size_id, color_id, product_to_id, quantity in zip(name_ids, size_ids, color_ids, product_to_ids,
+                                                                       quantities):
+            name = CategoryModel.objects.get(id=name_id)
+            size = SizeModel.objects.get(id=size_id)
+            color = ColorModel.objects.get(id=color_id)
+            product_to = TransferToInventory.objects.get(id=product_to_id)
+
+            invoice = InvoiceCreateKeles.objects.create(
+                name=name,
+                size=size,
+                color=color,
+                product_to=product_to,
+                quantity=quantity,
+                created_at=created_at
+            )
+            created_ids.append(invoice.id)
+
+        request.session['last_invoice_ids'] = created_ids
+
+        return redirect('add:export_to_excel_keles')
+
+    context = {
+        'categories': CategoryModel.objects.all(),
+        'sizes': SizeModel.objects.all(),
+        'colors': ColorModel.objects.all(),
+        'transfer_to': TransferToInventory.objects.all()
+    }
+    return render(request, 'keles-add/product_add.html', context)
+
+
+def EntryCreateKeles(request):
+    if request.method == 'POST':
+        name_id = request.POST.get('name')
+        size_id = request.POST.get('size')
+        color_id = request.POST.get('color')
+        product_in_id = request.POST.get('product_in')
+        quantity = request.POST.get('quantity')
+
+        name = CategoryModel.objects.get(id=name_id)
+        size = SizeModel.objects.get(id=size_id)
+        color = ColorModel.objects.get(id=color_id)
+        product_in = TransferFromInventory.objects.get(id=product_in_id)
+
+        created_at = timezone.now().date()
+
+        ProductEntryKeles.objects.create(
+            name=name,
+            size=size,
+            color=color,
+            product_in=product_in,
+            quantity=quantity,
+            created_at=created_at
+        )
+
+        return redirect('keles:product_in-list')
+
+    categories = CategoryModel.objects.all()
+    sizes = SizeModel.objects.all()
+    colors = ColorModel.objects.all()
+    product_in = TransferFromInventory.objects.all()
+
+    return render(request, 'keles-add/product-in.html', {
+        'categories': categories,
+        'sizes': sizes,
+        'colors': colors,
+        'product_in': product_in,
+    })
+
+
+def InvoiceEditKeles(request, pk):
+    invoice = get_object_or_404(InvoiceCreateKeles, pk=pk)
+    if request.method == 'POST':
+        # handle form
+        form = InvoiceCreateKelesForm(request.POST, instance=invoice)
+        if form.is_valid():
+            form.save()
+            query_string = request.GET.urlencode()
+            return redirect(f"{reverse('keles:invoice-list')}?{query_string}")
+    else:
+        form = InvoiceCreateKelesForm(instance=invoice)
+    return render(request, 'keles-add/invoice-edit.html', {'form': form})
+
+
+def InvoiceDeleteKeles(request, pk):
+    invoice = get_object_or_404(InvoiceCreateKeles, pk=pk)
+    invoice.delete()
+    query_string = request.GET.urlencode()
+    return redirect(f"{reverse('keles:invoice-list')}?{query_string}")
+
+
+def ProductInEditKeles(request, pk):
+    obj = get_object_or_404(ProductEntryKeles, pk=pk)
+    if request.method == 'POST':
+        form = ProductInCreateKelesForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            return redirect('keles:product_in-list')  # replace with your actual detail or success view
+    else:
+        form = ProductInCreateKelesForm(instance=obj)
+    return render(request, 'keles-add/product-in-edit.html', {'form': form})
+
+
+def ProductInDeleteKeles(request, pk):
+    query = get_object_or_404(ProductEntryKeles, pk=pk)
+    if request:
+        query.delete()
+        return redirect('keles:product_in-list')  # Change to your actual URL name
+    return render(request, 'keles/product_in-catalog.html')
+
+
+def RemaingEditKeles(request, pk):
+    obj = get_object_or_404(RemaingInventoryKeles, pk=pk)
+    if request.method == 'POST':
+        form = RemaingCreateKelesForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            return redirect('keles:remaing_list')  # replace with your actual detail or success view
+    else:
+        form = RemaingCreateKelesForm(instance=obj)
+    return render(request, 'keles-add/remaing-edit.html', {'form': form})
+
+
+def RemaingDeleteKeles(request, pk):
+    query = get_object_or_404(RemaingInventoryKeles, pk=pk)
+    if request:
+        query.delete()
+        return redirect('keles:remaing_list')  # Change to your actual URL name
+    return render(request, 'keles/remaing-list.html')
+
+
+def export_to_excelkeles(request):
+    ids = request.session.get('last_invoice_ids', [])
+    if not ids:
+        return HttpResponse("Нет данных для экспорта.")
+
+    items = InvoiceCreateKeles.objects.filter(id__in=ids)
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Накладная"
+
+    bold_font = Font(bold=True)
+    center = Alignment(horizontal="center", vertical="center", wrap_text=True)
+    border = Border(
+        left=Side(style='thin'), right=Side(style='thin'),
+        top=Side(style='thin'), bottom=Side(style='thin')
+    )
+
     invoice = items.first()
     invoice_date = date_format(invoice.created_at, 'd.m.Y')
 
@@ -333,7 +588,7 @@ def export_to_excel(request):
     ws['A5'] = f"Кому:"
     ws['B4'] = "OOO RATTAN MASTER"
     ws['B5'] = f"{invoice.product_to or ''}"
-    # Таблица
+
     headers = ["№ п/п", "Наименование", "Размер", "Цвет", "Ед. изм.", "Количество"]
     ws.append([])
     ws.append(headers)
@@ -346,7 +601,6 @@ def export_to_excel(request):
         cell.border = border
         ws.column_dimensions[get_column_letter(col_num)].width = 20 if col_num != 1 else 8
 
-    # Данные
     row = 8
     for index, item in enumerate(items, start=1):
         values = [
@@ -363,39 +617,15 @@ def export_to_excel(request):
             cell.border = border
         row += 1
 
-    # Подписи
     row += 2
     ws.merge_cells(f'A{row}:C{row}')
     ws[f'A{row}'] = "Сдал: ________________   Ф. И. О."
     ws.merge_cells(f'D{row}:F{row}')
     ws[f'D{row}'] = "Принял: ________________   Ф. И. О."
 
-    # Ответ клиенту
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
-    response['Content-Disposition'] = 'attachment; filename="nakladnaya.xlsx"'
+    response['Content-Disposition'] = 'attachment; filename="InvoicePaper.xlsx"'
     wb.save(response)
-    return response
-
-
-def export_to_pdf(request):
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
-
-    p = canvas.Canvas(response)
-    p.setFont("Helvetica", 12)
-
-    y = 800
-    p.drawString(100, y, 'Invoice List')
-    y -= 30
-
-    items = InvoiceCreateModel.objects.all()
-    for item in items:
-        p.drawString(100, y,
-                     f"{item.name.title} | {item.size.title} | {item.color.title} | {item.product_to.title} | {item.quantity}")
-        y -= 20
-
-    p.showPage()
-    p.save()
     return response

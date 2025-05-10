@@ -12,7 +12,7 @@
                 <li class="menu-title">Main</li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-email-outline"></i>
+                        <i class="mdi mdi-format-list-bulleted-type"></i>
                         <span>Category</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -22,20 +22,32 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="{% url 'pages:total-turnover_list' %}">
+                        <i class="mdi mdi-chart-line"></i>
+                        <span>TotalTurnoverSheet</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'pages:transfer-to' %}">
+                        <i class="mdi mdi-calendar-check"></i>
+                        <span>TotalSum</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{% url 'pages:turnover_list' %}">
-                        <i class="mdi mdi-view-dashboard"></i>
+                        <i class="ion ion-md-list-box"></i>
                         <span>TurnoverSheet</span>
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'pages:invoice-list' %}">
-                        <i class="mdi mdi-calendar-check"></i>
+                        <i class="typcn typcn-upload"></i>
                         <span>TransferToInventory</span>
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'pages:product_in-list' %}">
-                        <i class="mdi mdi-calendar-check"></i>
+                        <i class="typcn typcn-download"></i>
                         <span>TransferFromInventory</span>
                     </a>
                 </li>
@@ -45,6 +57,31 @@
                         <span>Remaing</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{% url 'keles:turnover_list' %}">
+                        <i class="ion ion-md-list-box"></i>
+                        <span>TurnoverSheet(K)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'keles:invoice-list' %}">
+                        <i class="ion ion-md-paper-plane"></i>
+                        <span>TransferToInventory(K)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'keles:product_in-list' %}">
+                        <i class="ion ion-md-arrow-round-down"></i>
+                        <span>TransferFromInventory(K)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'keles:remaing_list' %}">
+                        <i class="mdi mdi-calendar-check"></i>
+                        <span>Remaing(K)</span>
+                    </a>
+                </li>
+
             </ul>
         </div>
 

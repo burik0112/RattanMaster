@@ -1,0 +1,80 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-12">
+                    <a href="?download_excel=true" class="btn btn-outline-success mb-2">Download as Excel</a>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Search Form -->
+                            <form method="get">
+                                <table class="table table-bordered table-centered table-nowrap align-middle">
+                                    <thead>
+                                    <tr>
+                                        <th><input type="text" name="search_id" class="form-control form-btn-lg"
+                                                   placeholder="ID" value="{{ request.GET.search_id }}"></th>
+                                        <th><input type="text" name="search_name" class="form-control form-btn-lg"
+                                                   placeholder="Name" value="{{ request.GET.search_name }}"></th>
+                                        <th><input type="text" name="search_size" class="form-control form-btn-lg"
+                                                   placeholder="Size" value="{{ request.GET.search_size }}"></th>
+                                        <th><input type="text" name="search_color" class="form-control form-btn-lg"
+                                                   placeholder="Color" value="{{ request.GET.search_color }}"></th>
+                                        <th>
+
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                        <th>
+                                            <button type="submit" class="btn btn-sm btn-primary w-100">Search</button>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Product ID</th>
+                                        <th>Product Name</th>
+                                        <th>Product Size</th>
+                                        <th>Product Color</th>
+                                        <th>First Remaining</th>
+                                        <th>Transfer From Inventory</th>
+                                        <th>Transfer To Inventory</th>
+                                        <th>Second Remaining</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for data in inventory_data %}
+                                    <tr>
+                                        <td>{{ data.category_id }}</td>
+                                        <td>{{ data.category_title }}</td>
+                                        <td>{{ data.size_title }}</td>
+                                        <td>{{ data.color_title }}</td>
+                                        <td>{{ data.total_remaining }}</td>
+                                        <td>{{ data.total_in }}</td>
+                                        <td>{{ data.total_invoice }}</td>
+                                        <td>{{ data.remaining_stock }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="8" class="text-center">No data found</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -7,13 +7,20 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-12">
-                    <div class="card">
+                    <a href="?export=excel" class="btn btn-outline-success">Download as Excel</a>
+                    <div class="card mt-2">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
                                     <thead>
                                     <th>
-                                        Product name
+                                        Product Id
+                                    </th>
+                                    <th>
+                                        Product Name
+                                    </th>
+                                    <th>
+                                        Product Color
                                     </th>
                                     <th>
                                         Product Size
@@ -25,32 +32,32 @@
                                         Product Quantity
                                     </th>
                                     <th>
-                                        Product Code
-                                    </th>
-                                    <th>
-                                        Product Created at
+                                        Product Created_at
                                     </th>
 
                                     </thead>
                                     <tbody>
                                     {% for m in query %}
-                                        <tr>
-                                            <td>{{ m.name}}</td>
-                                            <td>
-                                                {{ m.size}}
-                                            </td>
-                                            <td>
-                                                {{ m.product_to }}
+                                    <tr>
+                                        <td>{{ m.name.id}}</td>
+                                        <td>
+                                            {{ m.name}}
+                                        </td>
+                                        <td>
+                                            {{ m.color }}
 
-                                            </td>
-                                            <td>
-                                                {{ m.quantity }}
-                                            </td>
-                                            <td><span>{{ m.name.id }}</span>
-                                            <td>
-                                                {{ m.created_at| date:'d F Y' }}
-                                            </td>
-                                        </tr>
+                                        </td>
+                                        <td>
+                                            {{ m.size }}
+                                        </td>
+                                        <td>
+                                            {{ m.product_to }}
+                                        </td>
+                                        <td><span>{{ m.quantity }}</span>
+                                        <td>
+                                            {{ m.created_at| date:'d F Y' }}
+                                        </td>
+                                    </tr>
                                     {% endfor %}
                                     </tbody>
                                 </table>

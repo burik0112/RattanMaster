@@ -1,0 +1,97 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-title-box">
+                        <h4>Create Invoice(Keles)</h4>
+                    </div>
+                </div>
+            </div>
+
+            <form class="needs-validation" novalidate method="post">
+                {% csrf_token %}
+                <div id="invoice-rows">
+                    <div class="row align-items-end mb-2 invoice-row">
+                        <div class="col-md-2">
+                            <label class="form-label">Product Name</label>
+                            <select name="name" class="form-control" style="font-size: 1.2rem; padding: 12px;" required>
+                                <option value="">Select category</option>
+                                {% for cat in categories %}
+                                <option value="{{ cat.id }}">{{ cat.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Size</label>
+                            <select name="size" class="form-control" style="font-size: 1.2rem; padding: 12px;" required>
+                                <option value="">Select size</option>
+                                {% for s in sizes %}
+                                <option value="{{ s.id }}">{{ s.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Color</label>
+                            <select name="color" class="form-control" style="font-size: 1.2rem; padding: 12px;" required>
+                                <option value="">Select color</option>
+                                {% for c in colors %}
+                                <option value="{{ c.id }}">{{ c.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Transfer To Inventory</label>
+                            <select name="product_to" class="form-control" style="font-size: 1.2rem; padding: 12px;" required>
+                                <option value="">Select destination</option>
+                                {% for product in transfer_to %}
+                                <option value="{{ product.id }}">{{ product.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Quantity</label>
+                            <input type="number" name="quantity" class="form-control" style="font-size: 1.2rem; padding: 12px;"
+                                   placeholder="Quantity" required>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger btn-sm remove-row">✕</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary mt-1" type="submit">Submit</button>
+
+                <button type="button" class="btn btn-outline-success mt-2 m-1" onclick="addInvoiceRow()">Добавить строку</button>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- JavaScript -->
+<script>
+    function addInvoiceRow() {
+        const container = document.getElementById('invoice-rows');
+        const newRow = document.querySelector('.invoice-row').cloneNode(true);
+
+        // Clear inputs in new row
+        newRow.querySelectorAll('select, input').forEach(el => el.value = '');
+        container.appendChild(newRow);
+    }
+
+    // Event delegation to remove rows
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-row')) {
+            const row = e.target.closest('.invoice-row');
+            if (document.querySelectorAll('.invoice-row').length > 1) {
+                row.remove();
+            }
+        }
+    });
+</script>
+{% endblock %}

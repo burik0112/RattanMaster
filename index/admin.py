@@ -2,8 +2,8 @@ from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 
 from .models import TransferToInventory, SizeModel, \
-    CategoryModel, TransferFromInventory, ColorModel, InvoiceCreateModel, ProductEntry ,\
-    RemaingInventoryModel
+    CategoryModel, TransferFromInventory, ColorModel, InvoiceCreateModel, ProductEntry, \
+    RemaingInventoryModel, ProductPriceModel
 
 
 @admin.register(CategoryModel)
@@ -44,3 +44,9 @@ class ProductEntryInventoryAdmin(admin.ModelAdmin):
 @admin.register(RemaingInventoryModel)
 class RemaingModelInventoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'size', 'color', 'quantity']
+
+
+
+@admin.register(ProductPriceModel)
+class ProductPriceModelAdmin(admin.ModelAdmin):
+    list_display = ['name', 'size', 'color', 'price']

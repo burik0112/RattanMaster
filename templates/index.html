@@ -13,10 +13,16 @@
                                 <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
                                     <thead>
                                     <th>
+                                        Product Code
+                                    </th>
+                                    <th>
                                         Product name
                                     </th>
                                     <th>
                                         Product Size
+                                    </th>
+                                    <th>
+                                        Product Color
                                     </th>
                                     <th>
                                         TransferToInventory
@@ -24,9 +30,7 @@
                                     <th>
                                         Product Quantity
                                     </th>
-                                    <th>
-                                        Product Code
-                                    </th>
+
                                     <th>
                                         Product Created at
                                     </th>
@@ -35,9 +39,14 @@
                                     <tbody>
                                     {% for m in query %}
                                         <tr>
+                                            <td><span>{{ m.name.id }}</span>
                                             <td>{{ m.name}}</td>
+
                                             <td>
                                                 {{ m.size}}
+                                            </td>
+                                            <td>
+                                                {{ m.color}}
                                             </td>
                                             <td>
                                                 {{ m.product_to }}
@@ -46,7 +55,7 @@
                                             <td>
                                                 {{ m.quantity }}
                                             </td>
-                                            <td><span>{{ m.name.id }}</span>
+
                                             <td>
                                                 {{ m.created_at| date:'d F Y' }}
                                             </td>
