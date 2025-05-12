@@ -10,12 +10,14 @@ from openpyxl.styles import Font, Alignment
 from openpyxl.utils import get_column_letter
 from openpyxl.workbook import Workbook
 
+from admiin.decorators import role_required
 from keles.models import ProductEntryKeles, RemaingInventoryKeles, InvoiceCreateKeles
 from .models import CategoryModel, ColorModel, SizeModel, InvoiceCreateModel, RemaingInventoryModel, ProductEntry, \
     TransferToInventory, ProductPriceModel
 from django.db.models import Count, Sum, Q
 
 
+@role_required(['Начальник'])
 def IndexCustom(request):
     total_1 = InvoiceCreateModel.objects.aggregate(total=Sum('quantity'))['total'] or 0
     total_2 = InvoiceCreateKeles.objects.aggregate(total=Sum('quantity'))['total'] or 0
@@ -67,21 +69,25 @@ def Detail(request, pk):
     return render(request, 'detail.html', {'query': query})
 
 
+@role_required(['Оператор склада', 'Начальник'])
 def Categories(request):
     query = CategoryModel.objects.all()
     return render(request, 'category-cat.html', {'query': query})
 
 
+@role_required(['Оператор склада', 'Начальник'])
 def ColorAdd(request):
     query = ColorModel.objects.all()
     return render(request, 'color.html', {'query': query})
 
 
+@role_required(['Оператор склада', 'Начальник'])
 def Size(request):
     query = SizeModel.objects.all()  # Now this refers to the model
     return render(request, 'size-catalog.html', {'query': query})
 
 
+@role_required(['Оператор склада', 'Начальник'])
 def InvoiceCreate(request):
     invoice = InvoiceCreateModel.objects.all().order_by('-created_at')
 
@@ -126,6 +132,7 @@ def InvoiceCreate(request):
     return render(request, 'invoice-catalog.html', {'invoice': invoice})
 
 
+@role_required(['Оператор склада', 'Начальник'])
 def export_to_excel(invoices):
     # Create a new workbook and active sheet
     wb = Workbook()
@@ -163,6 +170,7 @@ def export_to_excel(invoices):
     return response
 
 
+@role_required(['Сотрудник приемки', 'Начальник'])
 def ProductIn(request):
     # Start with getting all ProductEntry objects, ordered by created_at
     product_in = ProductEntry.objects.all().order_by('-created_at')
@@ -220,6 +228,7 @@ def ProductIn(request):
     })
 
 
+@role_required(['Сотрудник приемки', 'Начальник'])
 def export_from_excel(invoices):
     # Create a new workbook and active sheet
     wb = Workbook()
@@ -262,6 +271,7 @@ def RemaingList(request):
     return render(request, 'remaing-list.html', {'remaing': remaing})
 
 
+@role_required(['Менеджер склада', 'Начальник'])
 def inventory_report(request):
     # Collect filters
     search_name = request.GET.get('search_name', '').strip().lower()
@@ -330,6 +340,11 @@ def inventory_report(request):
                 'total_invoice': total_invoice,
                 'remaining_stock': remaining_stock,
             })
+    inventory_data.sort(key=lambda x: (
+        x['category_title'].lower(),
+        x['size_title'].lower(),
+        x['color_title'].lower()
+    ))
 
     # Excel download
     if 'download_excel' in request.GET:
@@ -411,6 +426,7 @@ def group_by_keys(queryset):
     return data
 
 
+@role_required(['Менеджер склада', 'Начальник', 'Наблюдатель'])
 def combined_inventory(request):
     # Search filters
     search_id = request.GET.get('search_id', '').strip().lower()
@@ -485,31 +501,36 @@ def combined_inventory(request):
                     'remaining_1': remaining_1,
                     'total_remaining': remaining_1 + remaining_2
                 })
+    inventory_data.sort(key=lambda x: (
+        x['category_title'].lower(),
+        x['size_title'].lower(),
+        x['color_title'].lower()
+    ))
 
-    # Excel export
     if 'download_excel' in request.GET:
-        wb = Workbook()
-        ws = wb.active
-        ws.title = "Inventory Report"
+        if request.user.role not in ['Менеджер склада', 'Начальник']:
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Inventory Report"
 
-        headers = ['ID', 'Category', 'Size', 'Color', 'Xasanboy', 'Keles', 'Total Remaining']
-        for col_num, header in enumerate(headers, 1):
-            col_letter = get_column_letter(col_num)
-            ws[f'{col_letter}1'] = header
+            headers = ['ID', 'Category', 'Size', 'Color', 'Xasanboy', 'Keles', 'Total Remaining']
+            for col_num, header in enumerate(headers, 1):
+                col_letter = get_column_letter(col_num)
+                ws[f'{col_letter}1'] = header
 
-        for row_num, data in enumerate(inventory_data, 2):
-            ws[f'A{row_num}'] = data['category_id']
-            ws[f'B{row_num}'] = data['category_title']
-            ws[f'C{row_num}'] = data['size_title']
-            ws[f'D{row_num}'] = data['color_title']
-            ws[f'E{row_num}'] = data['remaining_2']
-            ws[f'F{row_num}'] = data['remaining_1']
-            ws[f'G{row_num}'] = data['total_remaining']
+            for row_num, data in enumerate(inventory_data, 2):
+                ws[f'A{row_num}'] = data['category_id']
+                ws[f'B{row_num}'] = data['category_title']
+                ws[f'C{row_num}'] = data['size_title']
+                ws[f'D{row_num}'] = data['color_title']
+                ws[f'E{row_num}'] = data['remaining_2']
+                ws[f'F{row_num}'] = data['remaining_1']
+                ws[f'G{row_num}'] = data['total_remaining']
 
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = 'attachment; filename="TotalTurnover.xlsx"'
-        wb.save(response)
-        return response
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename="TotalTurnover.xlsx"'
+            wb.save(response)
+            return response
 
     # Return rendered template
     return render(request, 'totalturnover.html', {
@@ -573,12 +594,12 @@ def shop_summary(request, pk):
     })
 
 
-
 def shop_export_excel(request, pk):
     shop = get_object_or_404(TransferToInventory, pk=pk)
     invoices = InvoiceCreateModel.objects.filter(product_to=shop).select_related('name', 'size', 'color')
 
-    summary = defaultdict(lambda: {'quantity': 0, 'total': Decimal('0.00'), 'name': '', 'size': '', 'color': '', 'price': Decimal('0.00')})
+    summary = defaultdict(lambda: {'quantity': 0, 'total': Decimal('0.00'), 'name': '', 'size': '', 'color': '',
+                                   'price': Decimal('0.00')})
     for inv in invoices:
         key = (inv.name.id, inv.size.id, inv.color.id if inv.color else None)
 

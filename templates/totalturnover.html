@@ -7,7 +7,9 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-12">
+                    {% if request.user.role == request.user.role == 'Начальник'%}
                     <a href="?download_excel=true" class="btn btn-outline-success mb-2">Download as Excel</a>
+                    {% endif%}
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">

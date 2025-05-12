@@ -1,90 +1,112 @@
 {% load static %}
-
+{% block content %}
 <!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
-
     <div data-simplebar class="h-100">
-
         <!--- Sidemenu -->
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Main</li>
+
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-format-list-bulleted-type"></i>
                         <span>Category</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{% url 'pages:category'%}">Name</a></li>
-                        <li><a href="{% url 'pages:size'%}">Size</a></li>
-                        <li><a href="{% url 'pages:color'%}">Color</a></li>
+                        <li><a href="{% url 'pages:category' %}">Name</a></li>
+                        <li><a href="{% url 'pages:size' %}">Size</a></li>
+                        <li><a href="{% url 'pages:color' %}">Color</a></li>
                     </ul>
                 </li>
+
+                {% if request.user.role == 'Начальник' or request.user.role == 'Наблюдатель' %}
                 <li>
                     <a href="{% url 'pages:total-turnover_list' %}">
                         <i class="mdi mdi-chart-line"></i>
                         <span>TotalTurnoverSheet</span>
                     </a>
                 </li>
+                {% endif %}
+
                 <li>
                     <a href="{% url 'pages:transfer-to' %}">
                         <i class="mdi mdi-calendar-check"></i>
                         <span>TotalSum</span>
                     </a>
                 </li>
+
+                {% if request.user.role == 'Начальник' or request.user.role == 'Менеджер склада' %}
                 <li>
                     <a href="{% url 'pages:turnover_list' %}">
                         <i class="ion ion-md-list-box"></i>
                         <span>TurnoverSheet</span>
                     </a>
                 </li>
+                {% endif %}
+
+                {% if request.user.role == 'Начальник' or request.user.role == 'Менеджер склада' or request.user.role == 'Оператор склада' %}
                 <li>
                     <a href="{% url 'pages:invoice-list' %}">
                         <i class="typcn typcn-upload"></i>
                         <span>TransferToInventory</span>
                     </a>
                 </li>
+                {% endif %}
+
+                {% if request.user.role == 'Начальник' or request.user.role == 'Менеджер склада' or request.user.role == 'Сотрудник приемки' %}
                 <li>
                     <a href="{% url 'pages:product_in-list' %}">
                         <i class="typcn typcn-download"></i>
                         <span>TransferFromInventory</span>
                     </a>
                 </li>
+
                 <li>
                     <a href="{% url 'pages:remaing_list' %}">
                         <i class="mdi mdi-calendar-check"></i>
                         <span>Remaing</span>
                     </a>
                 </li>
+                {% endif %}
+
+                {% if request.user.role == 'Начальник' or request.user.role == 'Менеджер склада Келес' %}
                 <li>
                     <a href="{% url 'keles:turnover_list' %}">
                         <i class="ion ion-md-list-box"></i>
                         <span>TurnoverSheet(K)</span>
                     </a>
                 </li>
+                {% endif %}
+
+                {% if request.user.role == 'Начальник' or request.user.role == 'Менеджер склада Келес' or request.user.role == 'Оператор склада Келес' %}
                 <li>
                     <a href="{% url 'keles:invoice-list' %}">
                         <i class="ion ion-md-paper-plane"></i>
                         <span>TransferToInventory(K)</span>
                     </a>
                 </li>
+                {% endif %}
+
+                {% if request.user.role == 'Начальник' or request.user.role == 'Менеджер склада Келес' or request.user.role == 'Сотрудник приемки Келес' %}
                 <li>
                     <a href="{% url 'keles:product_in-list' %}">
                         <i class="ion ion-md-arrow-round-down"></i>
                         <span>TransferFromInventory(K)</span>
                     </a>
                 </li>
+
                 <li>
                     <a href="{% url 'keles:remaing_list' %}">
                         <i class="mdi mdi-calendar-check"></i>
                         <span>Remaing(K)</span>
                     </a>
                 </li>
-
+                {% endif %}
             </ul>
         </div>
-
     </div>
 </div>
+{% endblock %}
 <!-- Left Sidebar End -->

@@ -7,6 +7,7 @@ from django.shortcuts import render
 from openpyxl.utils import get_column_letter
 from openpyxl.workbook import Workbook
 
+from admiin.decorators import role_required
 from index.models import TransferToInventory, CategoryModel
 from keles.models import InvoiceCreateKeles, ProductEntryKeles, RemaingInventoryKeles
 
@@ -55,7 +56,7 @@ def Detail(request, pk):
     query = InvoiceCreateKeles.objects.filter(pk=pk)
     return render(request, 'keles/detail.html', {'query': query})
 
-
+@role_required(['Оператор склада Келес', 'Начальник'])
 def InvoiceCreateFromKeles(request):
     invoice = InvoiceCreateKeles.objects.all().order_by('-created_at')
     search_query = request.GET.get('search', '')  # Now this refers to the model
@@ -100,7 +101,7 @@ def InvoiceCreateFromKeles(request):
                   {'invoice': invoice,
                    'search_query': search_query})
 
-
+@role_required(['Оператор склада Келес', 'Начальник'])
 def export_to_excel(invoices):
     # Create a new workbook and active sheet
     wb = Workbook()
@@ -137,7 +138,7 @@ def export_to_excel(invoices):
 
     return response
 
-
+@role_required(['Сотрудник приемки Келес', 'Начальник'])
 def ProductInKeles(request):
     product_in = ProductEntryKeles.objects.order_by('-created_at')
     product_id = request.GET.get('product_id')
@@ -187,7 +188,7 @@ def ProductInKeles(request):
 
     return render(request, 'keles/product_in-catalog.html', {'product_in': product_in})
 
-
+@role_required(['Сотрудник приемки Келес', 'Начальник'])
 def export_from_excel(invoices):
     # Create a new workbook and active sheet
     wb = Workbook()
@@ -224,12 +225,12 @@ def export_from_excel(invoices):
 
     return response
 
-
+@role_required(['Сотрудник приемки Келес'])
 def RemaingListKeles(request):
     remaing = RemaingInventoryKeles.objects.all().order_by('-name')
     return render(request, 'keles/remaing-list.html', {'remaing': remaing})
 
-
+@role_required(['Менеджер склада Келес', 'Начальник'])
 def TurnoverKeles(request):
     search_name = request.GET.get('search_name', '').strip().lower()
     search_id = request.GET.get('search_id', '').strip().lower()
@@ -297,6 +298,12 @@ def TurnoverKeles(request):
                 'total_invoice': total_invoice,
                 'remaining_stock': remaining_stock,
             })
+
+    inventory_data.sort(key=lambda x: (
+        x['category_title'].lower(),
+        x['size_title'].lower(),
+        x['color_title'].lower()
+    ))
 
     # Excel download
     if 'download_excel' in request.GET:
