@@ -1,15 +1,18 @@
 from collections import defaultdict
 from datetime import datetime
 
+import openpyxl
 from django.db.models import Count, Sum, Q
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.utils.formats import date_format
+from openpyxl.styles import Side, Border, Alignment, Font
 from openpyxl.utils import get_column_letter
 from openpyxl.workbook import Workbook
 
 from admiin.decorators import role_required
 from index.models import TransferToInventory, CategoryModel
-from keles.models import InvoiceCreateKeles, ProductEntryKeles, RemaingInventoryKeles
+from keles.models import InvoiceCreateKeles, ProductEntryKeles, RemaingInventoryKeles, InvoiceKeles
 
 
 # Create your views here.
@@ -225,7 +228,7 @@ def export_from_excel(invoices):
 
     return response
 
-@role_required(['Сотрудник приемки Келес'])
+@role_required(['Сотрудник приемки Келес', 'Начальник'])
 def RemaingListKeles(request):
     remaing = RemaingInventoryKeles.objects.all().order_by('-name')
     return render(request, 'keles/remaing-list.html', {'remaing': remaing})
@@ -375,3 +378,122 @@ def Client_ReportKeles(request, pk):
         # If no export requested, render the normal dashboard view
     return render(request, 'keles/dashboard.html', {'query': query})
     # SizeModel size (using .size)
+
+
+
+def invoice_list(request):
+    # Извлекаем все накладные
+    invoices = InvoiceKeles.objects.all().order_by('-created_at')  # Сортируем по дате создания (по убыванию)
+
+    # Передаем данные в контекст
+    context = {
+        'invoices': invoices
+    }
+
+    return render(request, 'keles/invoice_list.html', context)
+
+
+
+def invoice_detail(request, pk):
+    invoice = get_object_or_404(InvoiceKeles, pk=pk)
+    items = invoice.items.all()  # через related_name='items'
+
+    context = {
+        'invoice': invoice,
+        'items': items
+    }
+    return render(request, 'keles/invoice_detail.html', context)
+
+
+
+def export_to_excel(request, invoice_id):
+    try:
+        invoice = InvoiceKeles.objects.get(pk=invoice_id)
+    except InvoiceKeles.DoesNotExist:
+        return HttpResponse("Накладная не найдена.")
+
+    items = invoice.items.select_related('name', 'size', 'color')
+    if not items.exists():
+        return HttpResponse("Нет товаров для экспорта.")
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Накладная"
+
+    bold_font = Font(bold=True)
+    center = Alignment(horizontal="center", vertical="center", wrap_text=True)
+    border = Border(
+        left=Side(style='thin'), right=Side(style='thin'),
+        top=Side(style='thin'), bottom=Side(style='thin')
+    )
+
+    invoice_date = date_format(invoice.created_at, 'd.m.Y')
+
+    # Шапка
+    ws.merge_cells('A1:F1')
+    ws['A1'] = f"НАКЛАДНАЯ № {invoice.number}"
+    ws['A1'].font = Font(size=16, bold=True)
+    ws['A1'].alignment = center
+
+    ws.merge_cells('A2:F2')
+    ws['A2'] = f'от "{invoice_date}"'
+    ws['A2'].alignment = center
+
+    ws['A4'] = "От кого:"
+    ws['B4'] = "OOO RATTAN MASTER"
+    ws['A5'] = "Кому:"
+    ws['B5'] = invoice.product_to.title if invoice.product_to else "—"
+    ws['D5'] = "Через________________"
+
+    # Таблица
+    headers = ["№ п/п", "Наименование", "Размер", "Цвет", "Количество"]
+    ws.append([])
+    ws.append(headers)
+
+    for col_num, header in enumerate(headers, 1):
+        cell = ws.cell(row=7, column=col_num)
+        cell.value = header
+        cell.font = bold_font
+        cell.alignment = center
+        cell.border = border
+        ws.column_dimensions[get_column_letter(col_num)].width = 20 if col_num != 1 else 8
+
+    row = 8
+    total_quantity = 0
+
+    for index, item in enumerate(items, start=1):
+        values = [
+            index,
+            item.name.title,
+            item.size.title if item.size else '',
+            item.color.title if item.color else '',
+            f"{item.quantity} шт"
+        ]
+        for col, val in enumerate(values, 1):
+            cell = ws.cell(row=row, column=col, value=val)
+            cell.alignment = center
+            cell.border = border
+        total_quantity += item.quantity
+        row += 1
+
+    # Итого
+    total_row = ["", "", "", "Итого:", f"{total_quantity} шт"]
+    for col, val in enumerate(total_row, 1):
+        cell = ws.cell(row=row, column=col, value=val)
+        cell.font = bold_font
+        cell.alignment = center
+        cell.border = border
+    row += 2
+
+    # Подписи
+    ws.merge_cells(f'A{row}:C{row}')
+    ws[f'A{row}'] = "Сдал: ________________   Ф. И. О."
+    ws.merge_cells(f'D{row}:F{row}')
+    ws[f'D{row}'] = "Принял: ________________   Ф. И. О."
+
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = f'attachment; filename="Invoice_{invoice.number}.xlsx"'
+    wb.save(response)
+    return response

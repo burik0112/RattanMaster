@@ -6,13 +6,16 @@ from django.utils import timezone
 from django.utils.formats import date_format
 from openpyxl.styles import Alignment, Font, Border, Side
 from openpyxl.utils import get_column_letter
+
+from admiin.decorators import role_required
 from admiin.forms import CategoryForm, SizeForm, ColorForm, InvoiceCreateForm, ProductInCreateForm, RemaingCreateForm, \
-    InvoiceCreateKelesForm, ProductInCreateKelesForm, RemaingCreateKelesForm
+    InvoiceCreateKelesForm, ProductInCreateKelesForm, RemaingCreateKelesForm, InvoiceKelesForm, InvoiceXasanboyForm
 from index.models import CategoryModel, SizeModel, ColorModel, RemaingInventoryModel, InvoiceCreateModel, \
-    TransferToInventory, TransferFromInventory, ProductEntry
-from keles.models import RemaingInventoryKeles, InvoiceCreateKeles, ProductEntryKeles
+    TransferToInventory, TransferFromInventory, ProductEntry, Invoice
+from keles.models import RemaingInventoryKeles, InvoiceCreateKeles, ProductEntryKeles, InvoiceKeles
 
 
+@role_required([])
 def AdminCategoryEdit(request, pk):
     category = get_object_or_404(CategoryModel, pk=pk)
 
@@ -27,6 +30,7 @@ def AdminCategoryEdit(request, pk):
     return render(request, 'edit/category-edit.html', {'form': form})
 
 
+@role_required([])
 def CategoryDelete(request, pk):
     query = get_object_or_404(CategoryModel, pk=pk)
     if request:
@@ -35,6 +39,7 @@ def CategoryDelete(request, pk):
     return render(request, 'category-cat.html')
 
 
+@role_required([])
 def AdminSizeEdit(request, pk):
     size = get_object_or_404(SizeModel, pk=pk)
 
@@ -49,6 +54,7 @@ def AdminSizeEdit(request, pk):
     return render(request, 'edit/size-edit.html', {'form': form})
 
 
+@role_required([])
 def SizeDelete(request, pk):
     query = get_object_or_404(SizeModel, pk=pk)
     if request:
@@ -57,6 +63,7 @@ def SizeDelete(request, pk):
     return render(request, 'size-catalog.html')
 
 
+@role_required([])
 def Color_create_or_edit(request, pk=None):
     if pk:
         color = get_object_or_404(ColorModel, pk=pk)
@@ -74,6 +81,7 @@ def Color_create_or_edit(request, pk=None):
     return render(request, 'file/color-add.html', {'form': form})
 
 
+@role_required([])
 def ColorDelete(request, pk):
     query = get_object_or_404(ColorModel, pk=pk)
     if request:
@@ -82,6 +90,7 @@ def ColorDelete(request, pk):
     return render(request, 'size-catalog.html')
 
 
+@role_required([])
 def Category_create_or_edit(request, pk=None):
     if pk:
         cat = get_object_or_404(CategoryModel, pk=pk)
@@ -99,6 +108,7 @@ def Category_create_or_edit(request, pk=None):
     return render(request, 'file/category-add.html', {'form': form})
 
 
+@role_required([])
 def Size_create_or_edit(request, pk=None):
     if pk:
         size = get_object_or_404(SizeModel, pk=pk)
@@ -116,6 +126,7 @@ def Size_create_or_edit(request, pk=None):
     return render(request, 'file/size-add.html', {'form': form})
 
 
+@role_required(['Сотрудник приемки', 'Начальник'])
 def AddRemaing(request):
     if request.method == 'POST':
         name_id = request.POST.get('name')
@@ -148,36 +159,35 @@ def AddRemaing(request):
     })
 
 
+@role_required(['Оператор склада', 'Начальник'])
 def InvoiceCreate(request):
     if request.method == 'POST':
         name_ids = request.POST.getlist('name')
         size_ids = request.POST.getlist('size')
         color_ids = request.POST.getlist('color')
-        product_to_ids = request.POST.getlist('product_to')
         quantities = request.POST.getlist('quantity')
+        product_to_id = request.POST.get('product_to')
 
-        created_at = timezone.now().date()
-        created_ids = []
+        # Создаём накладную
+        product_to = TransferToInventory.objects.get(id=product_to_id)
+        invoice = Invoice.objects.create(product_to=product_to)
 
-        for name_id, size_id, color_id, product_to_id, quantity in zip(name_ids, size_ids, color_ids, product_to_ids,
-                                                                       quantities):
-            name = CategoryModel.objects.get(id=name_id)
-            size = SizeModel.objects.get(id=size_id)
-            color = ColorModel.objects.get(id=color_id)
-            product_to = TransferToInventory.objects.get(id=product_to_id)
-
-            invoice = InvoiceCreateModel.objects.create(
-                name=name,
-                size=size,
-                color=color,
-                product_to=product_to,
-                quantity=quantity,
-                created_at=created_at
+        # Добавляем продукты
+        items = []
+        for name_id, size_id, color_id, quantity in zip(name_ids, size_ids, color_ids, quantities):
+            item = InvoiceCreateModel.objects.create(
+                invoice=invoice,
+                name=CategoryModel.objects.get(id=name_id),
+                size=SizeModel.objects.get(id=size_id),
+                color=ColorModel.objects.get(id=color_id) if color_id else None,
+                quantity=int(quantity)
             )
-            created_ids.append(invoice.id)
+            items.append(item.id)  # Сохраняем ID товаров
 
-        request.session['last_invoice_ids'] = created_ids
+        # Сохраняем ID в сессии для экспорта
+        request.session['last_invoice_ids'] = items
 
+        # Перенаправляем на страницу для экспорта
         return redirect('add:export_to_excel')
 
     context = {
@@ -189,6 +199,7 @@ def InvoiceCreate(request):
     return render(request, 'file/product_add.html', context)
 
 
+@role_required(['Сотрудник приемки', 'Начальник'])
 def EntryCreate(request):
     if request.method == 'POST':
         name_id = request.POST.get('name')
@@ -229,6 +240,7 @@ def EntryCreate(request):
     })
 
 
+@role_required(['Оператор склада', 'Начальник'])
 def InvoiceEdit(request, pk):
     obj = get_object_or_404(InvoiceCreateModel, pk=pk)
     if request.method == 'POST':
@@ -241,6 +253,7 @@ def InvoiceEdit(request, pk):
     return render(request, 'edit/product-in-edit.html', {'form': form})
 
 
+@role_required(['Оператор склада', 'Начальник'])
 def InvoiceDelete(request, pk):
     invoice = get_object_or_404(InvoiceCreateModel, pk=pk)
     invoice.delete()
@@ -248,6 +261,7 @@ def InvoiceDelete(request, pk):
     return redirect(f"{reverse('pages:invoice-list')}?{query_string}")
 
 
+@role_required(['Сотрудник приемки', 'Начальник'])
 def ProductInEdit(request, pk):
     obj = get_object_or_404(ProductEntry, pk=pk)
     if request.method == 'POST':
@@ -260,6 +274,7 @@ def ProductInEdit(request, pk):
     return render(request, 'edit/product-in-edit.html', {'form': form})
 
 
+@role_required(['Сотрудник приемки', 'Начальник'])
 def ProductInDelete(request, pk):
     query = get_object_or_404(ProductEntry, pk=pk)
     if request:
@@ -268,6 +283,7 @@ def ProductInDelete(request, pk):
     return render(request, 'product_in-catalog.html')
 
 
+@role_required(['Сотрудник приемки', 'Начальник'])
 def RemaingEdit(request, pk):
     obj = get_object_or_404(RemaingInventoryModel, pk=pk)
     if request.method == 'POST':
@@ -280,6 +296,7 @@ def RemaingEdit(request, pk):
     return render(request, 'edit/remaing-edit.html', {'form': form})
 
 
+@role_required(['Сотрудник приемки'])
 def RemaingDelete(request, pk):
     query = get_object_or_404(RemaingInventoryModel, pk=pk)
     if request:
@@ -288,12 +305,17 @@ def RemaingDelete(request, pk):
     return render(request, 'remaing-list.html')
 
 
+@role_required(['Оператор склада', 'Начальник'])
 def export_to_excel(request):
     ids = request.session.get('last_invoice_ids', [])
     if not ids:
         return HttpResponse("Нет данных для экспорта.")
 
-    items = InvoiceCreateModel.objects.filter(id__in=ids)
+    # Получаем товары по ID
+    items = InvoiceCreateModel.objects.filter(id__in=ids).select_related('invoice', 'name', 'size', 'color')
+
+    if not items.exists():
+        return HttpResponse("Нет товаров для экспорта.")
 
     wb = openpyxl.Workbook()
     ws = wb.active
@@ -306,24 +328,27 @@ def export_to_excel(request):
         top=Side(style='thin'), bottom=Side(style='thin')
     )
 
-    invoice = items.first()
+    invoice_item = items.first()
+    invoice = invoice_item.invoice
     invoice_date = date_format(invoice.created_at, 'd.m.Y')
 
+    # Шапка
     ws.merge_cells('A1:F1')
-    ws['A1'] = f"НАКЛАДНАЯ № {invoice.id}"
+    ws['A1'] = f"НАКЛАДНАЯ № {invoice.number}"
     ws['A1'].font = Font(size=16, bold=True)
     ws['A1'].alignment = center
 
     ws.merge_cells('A2:F2')
     ws['A2'] = f'от "{invoice_date}"'
-    ws['E2'].alignment = Alignment(horizontal="right")
+    ws['A2'].alignment = center
 
     ws['A4'] = "От кого:"
-    ws['A5'] = f"Кому:"
     ws['B4'] = "OOO RATTAN MASTER"
-    ws['B5'] = f"{invoice.product_to or ''}"
+    ws['A5'] = "Кому:"
+    ws['B5'] = invoice.product_to.title if invoice.product_to else "—"
     ws['D5'] = "Через________________"
 
+    # Таблица
     headers = ["№ п/п", "Наименование", "Размер", "Цвет", "Количество"]
     ws.append([])
     ws.append(headers)
@@ -340,48 +365,46 @@ def export_to_excel(request):
     total_quantity = 0
 
     for index, item in enumerate(items, start=1):
-        quantity = item.quantity
         values = [
             index,
             item.name.title,
             item.size.title if item.size else '',
             item.color.title if item.color else '',
-            f"{quantity} шт"
+            f"{item.quantity} шт"
         ]
-        ws.append(values)
-        total_quantity += quantity
-
         for col, val in enumerate(values, 1):
             cell = ws.cell(row=row, column=col, value=val)
             cell.alignment = center
             cell.border = border
+        total_quantity += item.quantity
         row += 1
 
+    # Итого
     total_row = ["", "", "", "Итого:", f"{total_quantity} шт"]
-    ws.append(total_row)
-
     for col, val in enumerate(total_row, 1):
         cell = ws.cell(row=row, column=col, value=val)
+        cell.font = bold_font
         cell.alignment = center
         cell.border = border
-        cell.font = bold_font
     row += 2
 
+    # Подписи
     ws.merge_cells(f'A{row}:C{row}')
     ws[f'A{row}'] = "Сдал: ________________   Ф. И. О."
     ws.merge_cells(f'D{row}:F{row}')
     ws[f'D{row}'] = "Принял: ________________   Ф. И. О."
 
+    # Скачивание
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
-    response['Content-Disposition'] = 'attachment; filename="InvoicePaper.xlsx"'
+    response['Content-Disposition'] = f'attachment; filename="Invoice_{invoice.number}.xlsx"'
     wb.save(response)
     return response
 
 
 # All code starting for keles from this collumb
-
+@role_required(['Сотрудник приемки Келес', 'Начальник'])
 def AddRemaingKeles(request):
     if request.method == 'POST':
         name_id = request.POST.get('name')
@@ -413,37 +436,37 @@ def AddRemaingKeles(request):
     })
 
 
+@role_required(['Оператор склада Келес', 'Начальник'])
 def InvoiceCreate2Model(request):
     if request.method == 'POST':
         name_ids = request.POST.getlist('name')
         size_ids = request.POST.getlist('size')
         color_ids = request.POST.getlist('color')
-        product_to_ids = request.POST.getlist('product_to')
         quantities = request.POST.getlist('quantity')
+        product_to_id = request.POST.get('product_to')
 
-        created_at = timezone.now().date()
-        created_ids = []
+        # Создаём накладную
+        product_to = TransferToInventory.objects.get(id=product_to_id)
+        invoice = InvoiceKeles.objects.create(product_to=product_to)
 
-        for name_id, size_id, color_id, product_to_id, quantity in zip(name_ids, size_ids, color_ids, product_to_ids,
-                                                                       quantities):
-            name = CategoryModel.objects.get(id=name_id)
-            size = SizeModel.objects.get(id=size_id)
-            color = ColorModel.objects.get(id=color_id)
-            product_to = TransferToInventory.objects.get(id=product_to_id)
-
-            invoice = InvoiceCreateKeles.objects.create(
-                name=name,
-                size=size,
-                color=color,
-                product_to=product_to,
-                quantity=quantity,
-                created_at=created_at
+        # Добавляем продукты
+        items = []
+        for name_id, size_id, color_id, quantity in zip(name_ids, size_ids, color_ids, quantities):
+            item = InvoiceCreateKeles.objects.create(
+                invoice=invoice,
+                name=CategoryModel.objects.get(id=name_id),
+                size=SizeModel.objects.get(id=size_id),
+                color=ColorModel.objects.get(id=color_id) if color_id else None,
+                product_to=TransferToInventory(id=name_id),
+                quantity=int(quantity)
             )
-            created_ids.append(invoice.id)
+            items.append(item.id)  # Сохраняем ID товаров
 
-        request.session['last_invoice_ids'] = created_ids
+        # Сохраняем ID в сессии для экспорта
+        request.session['last_invoice_ids'] = items
 
-        return redirect('add:export_to_excel_keles')
+        # Перенаправляем на страницу для экспорта
+        return redirect('add:export_to_excel')
 
     context = {
         'categories': CategoryModel.objects.all(),
@@ -454,6 +477,7 @@ def InvoiceCreate2Model(request):
     return render(request, 'keles-add/product_add.html', context)
 
 
+@role_required(['Сотрудник приемки Келес', 'Начальник'])
 def EntryCreateKeles(request):
     if request.method == 'POST':
         name_id = request.POST.get('name')
@@ -493,6 +517,7 @@ def EntryCreateKeles(request):
     })
 
 
+@role_required(['Оператор склада', 'Начальник'])
 def InvoiceEditKeles(request, pk):
     invoice = get_object_or_404(InvoiceCreateKeles, pk=pk)
     if request.method == 'POST':
@@ -507,6 +532,7 @@ def InvoiceEditKeles(request, pk):
     return render(request, 'keles-add/invoice-edit.html', {'form': form})
 
 
+@role_required(['Оператор склада', 'Начальник'])
 def InvoiceDeleteKeles(request, pk):
     invoice = get_object_or_404(InvoiceCreateKeles, pk=pk)
     invoice.delete()
@@ -514,6 +540,7 @@ def InvoiceDeleteKeles(request, pk):
     return redirect(f"{reverse('keles:invoice-list')}?{query_string}")
 
 
+@role_required(['Сотрудник приемки Келес', 'Начальник'])
 def ProductInEditKeles(request, pk):
     obj = get_object_or_404(ProductEntryKeles, pk=pk)
     if request.method == 'POST':
@@ -526,6 +553,7 @@ def ProductInEditKeles(request, pk):
     return render(request, 'keles-add/product-in-edit.html', {'form': form})
 
 
+@role_required(['Сотрудник приемки Келес', 'Начальник'])
 def ProductInDeleteKeles(request, pk):
     query = get_object_or_404(ProductEntryKeles, pk=pk)
     if request:
@@ -534,6 +562,7 @@ def ProductInDeleteKeles(request, pk):
     return render(request, 'keles/product_in-catalog.html')
 
 
+@role_required(['Сотрудник приемки Келес', 'Начальник'])
 def RemaingEditKeles(request, pk):
     obj = get_object_or_404(RemaingInventoryKeles, pk=pk)
     if request.method == 'POST':
@@ -546,6 +575,7 @@ def RemaingEditKeles(request, pk):
     return render(request, 'keles-add/remaing-edit.html', {'form': form})
 
 
+@role_required(['Сотрудник приемки Келес', 'Начальник'])
 def RemaingDeleteKeles(request, pk):
     query = get_object_or_404(RemaingInventoryKeles, pk=pk)
     if request:
@@ -554,6 +584,7 @@ def RemaingDeleteKeles(request, pk):
     return render(request, 'keles/remaing-list.html')
 
 
+@role_required(['Оператор склада Келес', 'Начальник'])
 def export_to_excelkeles(request):
     ids = request.session.get('last_invoice_ids', [])
     if not ids:
@@ -629,3 +660,43 @@ def export_to_excelkeles(request):
     response['Content-Disposition'] = 'attachment; filename="InvoicePaper.xlsx"'
     wb.save(response)
     return response
+
+
+@role_required(['Оператор склада Келес', 'Начальник'])
+def invoice_keles_update(request, pk):
+    invoice = get_object_or_404(InvoiceKeles, pk=pk)
+    if request.method == 'POST':
+        form = InvoiceKelesForm(request.POST, instance=invoice)
+        if form.is_valid():
+            form.save()
+            return redirect('keles:invoice-list-keles')
+    else:
+        form = InvoiceKelesForm(instance=invoice)
+    return render(request, 'keles-add/invoice_edit.html', {'form': form, 'invoice': invoice})
+
+
+@role_required(['Оператор склада Келес', 'Начальник'])
+def invoice_keles_delete(request, pk):
+    invoice = get_object_or_404(InvoiceKeles, pk=pk)
+    invoice.delete()
+    return redirect('keles:invoice-list-keles')
+
+
+@role_required(['Оператор склада', 'Начальник'])
+def invoice_xasanboy_edit(request, pk):
+    invoice = get_object_or_404(Invoice, pk=pk)
+    if request.method == 'POST':
+        form = InvoiceXasanboyForm(request.POST, instance=invoice)
+        if form.is_valid():
+            form.save()
+            return redirect('pages:invoice-list')  # Или на detail: 'pages:invoice-detail', invoice.pk
+    else:
+        form = InvoiceKelesForm(instance=invoice)
+    return render(request, 'edit/INV.html', {'form': form, 'invoice': invoice})
+
+
+@role_required(['Оператор склада', 'Начальник'])
+def invoice_xasanboy_delete(request, pk):
+    invoice = get_object_or_404(Invoice, pk=pk)
+    invoice.delete()
+    return redirect('pages:invoice-list')

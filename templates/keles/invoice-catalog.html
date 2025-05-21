@@ -4,7 +4,7 @@
 {% block button %}
 <div class="d-none d-sm-block">
     <div class="dropdown dropdown-topbar pt-3 mt-1 d-inline-block">
-        <a class="dropdown-item" href="{% url 'add:invoice-create-keles'%}">Add</a>
+        <a class="dropdown-item" href="{% url 'keles:invoice-list-keles'%}">Back</a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         </div>
     </div>
@@ -60,6 +60,7 @@
                                 <table class="table table-bordered align-middle table-centered table-vertical table-nowrap mb-1">
                                     <thead>
                                     <tr>
+                                        <th>INV</th>
                                         <th>Product ID</th>
                                         <th>Product Name</th>
                                         <th>Product Size</th>
@@ -73,6 +74,7 @@
                                     <tbody>
                                     {% for m in invoice %}
                                     <tr>
+                                        <td>{{ m.invoice.number }}</td>
                                         <td>{{ m.name.id }}</td>
                                         <td>{{ m.name }}</td>
                                         <td>{{ m.size }}</td>

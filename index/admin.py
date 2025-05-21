@@ -33,7 +33,7 @@ class ColorModelAdmin(admin.ModelAdmin):
 
 @admin.register(InvoiceCreateModel)
 class InvoiceCreateModelAdmin(admin.ModelAdmin):
-    list_display = ['name', 'size', 'color', 'product_to', 'quantity', 'created_at']
+    list_display = ['name', 'size', 'color', 'quantity']
 
 
 @admin.register(ProductEntry)

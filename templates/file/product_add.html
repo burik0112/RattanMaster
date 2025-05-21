@@ -14,9 +14,21 @@
 
             <form class="needs-validation" novalidate method="post">
                 {% csrf_token %}
+
+                <!-- Отдельно выбираем "Куда отправить" -->
+                <div class="mb-3">
+                    <label class="form-label">Transfer To Inventory</label>
+                    <select name="product_to" class="form-control" style="font-size: 1.2rem; padding: 12px;" required>
+                        <option value="">Select destination</option>
+                        {% for product in transfer_to %}
+                        <option value="{{ product.id }}">{{ product.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
                 <div id="invoice-rows">
                     <div class="row align-items-end mb-2 invoice-row">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label class="form-label">Product Name</label>
                             <select name="name" class="form-control" style="font-size: 1.2rem; padding: 12px;" required>
                                 <option value="">Select category</option>
@@ -43,29 +55,20 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Transfer To Inventory</label>
-                            <select name="product_to" class="form-control" style="font-size: 1.2rem; padding: 12px;" required>
-                                <option value="">Select destination</option>
-                                {% for product in transfer_to %}
-                                <option value="{{ product.id }}">{{ product.title }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
                         <div class="col-md-2">
                             <label class="form-label">Quantity</label>
-                            <input type="number" name="quantity" class="form-control" style="font-size: 1.2rem; padding: 12px;"
-                                   placeholder="Quantity" required>
+                            <input type="number" name="quantity" class="form-control" style="font-size: 1.2rem; padding: 12px;" placeholder="Quantity" required>
                         </div>
                         <div class="col-md-1">
-                            <button type="button" class="btn btn-danger btn-sm remove-row">✕</button>
+                            <button type="button" class="btn btn-danger btn-lg remove-row">✕</button>
                         </div>
                     </div>
                 </div>
 
                 <button class="btn btn-primary mt-1" type="submit">Submit</button>
-
-                <button type="button" class="btn btn-outline-success mt-2 m-1" onclick="addInvoiceRow()">Добавить строку</button>
+                <button type="button" class="btn btn-outline-success mt-2 m-1" onclick="addInvoiceRow()">Добавить
+                    строку
+                </button>
             </form>
 
         </div>

@@ -1,0 +1,73 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+{% block button %}
+<div class="d-none d-sm-block">
+    <div class="dropdown dropdown-topbar pt-3 mt-1 d-inline-block">
+        <a class="dropdown-item" href="{% url 'add:invoice-create'%}">Add</a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        </div>
+    </div>
+</div>
+<div class="d-none d-sm-block">
+    <div class="dropdown dropdown-topbar pt-3 mt-1 d-inline-block">
+        <a class="dropdown-item" href="{% url 'pages:invoice-list2'%}">Product List</a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        </div>
+    </div>
+</div>
+{% endblock %}
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-12">
+                    <form method="get">
+                        <table class="table table-bordered align-middle table-centered table-vertical table-nowrap mb-1">
+                            <thead>
+                            <tr>
+                                <th>Номер</th>
+                                <th>Кому отправлено</th>
+                                <th>Дата</th>
+                                <th>Действия</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for inv in invoices %}
+                            <tr>
+                                <td>
+                                    <div class="col-auto">
+                                        <a href="{% url 'pages:invoice-detail' inv.pk %}"
+                                           class="btn btn-lg btn-primary">
+                                            {{ inv.number }}
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>{{ inv.product_to.title }}</td>  <!-- Название склада -->
+                                <td>{{ inv.created_at|date:"d M Y H:i" }}</td>
+                                <td>
+                                    <a href="{% url 'add:invoice_xasanboy_edit' inv.pk %}?{{ request.GET.urlencode }}"
+                                       class="text-primary me-2"
+                                       title="Edit">
+                                        <i class="typcn typcn-pencil"></i>
+                                    </a>
+                                    <a href="{% url 'add:invoice_xasanboy_delete' inv.pk %}?{{ request.GET.urlencode }}"
+                                       class="text-danger"
+                                       title="Delete"
+                                       onclick="return confirm('Are you sure you want to delete this item?');">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

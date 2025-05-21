@@ -8,4 +8,4 @@ from admiin.models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ['role']
+    list_display = ['name', 'role']

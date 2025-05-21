@@ -21,6 +21,37 @@
     <link href="{% static 'css/app-dark.min.css' %}" id="app-style" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .animated-user {
+            animation: fadeInRight 1s ease-in-out;
+        }
+
+        .user-greeting {
+            font-size: 16px;
+            color: #5b4a3c;
+            padding: 6px 12px;
+
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .user-greeting:hover {
+            background-color: rgba(243, 225, 208, 0.95);
+            transform: scale(1.02);
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
 </head>
 <body data-sidebar="dark">
 <div id="layout-wrapper">
@@ -55,31 +86,30 @@
             </div>
 
             <div class="d-flex">
-                <div class="dropdown d-inline-block d-lg-none ms-2">
-                    <button type="button" class="btn header-item noti-icon waves-effect"
-                            id="page-header-search-dropdown"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="mdi mdi-magnify"></i>
-                    </button>
+                {% if request.user.is_authenticated %}
+                <div class="dropdown mt-3 animated-user">
+                    <span class="header-item user-greeting">
+                        👋 Здравствуйте, <strong>{{ request.user.name|default:request.user.username }}</strong>
+                    </span>
                 </div>
+                {% endif %}
+
                 <div class="dropdown d-none d-lg-inline-block">
                     <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                         <i class="mdi mdi-fullscreen font-size-24"></i>
                     </button>
                 </div>
-                <div class="dropdown d-inline-block">
-                    <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle header-profile-user" src="{% static 'images/users/user-4.jpg' %}"
-                             alt="Header Avatar">
-                    </button>
+                <div class="dropdown d-inline-block mt-3">
+                    {% if request.user.img %}
+                    <img src="{{ request.user.img.url }}" alt="Avatar" class="rounded-circle" width="40" height="40">
+                    {% endif %}
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
                         <a class="dropdown-item" href="#"><i
                                 class="mdi mdi-account-circle font-size-17 text-muted align-middle me-1"></i>
                             Profile</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger" href="/accounts/logout/"><i
+                        <a class="dropdown-item text-danger" href="/logout/"><i
                                 class="mdi mdi-power font-size-17 text-muted align-middle me-1 text-danger"></i> Logout</a>
                     </div>
                 </div>

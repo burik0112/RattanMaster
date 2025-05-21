@@ -23,7 +23,7 @@
 
                                 <div class="mb-3 ">
                                     <label>Name (Category)</label>
-                                    <select name="name" class="form-control" required>
+                                    <select name="name" class="form-control" style="font-size: 1.2rem; padding: 12px;" required>
                                         <option value="">Select category</option>
                                         {% for cat in categories %}
                                         <option value="{{ cat.id }}">{{ cat.title }}</option>
@@ -33,7 +33,7 @@
 
                                 <div class="mb-3">
                                     <label>Size</label>
-                                    <select name="size" class="form-control" required>
+                                    <select name="size" class="form-control" style="font-size: 1.2rem; padding: 12px;" required>
                                         <option value="">Select size</option>
                                         {% for s in sizes %}
                                         <option value="{{ s.id }}">{{ s.title }}</option>
@@ -43,7 +43,7 @@
 
                                 <div class="mb-3">
                                     <label>Color</label>
-                                    <select name="color" class="form-control" required>
+                                    <select name="color" class="form-control" style="font-size: 1.2rem; padding: 12px;" required>
                                         <option value="">Select color</option>
                                         {% for c in colors %}
                                         <option value="{{ c.id }}">{{ c.title }}</option>
@@ -53,7 +53,7 @@
 
                                 <div class="mb-3">
                                     <label>Quantity</label>
-                                    <input type="number" name="quantity" class="form-control" required>
+                                    <input type="number" name="quantity" class="form-control" style="font-size: 1.2rem; padding: 12px;" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Add</button>

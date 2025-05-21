@@ -6,8 +6,19 @@ from index.models import CategoryModel, SizeModel, ColorModel, TransferToInvento
 
 # Create your models here.
 
+class InvoiceKeles(models.Model):
+    number = models.AutoField(primary_key=True)
+    product_to = models.ForeignKey(TransferToInventory, on_delete=models.PROTECT)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Invoice #{self.number}"
+
+
+
 
 class InvoiceCreateKeles(models.Model):
+    invoice = models.ForeignKey(InvoiceKeles, on_delete=models.CASCADE, related_name='items')
     name = models.ForeignKey(CategoryModel, on_delete=models.PROTECT, related_name='products_keles')
     size = models.ForeignKey(SizeModel, on_delete=models.PROTECT,
                              related_name='size_invoice_keles')  # <- related_name qo‘shildi

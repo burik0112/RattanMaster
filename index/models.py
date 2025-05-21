@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.utils import timezone
 
@@ -7,7 +9,7 @@ class CategoryModel(models.Model):
     id = models.AutoField(primary_key=True)
 
     def __str__(self):
-        return f"{self.title}"
+        return str(self.title)
 
     class Meta:
         verbose_name = 'CategoryModel'
@@ -54,12 +56,20 @@ class ColorModel(models.Model):
         verbose_name = 'ColorModel'
         verbose_name_plural = 'ColorsModel'
 
+class Invoice(models.Model):
+    number = models.AutoField(primary_key=True)
+    product_to = models.ForeignKey(TransferToInventory, on_delete=models.PROTECT)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Invoice #{self.number}"
+
 
 class InvoiceCreateModel(models.Model):
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items')
     name = models.ForeignKey(CategoryModel, on_delete=models.PROTECT, related_name='products')
     size = models.ForeignKey(SizeModel, on_delete=models.PROTECT)
     color = models.ForeignKey(ColorModel, on_delete=models.PROTECT, related_name='color_invoice', null=True, blank=True)
-    product_to = models.ForeignKey(TransferToInventory, on_delete=models.PROTECT, related_name='transfer_to')
     quantity = models.IntegerField()
     created_at = models.DateField(default=timezone.now)
 
@@ -95,7 +105,7 @@ class RemaingInventoryModel(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return f"{self.name.title} - {self.size.title} - {self.color.title} ({self.quantity})"
 
     class Meta:
         verbose_name = 'RemaingModel'
@@ -105,10 +115,13 @@ class RemaingInventoryModel(models.Model):
 
 
 class ProductPriceModel(models.Model):
-    name = models.ForeignKey(CategoryModel, on_delete=models.CASCADE)
-    size = models.ForeignKey(SizeModel, on_delete=models.CASCADE)
-    color = models.ForeignKey(ColorModel, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.ForeignKey(CategoryModel, on_delete=models.PROTECT)
+    size = models.ForeignKey(SizeModel, on_delete=models.PROTECT)
+    color = models.ForeignKey(ColorModel, on_delete=models.PROTECT, null=True, blank=True)
     price = models.DecimalField(max_digits=12, decimal_places=2)
 
     def __str__(self):
         return f"{self.name} | {self.size} | {self.color} - {self.price}"
+
+
+

@@ -2,7 +2,7 @@ from PIL.ImageEnhance import Color
 from django import forms
 
 from index.models import CategoryModel, SizeModel, ColorModel, RemaingInventoryModel, InvoiceCreateModel, ProductEntry
-from keles.models import RemaingInventoryKeles, InvoiceCreateKeles, ProductEntryKeles
+from keles.models import RemaingInventoryKeles, InvoiceCreateKeles, ProductEntryKeles, InvoiceKeles
 
 
 class CategoryForm(forms.ModelForm):
@@ -81,3 +81,21 @@ class RemaingCreateKelesForm(forms.ModelForm):
     class Meta:
         model = RemaingInventoryKeles
         fields = ['name', 'size', 'color', 'quantity']
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+
+
+class InvoiceKelesForm(forms.ModelForm):
+    class Meta:
+        model = InvoiceKeles
+        fields = ['product_to', 'created_at']
+
+
+class InvoiceXasanboyForm(forms.ModelForm):
+    class Meta:
+        model = InvoiceKeles
+        fields = ['product_to', 'created_at']

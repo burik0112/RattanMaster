@@ -82,7 +82,7 @@
 
                 {% if request.user.role == 'Начальник' or request.user.role == 'Менеджер склада Келес' or request.user.role == 'Оператор склада Келес' %}
                 <li>
-                    <a href="{% url 'keles:invoice-list' %}">
+                    <a href="{% url 'keles:invoice-list-keles' %}">
                         <i class="ion ion-md-paper-plane"></i>
                         <span>TransferToInventory(K)</span>
                     </a>

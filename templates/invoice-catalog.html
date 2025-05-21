@@ -9,6 +9,7 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
 <div class="main-content">
     <div class="page-content">
@@ -60,6 +61,7 @@
                                 <table class="table table-bordered align-middle table-centered table-vertical table-nowrap mb-1">
                                     <thead>
                                     <tr>
+                                        <th>INV</th>
                                         <th>Product ID</th>
                                         <th>Product Name</th>
                                         <th>Product Size</th>
@@ -73,11 +75,12 @@
                                     <tbody>
                                     {% for m in invoice %}
                                     <tr>
+                                        <td>{{ m.invoice.number }}</td>
                                         <td>{{ m.name.id }}</td>
                                         <td>{{ m.name }}</td>
                                         <td>{{ m.size }}</td>
                                         <td>{{ m.color }}</td>
-                                        <td>{{ m.product_to }}</td>
+                                        <td>{{ m.invoice.product_to }}</td>
                                         <td>{{ m.quantity }}</td>
                                         <td>{{ m.created_at|date:'d F Y' }}</td>
                                         <td>

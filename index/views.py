@@ -3,17 +3,23 @@ from collections import defaultdict
 from decimal import Decimal
 from itertools import chain
 
+import openpyxl
 import xlwt
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-from openpyxl.styles import Font, Alignment
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from django.utils.formats import date_format
+from openpyxl.styles import Font, Alignment, Side, Border
 from openpyxl.utils import get_column_letter
 from openpyxl.workbook import Workbook
 
 from admiin.decorators import role_required
+from admiin.forms import LoginForm
 from keles.models import ProductEntryKeles, RemaingInventoryKeles, InvoiceCreateKeles
 from .models import CategoryModel, ColorModel, SizeModel, InvoiceCreateModel, RemaingInventoryModel, ProductEntry, \
-    TransferToInventory, ProductPriceModel
+    TransferToInventory, ProductPriceModel, Invoice
 from django.db.models import Count, Sum, Q
 
 
@@ -44,10 +50,7 @@ def IndexCustom(request):
         count=Count('products'),
         count_keles=Count('products_keles')
     )
-    transfer_to = TransferToInventory.objects.annotate(
-        count_to=Count('transfer_to'),
-        count_to_keles=Count('transfer_to_keles')
-    )
+
 
     # Возвращаем результат в шаблон
     return render(request, 'catalog_category.html', {
@@ -55,7 +58,6 @@ def IndexCustom(request):
         'total_quantity': total_quantity,
         'total_product_in': total_product_in,
         'total_remaing': total_remaing,
-        'transfer_to': transfer_to
     })
 
 
@@ -265,7 +267,7 @@ def export_from_excel(invoices):
 
     return response
 
-
+@role_required(['Сотрудник приемки', 'Начальник'])
 def RemaingList(request):
     remaing = RemaingInventoryModel.objects.all().order_by('-name')
     return render(request, 'remaing-list.html', {'remaing': remaing})
@@ -371,7 +373,7 @@ def inventory_report(request):
 
     return render(request, 'turnover.html', {'inventory_data': inventory_data})
 
-
+@role_required(['Менеджер склада', 'Начальник'])
 def Dashboard(request, pk):
     # Fetching the data from the database
     query = InvoiceCreateModel.objects.filter(product_to__id=pk)
@@ -549,8 +551,8 @@ def shop_summary(request, pk):
     shop = get_object_or_404(TransferToInventory, pk=pk)
 
     invoices = InvoiceCreateModel.objects.filter(
-        product_to=shop
-    ).select_related('name', 'size', 'color', 'product_to')
+        invoice__product_to=shop
+    ).select_related('name', 'size', 'color', 'invoice__product_to')
 
     summary = defaultdict(lambda: {
         'quantity': 0,
@@ -637,5 +639,161 @@ def shop_export_excel(request, pk):
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="TotalSum.xlsx"'
+    wb.save(response)
+    return response
+
+
+def login_view(request):
+    form = LoginForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            role = getattr(user, 'role', None)
+            if role == 'Начальник':
+                return redirect('pages:cards')
+            elif role == 'Менеджер склада':
+                return redirect('pages:turnover_list')
+            elif role == 'Оператор склада':
+                return redirect('pages:invoice-list')
+            elif role == 'Сотрудник приемки':
+                return redirect('pages:product_in-list')
+            elif role == 'Менеджер склада Келес':
+                return redirect('keles:turnover_list')
+            elif role == 'Оператор склада Келес':
+                return redirect('keles:invoice-list')
+            elif role == 'Сотрудник приемки Келес':
+                return redirect('keles:product_in-list')
+            elif role == 'Наблюдатель':
+                return redirect('pages:total-turnover_list')
+
+    return render(request, 'registration/login.html', {'form': form})
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('pages:logout-success')
+
+
+def logout_success_view(request):
+    return render(request, 'registration/logout_success.html')
+
+@role_required(['Менеджер склада', 'Начальник', 'Оператор склада'])
+def invoice_list(request):
+    # Извлекаем все накладные
+    invoices = Invoice.objects.all().order_by('-created_at')  # Сортируем по дате создания (по убыванию)
+
+    # Передаем данные в контекст
+    context = {
+        'invoices': invoices
+    }
+
+    return render(request, 'invoice_list.html', context)
+
+
+@role_required(['Менеджер склада', 'Начальник', 'Оператор склада'])
+def invoice_detail(request, pk):
+    invoice = get_object_or_404(Invoice, pk=pk)
+    items = invoice.items.all()  # через related_name='items'
+
+    context = {
+        'invoice': invoice,
+        'items': items
+    }
+    return render(request, 'invoice_detail.html', context)
+
+@role_required(['Оператор склада'])
+def export_to_excel(request, invoice_id):
+    try:
+        invoice = Invoice.objects.get(pk=invoice_id)
+    except Invoice.DoesNotExist:
+        return HttpResponse("Накладная не найдена.")
+
+    items = invoice.items.select_related('name', 'size', 'color')
+    if not items.exists():
+        return HttpResponse("Нет товаров для экспорта.")
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Накладная"
+
+    bold_font = Font(bold=True)
+    center = Alignment(horizontal="center", vertical="center", wrap_text=True)
+    border = Border(
+        left=Side(style='thin'), right=Side(style='thin'),
+        top=Side(style='thin'), bottom=Side(style='thin')
+    )
+
+    invoice_date = date_format(invoice.created_at, 'd.m.Y')
+
+    # Шапка
+    ws.merge_cells('A1:F1')
+    ws['A1'] = f"НАКЛАДНАЯ № {invoice.number}"
+    ws['A1'].font = Font(size=16, bold=True)
+    ws['A1'].alignment = center
+
+    ws.merge_cells('A2:F2')
+    ws['A2'] = f'от "{invoice_date}"'
+    ws['A2'].alignment = center
+
+    ws['A4'] = "От кого:"
+    ws['B4'] = "OOO RATTAN MASTER"
+    ws['A5'] = "Кому:"
+    ws['B5'] = invoice.product_to.title if invoice.product_to else "—"
+    ws['D5'] = "Через________________"
+
+    # Таблица
+    headers = ["№ п/п", "Наименование", "Размер", "Цвет", "Количество"]
+    ws.append([])
+    ws.append(headers)
+
+    for col_num, header in enumerate(headers, 1):
+        cell = ws.cell(row=7, column=col_num)
+        cell.value = header
+        cell.font = bold_font
+        cell.alignment = center
+        cell.border = border
+        ws.column_dimensions[get_column_letter(col_num)].width = 20 if col_num != 1 else 8
+
+    row = 8
+    total_quantity = 0
+
+    for index, item in enumerate(items, start=1):
+        values = [
+            index,
+            item.name.title,
+            item.size.title if item.size else '',
+            item.color.title if item.color else '',
+            f"{item.quantity} шт"
+        ]
+        for col, val in enumerate(values, 1):
+            cell = ws.cell(row=row, column=col, value=val)
+            cell.alignment = center
+            cell.border = border
+        total_quantity += item.quantity
+        row += 1
+
+    # Итого
+    total_row = ["", "", "", "Итого:", f"{total_quantity} шт"]
+    for col, val in enumerate(total_row, 1):
+        cell = ws.cell(row=row, column=col, value=val)
+        cell.font = bold_font
+        cell.alignment = center
+        cell.border = border
+    row += 2
+
+    # Подписи
+    ws.merge_cells(f'A{row}:C{row}')
+    ws[f'A{row}'] = "Сдал: ________________   Ф. И. О."
+    ws.merge_cells(f'D{row}:F{row}')
+    ws[f'D{row}'] = "Принял: ________________   Ф. И. О."
+
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = f'attachment; filename="Invoice_{invoice.number}.xlsx"'
     wb.save(response)
     return response

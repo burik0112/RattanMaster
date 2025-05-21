@@ -3,7 +3,7 @@ from django.urls import path
 
 from index.urls import app_name
 from keles.views import Base, Detail, InvoiceCreateFromKeles, RemaingListKeles, ProductInKeles, TurnoverKeles, \
-    Dashboard, Client_ReportKeles
+    Dashboard, Client_ReportKeles, invoice_list, invoice_detail, export_to_excel
 
 app_name = 'keles'
 
@@ -16,4 +16,7 @@ urlpatterns = [
     path('remaing_list/', login_required(RemaingListKeles), name='remaing_list'),
     path('product_in-list/', login_required(ProductInKeles), name='product_in-list'),
     path('turnover/', TurnoverKeles, name='turnover_list'),
+    path('invoices/', invoice_list, name='invoice-list-keles'),
+    path('invoice/<int:pk>/', invoice_detail, name='invoice-detail-keles'),
+    path('invoice/<int:invoice_id>/export/', export_to_excel, name='export-invoice-keles'),
 ]

@@ -1,0 +1,64 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card mt-2">
+                        <h2>Накладная №{{ invoice.number }}</h2>
+                        <p><strong>Дата:</strong> {{ invoice.created_at|date:"d.m.Y H:i" }}</p>
+                        <p><strong>Кому отправлено:</strong> {{ invoice.product_to.title }}</p>
+
+                        <hr>
+                        <h4>Продукты:</h4>
+                        {% with invoice=items.0.invoice %}
+                        <a href="{% url 'keles:export-invoice-keles' invoice.pk %}" class="btn btn-outline-success mb-3"
+                           target="_blank">
+                            <i class="bi bi-file-earmark-excel"></i> Скачать Excel
+                        </a>
+                        {% endwith %}
+                        <div class="card-body">
+                            <form method="get">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>№</th>
+                                        <th>Наименование</th>
+                                        <th>Размер</th>
+                                        <th>Цвет</th>
+                                        <th>Количество</th>
+                                        <th>Дата добавления</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in items %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ item.name.title }}</td>
+                                        <td>{{ item.size.title }}</td>
+                                        <td>{{ item.color.title}}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>{{ item.created_at|date:"d.m.Y" }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6">Нет товаров в накладной.</td>
+                                    </tr>
+                                    <tr>
+
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

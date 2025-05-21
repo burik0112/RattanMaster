@@ -6,7 +6,8 @@ from admiin.views import AdminCategoryEdit, AdminSizeEdit, Category_create_or_ed
     ProductInEdit, ProductInDelete, RemaingEdit, RemaingDelete, ColorDelete, SizeDelete, CategoryDelete, \
     export_to_excel, AddRemaingKeles, RemaingEditKeles, RemaingDeleteKeles, InvoiceDeleteKeles, \
     ProductInDeleteKeles, ProductInEditKeles, InvoiceEditKeles, EntryCreateKeles, \
-    export_to_excelkeles, InvoiceCreate2Model
+    export_to_excelkeles, InvoiceCreate2Model, invoice_keles_delete, invoice_keles_update, \
+    invoice_xasanboy_delete, invoice_xasanboy_edit
 
 app_name = 'add'
 
@@ -42,4 +43,8 @@ urlpatterns = [
     path('keles/remaing-edit/<int:pk>/', login_required(RemaingEditKeles), name='remaing-edit-keles'),
     path('keles/remaing-delete/<int:pk>/', login_required(RemaingDeleteKeles), name='remaing-delete-keles'),
     path('keles/export-excel/', login_required(export_to_excelkeles), name='export_to_excel_keles'),
+    path('invoice/<int:pk>/edit/', invoice_keles_update, name='invoice_keles_edit'),
+    path('invoice/<int:pk>/delete/', invoice_keles_delete, name='invoice_keles_delete'),
+    path('xasanboy/<int:pk>/edit/', invoice_xasanboy_edit, name='invoice_xasanboy_edit'),
+    path('xasanboy/<int:pk>/delete/', invoice_xasanboy_delete, name='invoice_xasanboy_delete'),
 ]
